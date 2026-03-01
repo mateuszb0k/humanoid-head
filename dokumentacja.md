@@ -1,3 +1,26 @@
+## 1. Zbiory danych
+
+Na początkowym etapie zapoznaliśmy się z dostępnymi w internecie zbiorami danych. 
+Przeglądaliśmy głównie zasoby znajdujące się na platformach takich jak Kaggle, Roboflow oraz Hugging Face. 
+Liczebność niektórych zbiorów sięgała miliona zdjęć. 
+Wiele z nich, ze względu na restrykcyjne licencje, wymagało uzyskania dodatkowej zgody twórców na wykorzystanie.
+
+### Tabela 1.1 – Przykładowe zbiory danych
+
+| Nazwa | Autor | Licencja | Liczebność | Rozdzielczość | Liczba emocji | Źródło |
+|-------|--------|----------|------------|---------------|---------------|--------|
+| (fer2013+affectnet) dataset - Emotions | PrasadSomvanshi | Apache 2.0 | 61,7 tys. | 48x48 | 7 | Kaggle |
+| Balanced Affectnet Dataset (75x75, RGB) | dolly prajapati 182 | Unknown | 40,1 tys. | 75x75 | 8 | Kaggle |
+| Balanced RAF-DB Dataset (75x75) | dolly prajapati 182 | Unknown | 41,7 tys. | 75x75 | 7 | Kaggle |
+| Balanced NAVRASA Dataset (75x75, RGB) | dolly prajapati 182 | Unknown | 90 tys. | 75x75 | 9 | Kaggle |
+| Facial Affect Dataset Balanced | Viktor Modroczký | CC BY-NC-SA 3.0 IGO | 246 tys. | 96x96 | 8 | Kaggle |
+| emonet-face-big | laion | CC BY 4.0 | 203 tys. | mieszane | - | HuggingFace |
+| Human Face Emotions | Samith Chimminiyan | Apache 2.0 | 59,1 tys. | mieszane | 5 | Kaggle |
+| Facial Emotion Recognition Dataset | Fahadullah_A | CC BY 4.0 | 49,8 tys. | mieszane | 7 | Kaggle |
+
+Zdecydowaliśmy się połączyć zbiory danych, których licencje pozwalają na ich swobodne wykorzystanie. 
+Pozwoli to zwiększyć różnorodność oraz liczebność docelowego zbioru, co zmniejsza ryzyko przeuczenia modelu.
+
 ## Porównanie PyTorch vs TensorFlow
 Przeprowadziliśmy wstępne testy mające na celu wybór optymalnego frameworka dla modelu, który docelowo zostanie zaimplementowany na Raspberry Pi. W projekcie korzystamy z wersji 8 GB pamięci RAM, która daje nam znaczący zapas technologiczny. Jednak ze względu na architekturę procesorów ARM, obok dokładności, jako główne kryterium oceny pozostaje nam szybkość wnioskowania mierzona w klatkach na sekundę (FPS). W celu rzetelnej oceny obu środowisk przetestowaliśmy dwie architektury sieci konwolucyjnych (CNN):
 1. Płytką sieć (Shallow Network): Złożoną z niewielkiej liczby warstw. W tym scenariuszu zdecydowanym zwycięzcą okazał się PyTorch, który dzięki mniejszemu narzutowi systemowemu przy prostych operacjach wygenerował niemal dwukrotnie więcej FPS.
