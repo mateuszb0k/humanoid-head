@@ -1,0 +1,1055 @@
+{
+  "2": {
+    "Automatyka, cybernetyka i robotyka": {
+      "Ogólna": {
+        "1": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "EA AUD.1",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "NE 231",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Tomasz Nowak",
+              "sala": "NE 234",
+              "uwagi": null
+            }
+          ]
+        },
+        "2": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "EA AUD.1",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Michał Kopczyński",
+              "sala": "NE 234",
+              "uwagi": null
+            }
+          ]
+        },
+        "3": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "EA AUD.1",
+              "uwagi": null
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Programowanie w językach wysokiego poziomu",
+              "prowadzacy": "dr hab. Michał Czubenko",
+              "sala": "WP 104",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "4": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "EA AUD.1",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Technika cyfrowa - laboratorium",
+              "prowadzacy": "mgr inż. Jakub Kłopotek Główczewski",
+              "sala": "EA 536",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Robert Fidytek",
+              "sala": "NE 231",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Tomasz Nowak",
+              "sala": "NE 234",
+              "uwagi": null
+            }
+          ]
+        }
+      }
+    },
+    "Inżynieria Biomedyczna": {
+      "Ogólna": {
+        "1": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy elektroniki",
+              "prowadzacy": "dr inż. Piotr Kurgan",
+              "sala": "NE AUD.2",
+              "uwagi": "zajęcia w dniach: 09.03.2026, 16.03.2026"
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "12:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Implanty i sztuczne narządy",
+              "prowadzacy": "prof. Piotr Jasiński",
+              "sala": "EA AUD.2",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "12:30",
+              "godzina_do": "14:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Wychowanie fizyczne I",
+              "prowadzacy": "mgr inż. Kazimierz Rozwadowski",
+              "sala": "SWFiS K2",
+              "uwagi": null
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "18:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Biochemia",
+              "prowadzacy": "dr inż. Kamila Rząd",
+              "sala": "ChB 3",
+              "uwagi": null
+            }
+          ]
+        },
+        "2": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy elektroniki",
+              "prowadzacy": "dr inż. Piotr Kurgan",
+              "sala": "NE AUD.2",
+              "uwagi": "zajęcia w dniach: 09.03.2026, 16.03.2026"
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "12:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Implanty i sztuczne narządy",
+              "prowadzacy": "prof. Piotr Jasiński",
+              "sala": "EA AUD.2",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "12:30",
+              "godzina_do": "14:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Wychowanie fizyczne I",
+              "prowadzacy": "mgr inż. Kazimierz Rozwadowski",
+              "sala": "SWFiS K2",
+              "uwagi": null
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "08:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Podstawy elektroniki",
+              "prowadzacy": "dr inż. Łukasz Gołuński",
+              "sala": "EA 212",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "3": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "10:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy elektroniki",
+              "prowadzacy": "dr inż. Piotr Kurgan",
+              "sala": "NE AUD.2",
+              "uwagi": "zajęcia w dniach: 09.03.2026, 16.03.2026"
+            },
+            {
+              "godzina_od": "10:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Remigiusz Martyniak",
+              "sala": "NE 104",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "12:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Implanty i sztuczne narządy",
+              "prowadzacy": "prof. Piotr Jasiński",
+              "sala": "EA AUD.2",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "12:30",
+              "godzina_do": "14:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Wychowanie fizyczne I",
+              "prowadzacy": "mgr inż. Kazimierz Rozwadowski",
+              "sala": "SWFiS K2",
+              "uwagi": null
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "18:15",
+              "godzina_do": "21:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Biochemia",
+              "prowadzacy": "dr inż. Kamila Rząd",
+              "sala": "ChB 3",
+              "uwagi": null
+            }
+          ]
+        }
+      }
+    },
+    "Elektronika i Telekomunikacja": {
+      "Ogólna": {
+        "1": {
+          "Cała grupa": [
+            {
+              "godzina_od": "10:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Układy logiczne - laboratorium",
+              "prowadzacy": "dr inż. Katarzyna Drozdowska-Czubek",
+              "sala": "EA 222",
+              "uwagi": "co 2 tygodnie"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "17:15",
+              "godzina_do": "18:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Remigiusz Martyniak",
+              "sala": "NE 104",
+              "uwagi": null
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Inżynieria materiałowa i konstrukcja ur",
+              "prowadzacy": "dr hab. Michał Sobaszek",
+              "sala": "EA 504",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "D": [
+            {
+              "godzina_od": "18:15",
+              "godzina_do": "20:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "dr inż. Jan Schmidt",
+              "sala": "EA 626",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "2": {
+          "Cała grupa": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "dr inż. Barbara Stawarz-Graczyk",
+              "sala": "WP 108",
+              "uwagi": "co 2 tygodnie"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "mgr inż. Iwona Kaczmarzyk-Knitter",
+              "sala": "NE 207",
+              "uwagi": "od 27.04.2026"
+            },
+            {
+              "godzina_od": "17:15",
+              "godzina_do": "19:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Inżynieria materiałowa i konstrukcja ur",
+              "prowadzacy": "dr hab. Michał Sobaszek",
+              "sala": "EA 504",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "3": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "dr inż. Barbara Stawarz-Graczyk",
+              "sala": "WP 108",
+              "uwagi": "co 2 tygodnie"
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "12:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Podstawy elektrodynamiki",
+              "prowadzacy": "dr hab. Rafał Lech",
+              "sala": "NE 109",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "mgr inż. Patryk Sokołowski",
+              "sala": "NE 208",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "4": {
+          "Cała grupa": [
+            {
+              "godzina_od": "10:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "dr inż. Adam Kurowski",
+              "sala": "NE 231",
+              "uwagi": "od 27.04.2026"
+            },
+            {
+              "godzina_od": "12:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "dr inż. Adam Kurowski",
+              "sala": "NE 310",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Inżynieria materiałowa i konstrukcja ur",
+              "prowadzacy": "dr inż. Adam Mazikowski",
+              "sala": "EA 504",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "mgr inż. Aleksander Schmidt",
+              "sala": "EA 626",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "5": {
+          "Cała grupa": [
+            {
+              "godzina_od": "12:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Remigiusz Martyniak",
+              "sala": "NE 235",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Inżynieria materiałowa i konstrukcja ur",
+              "prowadzacy": "dr inż. Adam Mazikowski",
+              "sala": "EA 504",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "mgr inż. Aleksander Schmidt",
+              "sala": "EA 626",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "6": {
+          "Cała grupa": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "12:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Metody probabilistyczne i statystyka",
+              "prowadzacy": "mgr inż. Remigiusz Martyniak",
+              "sala": "NE 235",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "12:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Podstawy elektrodynamiki",
+              "prowadzacy": "dr hab. Rafał Lech",
+              "sala": "NE 109",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Analiza matematyczna II",
+              "prowadzacy": "dr Magdalena Musielak",
+              "sala": "NE AUD1P",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Marcin Gnyba",
+              "sala": "NE AUD1P",
+              "uwagi": "do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Zasady przedsiębiorczości i zarządzania",
+              "prowadzacy": "dr inż. Adrian Olejnik",
+              "sala": "NE 234",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Technika obliczeniowa i symulacyjna",
+              "prowadzacy": "dr inż. Jan Schmidt",
+              "sala": "EA 626",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        }
+      }
+    },
+    "Inżynieria danych": {
+      "Ogólna": {
+        "1": {
+          "Cała grupa": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Essentials of micro- and macroeconomics",
+              "prowadzacy": "dr hab. Krzysztof Zięba",
+              "sala": "ZE 007",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Object programming",
+              "prowadzacy": "dr hab. Marek Moszyński",
+              "sala": "NE AUD1L",
+              "uwagi": "first half semester"
+            },
+            {
+              "godzina_od": "17:15",
+              "godzina_do": "19:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Algorithms and data structures",
+              "prowadzacy": "dr Marcin Jurkiewicz",
+              "sala": "WP 103",
+              "uwagi": "every 2 weeks"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Algorithms and data structures",
+              "prowadzacy": "dr inż. Robert Ostrowski",
+              "sala": "WP 108",
+              "uwagi": "second half semester"
+            }
+          ]
+        },
+        "2": {
+          "Cała grupa": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Essentials of micro- and macroeconomics",
+              "prowadzacy": "dr hab. Krzysztof Zięba",
+              "sala": "ZE 007",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Object programming",
+              "prowadzacy": "dr hab. Marek Moszyński",
+              "sala": "NE AUD1L",
+              "uwagi": "first half semester"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Algorithms and data structures",
+              "prowadzacy": "dr inż. Robert Ostrowski",
+              "sala": "WP 109",
+              "uwagi": "second half semester"
+            }
+          ]
+        }
+      }
+    },
+    "Informatyka": {
+      "Ogólna": {
+        "1": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Systemy operacyjne",
+              "prowadzacy": "mgr inż. Piotr Sokołowski",
+              "sala": "NE 159",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE 237",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "EA 536",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "2": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Algorytmy i struktury danych",
+              "prowadzacy": "dr Marcin Jurkiewicz",
+              "sala": "WP 103",
+              "uwagi": "co 2 tygodnie"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Podstawy elektroniki i metrologii",
+              "prowadzacy": "dr inż. Bartłomiej Dec",
+              "sala": "EA 504",
+              "uwagi": "co 2 tygodnie"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Algorytmy i struktury danych",
+              "prowadzacy": "mgr inż. Andrzej Jastrzębski",
+              "sala": "WP 105",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "3": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Algorytmy i struktury danych",
+              "prowadzacy": "dr hab. Paweł Żyliński",
+              "sala": "WP 106",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Systemy operacyjne",
+              "prowadzacy": "mgr inż. Olga Błaszkiewicz",
+              "sala": "WP 108",
+              "uwagi": null
+            }
+          ]
+        },
+        "4": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE 237",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Systemy operacyjne",
+              "prowadzacy": "mgr inż. Piotr Sokołowski",
+              "sala": "WP 106",
+              "uwagi": null
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "EA 536",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        },
+        "5": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Programowanie obiektowe",
+              "prowadzacy": "mgr inż. Tomasz Bieliński",
+              "sala": "WP 104",
+              "uwagi": "do 20.04.2026"
+            }
+          ]
+        },
+        "6": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Systemy operacyjne",
+              "prowadzacy": "dr inż. Adam Kaczmarek",
+              "sala": "WP 105",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Programowanie obiektowe",
+              "prowadzacy": "mgr inż. Tomasz Bieliński",
+              "sala": "WP 104",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Algorytmy i struktury danych",
+              "prowadzacy": "mgr inż. Andrzej Jastrzębski",
+              "sala": "WP 104",
+              "uwagi": "od 27.04.2026"
+            },
+            {
+              "godzina_od": "17:15",
+              "godzina_do": "19:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "Tymoteusz Skrzyński",
+              "sala": "NE 307",
+              "uwagi": "do 20.04.2026"
+            },
+            {
+              "godzina_od": "17:15",
+              "godzina_do": "19:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "Tymoteusz Skrzyński",
+              "sala": "EA 536",
+              "uwagi": "od 27.04.2026"
+            }
+          ],
+          "B": [
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "projekt",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Krzysztof Cisowski",
+              "sala": "NE 106",
+              "uwagi": "do 20.04.2026"
+            }
+          ]
+        },
+        "7": {
+          "Cała grupa": [
+            {
+              "godzina_od": "09:15",
+              "godzina_do": "11:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Podstawy fizyki",
+              "prowadzacy": "dr inż. Patrycja Stefańska-Ptaszek",
+              "sala": "AUD.MAX.",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "11:15",
+              "godzina_do": "13:00",
+              "typ_zajec": "wyklad",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "dr inż. Janusz Kozłowski",
+              "sala": "NE AUD1P",
+              "uwagi": "od 02.03.2026 do 20.04.2026"
+            },
+            {
+              "godzina_od": "13:15",
+              "godzina_do": "15:00",
+              "typ_zajec": "cwiczenia",
+              "przedmiot": "Matematyka dyskretna",
+              "prowadzacy": "mgr inż. Andrzej Jastrzębski",
+              "sala": "NE 235",
+              "uwagi": null
+            },
+            {
+              "godzina_od": "15:15",
+              "godzina_do": "17:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Algorytmy i struktury danych",
+              "prowadzacy": "dr Marcin Jurkiewicz",
+              "sala": "WP 103",
+              "uwagi": "co 2 tygodnie"
+            }
+          ],
+          "A": [
+            {
+              "godzina_od": "07:15",
+              "godzina_do": "09:00",
+              "typ_zajec": "Laboratorium",
+              "przedmiot": "Układy cyfrowe",
+              "prowadzacy": "mgr inż. Tymoteusz Byrwa",
+              "sala": "EA 536",
+              "uwagi": "od 27.04.2026"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
