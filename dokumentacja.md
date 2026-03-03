@@ -43,6 +43,5 @@ Z kolei dla zbioru RAF-DB model osiągnął anomalnie wysoką dokładność na p
 |---|---|---|---|---|
 | (fer2013+affectnet) dataset - Emotions | 20 | 32 | GrayScale | 64% |
 | Balanced Affectnet Dataset (75×75, RGB) | 20 | 32 | GrayScale | 72% |
-| Balanced RAF-DB Dataset (75×75) | 20 | 32 | GrayScale | 91% |
 | Balanced NAVRASA Dataset (75×75, RGB) | 20 | 32 | RGB | 78% |
 | Facial Affect Dataset Balanced | 20 | 32 | GrayScale | 60% |
