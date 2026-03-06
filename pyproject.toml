@@ -3,7 +3,13 @@ name = "humanoid-head"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
+    "langchain-core>=1.2.17",
+    "langchain-ollama>=1.0.1",
+    "openai-whisper>=20250625",
+    "pyaudio>=0.2.14",
     "python-weather>=2.1.2",
+    "pyttsx3>=2.99",
+    "speechrecognition>=3.14.5",
 ]
