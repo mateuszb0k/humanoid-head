@@ -1,0 +1,9 @@
+[project]
+name = "humanoid-head"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "python-weather>=2.1.2",
+]
