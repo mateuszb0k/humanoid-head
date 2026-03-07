@@ -4,3 +4,5 @@ env/
 __pycache__/
 input.json
 rooms.json
+teachers.json
+teachers_details.json
