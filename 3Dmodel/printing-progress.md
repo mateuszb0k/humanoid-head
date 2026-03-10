@@ -1,0 +1,87 @@
+# 3D Head Model - Printing Progress Report
+## Print Checklist
+- [ ] base.stl
+- [ ] baseClamp1.stl
+- [ ] baseClamp2.stl
+- [ ] baseClamp3.stl
+- [ ] baseConnector1.stl
+- [ ] baseConnector2.stl
+- [ ] baseConnector3.stl
+- [ ] baseConnector4.stl
+- [ ] bottomLidLever1.stl
+- [ ] bottomLidLever2.stl
+- [ ] braw1.stl
+- [ ] braw2.stl
+- [ ] centralServoHorn.stl
+- [ ] cheekBone.stl
+- [ ] cheekConnector1a.stl
+- [ ] cheekConnector1b.stl
+- [ ] eyeAdaptor1.stl
+- [ ] eyeAdaptor2.stl
+- [ ] eyeAdaptor3.stl
+- [ ] eyeAdaptor4.stl
+- [ ] eyeConnector.stl
+- [ ] eyeCorePivotHolder.stl
+- [ ] eyes.stl
+- [ ] fanBracket.stl
+- [ ] forehead1left.stl
+- [ ] forehead1right.stl
+- [ ] forehead2left.stl
+- [ ] forehead2right.stl
+- [ ] frontPlate.stl
+- [ ] jawBase.stl
+- [ ] jawConnector.stl
+- [ ] jawLinkLeft.stl
+- [ ] jawLinkRight.stl
+- [ ] lid1.stl
+- [ ] lid2.stl
+- [ ] lid3.stl
+- [ ] lid4.stl
+- [ ] link1a.stl
+- [ ] link1b.stl
+- [ ] link2a.stl
+- [ ] link2b.stl
+- [ ] link3a.stl
+- [ ] link3b.stl
+- [ ] link3c.stl
+- [ ] link3d.stl
+- [ ] lowerLipLeft.stl
+- [ ] lowerLipRight.stl
+- [ ] mount1Left.stl
+- [ ] mount1Right.stl
+- [ ] pad1.stl
+- [ ] pad2.stl
+- [ ] pad3.stl
+- [ ] pad4.stl
+- [ ] rampMount1.stl
+- [ ] rampMount2.stl
+- [ ] rearPlate.stl
+- [ ] skullFrame.stl
+- [ ] smallMount1.stl
+- [ ] smallMount2.stl
+- [ ] smallMount3.stl
+- [ ] smallMount4.stl
+- [ ] sMountLeft.stl
+- [ ] sMountRight.stl
+- [ ] structure.stl
+- [ ] tongueConnector1.stl
+- [ ] tongueConnector2.stl
+- [ ] topBase.stl
+- [ ] topLidHorn1.stl
+- [ ] topLidHorn2.stl
+- [ ] topLidHorn3.stl
+- [ ] topLidHorn4.stl
+- [ ] topLidLever1.stl
+- [ ] topLidLever2.stl
+- [ ] trippleLink.stl
+- [ ] upperLeftLip.stl
+- [ ] upperRightLip.stl
+- [ ] verticalHorn.stl
+- [ ] verticalLever.stl
+- [X] teethDown.stl
+- [X] teethUp.stl
+- [X] tongue.stl
+
+
+---
+*Last Update: 10-03-2026
