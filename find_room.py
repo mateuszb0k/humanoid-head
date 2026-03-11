@@ -28,7 +28,7 @@ def get_room_directions(input_filepath, database_filepath):
             raw_directions = room_info["directions"]
             final_directions = raw_directions.format(floor=floor_number)    # floor into the text
             
-            return f"--- Wynik wyszukiwania ---\nBudynek: {target_building}\nPokój: {target_room}\nPiętro: {floor_number}\nWskazówki: {final_directions}"
+            return f"Wskazówki: {final_directions}"
         else:
             return f"Błąd: Pokój '{target_room}' nie istnieje w budynku '{target_building}'."
     else:

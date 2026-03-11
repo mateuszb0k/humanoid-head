@@ -62,7 +62,7 @@ Can be expanded to give the model more data pressure etc.
 '''
 def weather_prompt(city: str = 'Gdansk'):
     weather = asyncio.run(get_weather(city))
-    return f"W Gdańsku aktualnie jest {weather['kind']} i temperatura {weather['temperature']}C, temperatura odczuwalna {weather['feels_like']}C"
+    return f"W {city} aktualnie jest {weather['kind']} i temperatura {weather['temperature']}C, temperatura odczuwalna {weather['feels_like']}C"
 if __name__ == '__main__':
     pass
     # print("Getting weather...")
