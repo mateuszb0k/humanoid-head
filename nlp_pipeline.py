@@ -57,8 +57,9 @@ class NlpModel:
             self.tts.runAndWait()
             self.tts.stop()
 
+
 if __name__ == "__main__":
-    weather_text_prompt = weather_prompt() #defaults to gdansk
+    weather_text_prompt = weather_prompt()  # defaults to gdansk
     rooms_data = {
         "EA": {
             "107": {"floor": "1",
@@ -73,20 +74,28 @@ if __name__ == "__main__":
                     "directions": "Pójdź na prawo od głównego wejścia, po schodach lub windą udaj się na {floor} piętro i wejdź w korytarz po prawej stronie"}
         }
     }
+
     rooms_context = json.dumps(rooms_data, ensure_ascii=False, indent=2)
+
+    # Zabezpieczenie nawiasów klamrowych przed parserem LangChaina
+    rooms_context_escaped = rooms_context.replace("{", "{{").replace("}", "}}")
+    weather_text_escaped = weather_text_prompt.replace("{", "{{").replace("}", "}}")
+
     template = f"""Jesteś wszechstronnym asystentem studentów Politechniki Gdańskiej. 
 
     Instrukcje zachowania:
     1. Pytania o plan zajęć, uczelnię i lokalizację sal opieraj wyłącznie na poniższej bazie wiedzy.
-    2. Gdy podajesz wskazówki dojścia do sali, obowiązkowo zamień tekst '{{floor}}' na odpowiedni numer piętra z danych.
-    3. Pytania o pogodę opieraj na następujących danych: {weather_text_prompt}
+    2. Gdy podajesz wskazówki dojścia do sali, obowiązkowo podmień tekst '{{{{floor}}}}' na odpowiedni numer piętra z danych.
+    3. Pytania o pogodę opieraj na następujących danych: {weather_text_escaped}
     4. Pytania niezwiązane z uczelnią (np. programowanie, ogólna wiedza) traktuj jak standardowy sztuczna inteligencja, korzystając z własnej wiedzy.
     5. Odpowiadaj naturalnie i unikaj zbędnych powitań.
 
     Baza wiedzy o salach (Format: Budynek -> Numer sali -> Szczegóły):
-    {rooms_context}
+    {rooms_context_escaped}
 
     Pytanie od użytkownika:
+    {{question}}
     """
-    nlp = NlpModel(template = template)
+
+    nlp = NlpModel(template=template)
     nlp.start()
