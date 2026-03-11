@@ -1,6 +1,6 @@
 # 3D Head Model - Printing Progress Report
 ## Print Checklist
-- [ ] base.stl
+- [X] base.stl
 - [ ] baseClamp1.stl
 - [ ] baseClamp2.stl
 - [ ] baseClamp3.stl
@@ -82,6 +82,9 @@
 - [X] teethUp.stl
 - [X] tongue.stl
 
+## Problems
+
+* Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
 
 ---
-*Last Update: 10-03-2026
+*Last Update: 11-03-2026
