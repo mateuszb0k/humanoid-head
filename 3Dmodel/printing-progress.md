@@ -28,7 +28,7 @@
 - [ ] forehead1right.stl
 - [ ] forehead2left.stl
 - [ ] forehead2right.stl
-- [ ] frontPlate.stl
+- [X] frontPlate.stl
 - [ ] jawBase.stl
 - [ ] jawConnector.stl
 - [ ] jawLinkLeft.stl
