@@ -5,9 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "imagehash>=4.3.2",
     "matplotlib>=3.10.8",
     "numpy>=2.4.3",
+    "pillow>=12.1.1",
     "scikit-learn>=1.8.0",
     "tensorboard>=2.20.0",
     "tensorflow>=2.21.0",
+    "tqdm>=4.67.3",
 ]
