@@ -26,7 +26,6 @@ class NlpModel:
             template = "Tutaj jest pytanie do Ciebie: {question}"
             self.prompt = ChatPromptTemplate.from_template(template)
         self.chain = self.prompt | self.model_llm
-        self.tts = pyttsx3.init()
 
     def start(self):
         """
@@ -53,10 +52,11 @@ class NlpModel:
             # LLM phase
             result = self.chain.invoke({"question": question})
             # TTS phase
-            self.tts.say(result)
-            self.tts.runAndWait()
-            self.tts.stop()
-
+            model_tts = pyttsx3.init()
+            model_tts.say(result)
+            model_tts.runAndWait()
+            model_tts.stop()
+            del model_tts
 
 if __name__ == "__main__":
     weather_text_prompt = weather_prompt()  # defaults to gdansk
