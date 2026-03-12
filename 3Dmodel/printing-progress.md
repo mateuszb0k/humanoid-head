@@ -14,8 +14,8 @@
 - [ ] braw2.stl
 - [ ] centralServoHorn.stl
 - [ ] cheekBone.stl
-- [ ] cheekConnector1a.stl
-- [ ] cheekConnector1b.stl
+- [X] cheekConnector1a.stl
+- [X] cheekConnector1b.stl
 - [ ] eyeAdaptor1.stl
 - [ ] eyeAdaptor2.stl
 - [ ] eyeAdaptor3.stl
@@ -29,32 +29,32 @@
 - [ ] forehead2left.stl
 - [ ] forehead2right.stl
 - [X] frontPlate.stl
-- [ ] jawBase.stl
-- [ ] jawConnector.stl
-- [ ] jawLinkLeft.stl
-- [ ] jawLinkRight.stl
+- [X] jawBase.stl
+- [X] jawConnector.stl
+- [X] jawLinkLeft.stl
+- [X] jawLinkRight.stl
 - [ ] lid1.stl
 - [ ] lid2.stl
 - [ ] lid3.stl
 - [ ] lid4.stl
-- [ ] link1a.stl
-- [ ] link1b.stl
-- [ ] link2a.stl
-- [ ] link2b.stl
-- [ ] link3a.stl
-- [ ] link3b.stl
-- [ ] link3c.stl
-- [ ] link3d.stl
-- [ ] lowerLipLeft.stl
-- [ ] lowerLipRight.stl
-- [ ] mount1Left.stl
-- [ ] mount1Right.stl
+- [X] link1a.stl
+- [X] link1b.stl
+- [X] link2a.stl
+- [X] link2b.stl
+- [X] link3a.stl
+- [X] link3b.stl
+- [X] link3c.stl
+- [X] link3d.stl
+- [X] lowerLipLeft.stl
+- [X] lowerLipRight.stl
+- [X] mount1Left.stl
+- [X] mount1Right.stl
 - [ ] pad1.stl
 - [ ] pad2.stl
 - [ ] pad3.stl
 - [ ] pad4.stl
-- [ ] rampMount1.stl
-- [ ] rampMount2.stl
+- [X] rampMount1.stl
+- [X] rampMount2.stl
 - [ ] rearPlate.stl
 - [ ] skullFrame.stl
 - [ ] smallMount1.stl
@@ -62,11 +62,11 @@
 - [ ] smallMount3.stl
 - [ ] smallMount4.stl
 - [ ] sMountLeft.stl
-- [ ] sMountRight.stl
+- [X] sMountRight.stl
 - [ ] structure.stl
-- [ ] tongueConnector1.stl
-- [ ] tongueConnector2.stl
-- [ ] topBase.stl
+- [X] tongueConnector1.stl
+- [X] tongueConnector2.stl
+- [X] topBase.stl
 - [ ] topLidHorn1.stl
 - [ ] topLidHorn2.stl
 - [ ] topLidHorn3.stl
@@ -74,8 +74,8 @@
 - [ ] topLidLever1.stl
 - [ ] topLidLever2.stl
 - [ ] trippleLink.stl
-- [ ] upperLeftLip.stl
-- [ ] upperRightLip.stl
+- [X] upperLeftLip.stl
+- [X] upperRightLip.stl
 - [ ] verticalHorn.stl
 - [ ] verticalLever.stl
 - [X] teethDown.stl
@@ -85,6 +85,7 @@
 ## Problems
 
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
+* Encountered a failure printing "sMountLeft" 3D part. The part will be reprinted in a later batch with modified supports.
 
 ---
-*Last Update: 11-03-2026
+*Last Update: 12-03-2026
