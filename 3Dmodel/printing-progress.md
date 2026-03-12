@@ -1,18 +1,18 @@
 # 3D Head Model - Printing Progress Report
 ## Print Checklist
 - [X] base.stl
-- [ ] baseClamp1.stl
-- [ ] baseClamp2.stl
-- [ ] baseClamp3.stl
-- [ ] baseConnector1.stl
-- [ ] baseConnector2.stl
+- [X] baseClamp1.stl
+- [X] baseClamp2.stl
+- [X] baseClamp3.stl
+- [X] baseConnector1.stl
+- [X] baseConnector2.stl
 - [ ] baseConnector3.stl
 - [ ] baseConnector4.stl
-- [ ] bottomLidLever1.stl
-- [ ] bottomLidLever2.stl
+- [X] bottomLidLever1.stl
+- [X] bottomLidLever2.stl
 - [ ] braw1.stl
 - [ ] braw2.stl
-- [ ] centralServoHorn.stl
+- [X] centralServoHorn.stl
 - [ ] cheekBone.stl
 - [X] cheekConnector1a.stl
 - [X] cheekConnector1b.stl
@@ -24,10 +24,10 @@
 - [ ] eyeCorePivotHolder.stl
 - [ ] eyes.stl
 - [ ] fanBracket.stl
-- [ ] forehead1left.stl
-- [ ] forehead1right.stl
-- [ ] forehead2left.stl
-- [ ] forehead2right.stl
+- [X] forehead1left.stl
+- [X] forehead1right.stl
+- [X] forehead2left.stl
+- [X] forehead2right.stl
 - [X] frontPlate.stl
 - [X] jawBase.stl
 - [X] jawConnector.stl
@@ -57,20 +57,20 @@
 - [X] rampMount2.stl
 - [ ] rearPlate.stl
 - [ ] skullFrame.stl
-- [ ] smallMount1.stl
-- [ ] smallMount2.stl
+- [X] smallMount1.stl
+- [X] smallMount2.stl
 - [ ] smallMount3.stl
 - [ ] smallMount4.stl
-- [ ] sMountLeft.stl
-- [X] sMountRight.stl
+- [X] sMountLeft.stl
+- [ ] sMountRight.stl
 - [ ] structure.stl
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
 - [X] topBase.stl
-- [ ] topLidHorn1.stl
-- [ ] topLidHorn2.stl
-- [ ] topLidHorn3.stl
-- [ ] topLidHorn4.stl
+- [X] topLidHorn1.stl
+- [X] topLidHorn2.stl
+- [X] topLidHorn3.stl
+- [X] topLidHorn4.stl
 - [ ] topLidLever1.stl
 - [ ] topLidLever2.stl
 - [ ] trippleLink.stl
@@ -85,7 +85,8 @@
 ## Problems
 
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
-* Encountered a failure printing "sMountLeft" 3D part. The part will be reprinted in a later batch with modified supports.
+* Encountered a failure printing "sMountRight" 3D part. The part will be reprinted in a later batch with modified supports.
+* Encountered a failure printing "readPlate" 3D part due to support failure. G-Code modified with new tree supports.
 
 ---
 *Last Update: 12-03-2026
