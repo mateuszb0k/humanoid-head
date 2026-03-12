@@ -1,0 +1,31 @@
+# MEETING REPORT: Hardware Team – Robot Head Project
+# Date: March 11, 2026
+# Attendings: Szymon Mielniczak, Mateusz Kuczerowski, Adam Błażejewski, Patryk Jakiel
+# Subject: CAD Model Analysis & Hardware Specification
+
+---
+
+## 1. MEETING OBJECTIVES
+The primary goal was to analyze the main CAD assembly in Fusion 360, finalize the decomposition of components for manufacturing, and establish the requirements for fasteners and custom parts.
+
+## 2. FUSION 360 ANALYSIS & ASSEMBLY STRATEGY
+* **Model Decomposition:** The master assembly has been successfully separated into individual components (Internal Frame, Actuation Mechanisms, and External Shell).
+* **Assembly Plan:** The team has analyzed the construction in detail and established a clear workflow for the assembly process in the coming weeks. We have a full understanding of the sequence required to integrate the internal skeleton with the outer casing.
+* **Design Review:** A structural analysis was conducted to ensure that all 3D-printed parts are optimized for assembly and mechanical durability.
+
+## 3. HARDWARE & FASTENERS SPECIFICATION
+The following components have been selected for the build:
+
+* **Screws:** Socket Head Cap Screws (Allen/Hex drive) in sizes **M2.5, M3, and M4**. 
+    * We will use various lengths depending on the joint, with a **maximum length of 10mm**.
+* **Washers:** Standard flat and spring washers.
+* **Nuts:** Standard hex nuts.
+* **Threaded Inserts:** **IMPORTANT: We will use bidirectional (two-way) threaded inserts** to ensure maximum pull-out resistance and stability within the 3D-printed parts.
+* **Custom Spacers:** The team will design and 3D print custom bushings/spacers to ensure precise alignment of internal mechanisms.
+
+## 4. NEXT STEPS
+* **Custom Part Design:** Finalize CAD models for the 3D-printed spacers in Fusion 360.
+* **Prototyping:** Begin exporting STL/STEP files for the initial structural test prints.
+
+---
+Prepared by: [Szymon Mielniczak]
