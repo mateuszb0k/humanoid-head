@@ -87,6 +87,7 @@
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
 * Encountered a failure printing "sMountRight" 3D part. The part will be reprinted in a later batch with modified supports.
 * Encountered a failure printing "readPlate" 3D part due to support failure. G-Code modified with new tree supports.
+* Encountered a third failure while printing the "skullFrame" 3D part. The G-code has been updated with a different support type.
 
 ---
 *Last Update: 12-03-2026
