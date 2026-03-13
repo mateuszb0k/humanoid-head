@@ -77,7 +77,6 @@ if __name__ == "__main__":
 
     rooms_context = json.dumps(rooms_data, ensure_ascii=False, indent=2)
 
-    # Zabezpieczenie nawiasów klamrowych przed parserem LangChaina
     rooms_context_escaped = rooms_context.replace("{", "{{").replace("}", "}}")
     weather_text_escaped = weather_text_prompt.replace("{", "{{").replace("}", "}}")
 
