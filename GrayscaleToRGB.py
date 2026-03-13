@@ -3,6 +3,14 @@ import cv2
 from cv2 import dnn
 import os
 
+
+""" A function that colors a grayscale image using a Deep Learning model. 
+Based on the "Colorful Image Colorization" solution (Zhang et al., 2016). 
+Code adapted from the GeeksforGeeks tutorial:
+https://www.geeksforgeeks.org/computer-vision/black-and-white-image-colorization-with-opencv-and-deep-learning/ """
+
+
+
 # importing and load models
 proto_file = r'Model\colorization_deploy_v2.prototxt'
 model_file = r'Model\colorization_release_v2.caffemodel'
