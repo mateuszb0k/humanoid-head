@@ -6,6 +6,7 @@ import speech_recognition as sr
 import pyttsx3
 from weather import get_weather,weather_prompt
 import json
+from intent_module import IntentDetector
 
 class NlpModel:
     """
@@ -18,6 +19,7 @@ class NlpModel:
         self.model_llm = OllamaLLM(model="gemma3:4b")
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
+        self.intent_detector = IntentDetector()
 
         # Setting prompt for LLM
         if template is not None:
@@ -33,30 +35,54 @@ class NlpModel:
         The process runs indefinetely unless it is interrupted.
         """
         while True:
-            with self.mic as source:
-                self.recognizer.adjust_for_ambient_noise(source)
-                # The loop continues until the sound is recorded
-                # STT phase
-                while True:
-                    print("Listening...")
-                    audio = self.recognizer.listen(source, phrase_time_limit=3)
-                    raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
-                    raw_data = np.frombuffer(raw_data, dtype = np.int16)
-                    audio_np = raw_data.astype(np.float32) / 32768.0
-                    result = self.model_stt.transcribe(audio_np, fp16 = False)
-                    question = result["text"].strip()
-                    if question:
-                        print("Analyzing...")
-                        break
+            # STT phase
+            question = self._stt_module()
 
-            # LLM phase
-            result = self.chain.invoke({"question": question})
+            # Detecting intent
+            intent = self.intent_detector.detect_intent(question)
+
+            if intent == "POGODA":
+                result = "Jest dziś słonecznie"
+            elif intent == "PG":
+                result = "Dziś nie ma zajęć"
+            else:
+                # LLM phase
+                result = self.chain.invoke({"question": question})
+
             # TTS phase
-            model_tts = pyttsx3.init()
-            model_tts.say(result)
-            model_tts.runAndWait()
-            model_tts.stop()
-            del model_tts
+            self._tts_module(result)
+
+    def _stt_module(self):
+        """
+        Converts input speech into text. This function runs indefinetely unless speech is detected.
+        """
+        with self.mic as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            # STT phase
+            while True: # The loop continues until the sound is recorded
+                print("Listening...")
+                audio = self.recognizer.listen(source, phrase_time_limit=3)
+                raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
+                raw_data = np.frombuffer(raw_data, dtype=np.int16)
+                audio_np = raw_data.astype(np.float32) / 32768.0
+                result = self.model_stt.transcribe(audio_np, fp16=False)
+                speech = result["text"].strip()
+                if speech:
+                    break
+        return speech
+
+
+    def _tts_module(self, text):
+        """
+        Converts generated text into synthesized speech.
+        """
+        model_tts = pyttsx3.init()
+        model_tts.say(text)
+        model_tts.runAndWait()
+        model_tts.stop()
+        del model_tts
+
+
 
 if __name__ == "__main__":
     weather_text_prompt = weather_prompt()  # defaults to gdansk
