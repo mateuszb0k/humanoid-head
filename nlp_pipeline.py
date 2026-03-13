@@ -37,13 +37,16 @@ class NlpModel:
         while True:
             # STT phase
             question = self._stt_module()
+            print("Analyzing...")
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
 
             if intent == "POGODA":
-                result = "Jest dziś słonecznie"
+                # We will create here entity extraction module to get certain information
+                result = weather_prompt()
             elif intent == "PG":
+                # We will create here entity extraction module to get certain information
                 result = "Dziś nie ma zajęć"
             else:
                 # LLM phase
@@ -68,8 +71,7 @@ class NlpModel:
                 result = self.model_stt.transcribe(audio_np, fp16=False)
                 speech = result["text"].strip()
                 if speech:
-                    break
-        return speech
+                    return speech
 
 
     def _tts_module(self, text):
