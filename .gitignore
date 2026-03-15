@@ -3,7 +3,7 @@ venv/
 env/
 __pycache__/
 input.json
-rooms.json
+room_directions.json
 teachers.json
 teachers_details.json
 teacher_room.json

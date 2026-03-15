@@ -35,5 +35,5 @@ def get_room_directions(input_filepath, database_filepath):
         return f"Błąd: Budynek '{target_building}' nie istnieje w bazie."
 
 if __name__ == "__main__":
-    result = get_room_directions('input.json', 'rooms.json')    
+    result = get_room_directions('input.json', 'room_directions.json')    
     print(result)

@@ -104,6 +104,6 @@ def scrape_smart_pg_teachers(main_url):
     print(f"\nGotowe! Pomyślnie sformatowano bazę z {len(teachers_database)} pracownikami.")
 
 if __name__ == "__main__":
-    TARGET_URL = "https://eti.pg.edu.pl/kima/pracownicy-katedry"    
-    # katedry: kams kask KIBM ksdr kima <- done    kiop kisi  kmse kimf ksis ksgi ktin ksme ksmm kssr ksti koel
+    TARGET_URL = "https://eti.pg.edu.pl/koel/pracownicy-katedry"    
+    # katedry: kams kask KIBM ksdr kima kiop kisi kmse kimf ksis ksgi ktin ksme ksmm kssr ksti koel 
     scrape_smart_pg_teachers(TARGET_URL)
