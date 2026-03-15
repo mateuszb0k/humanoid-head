@@ -101,9 +101,9 @@ def scrape_smart_pg_teachers(main_url):
     with open(output_filename, 'w', encoding='utf-8') as f:
         json.dump(teachers_database, f, indent=4, ensure_ascii=False)
         
-    print(f"\n✅ Gotowe! Pomyślnie sformatowano bazę z {len(teachers_database)} pracownikami.")
+    print(f"\nGotowe! Pomyślnie sformatowano bazę z {len(teachers_database)} pracownikami.")
 
 if __name__ == "__main__":
-    TARGET_URL = "https://eti.pg.edu.pl/KIBM/pracownicy-katedry"    
-    # katedry: kams kask KIBM ksdr <- done   kima kiop kisi  kmse kimf ksis ksgi ktin ksme ksmm kssr ksti koel
+    TARGET_URL = "https://eti.pg.edu.pl/kima/pracownicy-katedry"    
+    # katedry: kams kask KIBM ksdr kima <- done    kiop kisi  kmse kimf ksis ksgi ktin ksme ksmm kssr ksti koel
     scrape_smart_pg_teachers(TARGET_URL)
