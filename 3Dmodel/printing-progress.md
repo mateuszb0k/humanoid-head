@@ -10,8 +10,8 @@
 - [X] baseConnector4.stl
 - [X] bottomLidLever1.stl
 - [X] bottomLidLever2.stl
-- [ ] braw1.stl
-- [ ] braw2.stl
+- [X] braw1.stl
+- [X] braw2.stl
 - [X] centralServoHorn.stl
 - [X] cheekBone.stl
 - [X] cheekConnector1a.stl
