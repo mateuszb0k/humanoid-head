@@ -90,6 +90,7 @@
 * Encountered a third failure while printing the "skullFrame" 3D part. The G-code has been updated with a different support type.
 * Encountered a failure printing multiple parts: "lid1", "lid1", "lid1", "lid1", "trippleLink" and "eyeCorePivotHolder". Parts will be reprinted in a later batch with different supports.
 * Encountered a fourth failure while printing the "skullFrame" 3D part. Problem unknown. Re-printing part again. Decided to upload photos of failures.
+* Encountered a failure printing "eyes" 3D part due to printer misscalibration. Brim settings changed to resolve the issue.
 
 ---
 *Last Update: 16-03-2026
