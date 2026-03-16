@@ -89,6 +89,7 @@
 * Encountered a failure printing "readPlate" 3D part due to support failure. G-Code modified with new tree supports.
 * Encountered a third failure while printing the "skullFrame" 3D part. The G-code has been updated with a different support type.
 * Encountered a failure printing multiple parts: "lid1", "lid1", "lid1", "lid1", "trippleLink" and "eyeCorePivotHolder". Parts will be reprinted in a later batch with different supports.
+* Encountered a fourth failure while printing the "skullFrame" 3D part. Problem unknown. Re-printing part again. Decided to upload photos of failures.
 
 ---
-*Last Update: 12-03-2026
+*Last Update: 16-03-2026
