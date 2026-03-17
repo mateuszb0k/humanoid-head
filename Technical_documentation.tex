@@ -381,7 +381,7 @@ Figure \ref{fig:colorized} illustrates the results of the colorization algorithm
     \caption{Photos before and after colorization}
     \label{fig:colorized}
 \end{figure}
-\subsection{Results and discussion}
+\subsection{Comparative Analysis and Final Benchmarking}
 After standardizing the dataset and successfully colorizing the input images, we conducted a comprehensive evaluation of both our custom models and the pre-trained DCNN architectures. The implementation of Fine-Tuning on the pre-trained networks yielded highly visible improvements. 
 
 As illustrated in Figure \ref{fig:ft_progress}, the vertical green line marks the 14th epoch, where the deeper layers of the pre-trained models were unfreezed. Immediately following this point, we observed a sharp decline in validation loss and a significant surge in accuracy. This visually confirms that the transferred representations from ImageNet successfully adapted to the facial expression domain.
@@ -403,15 +403,33 @@ As illustrated in Figure \ref{fig:ft_progress}, the vertical green line marks th
     \label{fig:ft_progress}
 \end{figure}
 
-The comparative analysis of all tested architectures is compiled in Table \ref{tab:final_results}. The VGG architectures demonstrated remarkable stability, with VGG19 leading the pre-trained models at 70.07\% accuracy. However, the Xception and InceptionV3 architectures struggled with our specific dataset, likely due to the upscaled input resolution and the synthetic nature of the colorization process.
+\subsection{ConvNeXt Tiny Architecture Evaluation}
+To further push the boundaries of our facial expression recognition system, we evaluated the \textbf{ConvNeXt Tiny} architecture. Unlike the fine-tuning strategy employed for the VGG and ResNet models, where only the top 20\% of layers were unfrozen, the ConvNeXt Tiny training utilized a more aggressive, two-phase approach.
+
+The model was built with a frozen ImageNet-pretrained base, followed by a custom classification head consisting of a Global Average Pooling 2D layer, Batch Normalization, Dropout (set to 0.4 for strong regularization), and two Dense layers (256 neurons with ReLU and 7 neurons with Softmax).
+
+\begin{itemize}
+    \item \textbf{Phase 1 (Warm-up):} The custom head was trained exclusively for 5 epochs with a standard learning rate ($1 \times 10^{-3}$) to initialize the classification weights.
+    \item \textbf{Phase 2 (Fine-Tuning):} The entire ConvNeXt base model was unfrozen. A substantially reduced learning rate of $1 \times 10^{-5}$ was applied to carefully adjust the deep convolutional weights without destroying the valuable representations learned on the ImageNet dataset.
+\end{itemize}
+
+During our experimental runs, we encountered significant environmental instability. The first trial was scheduled for 20 epochs. After approximately 12 hours of training, the kernel crashed at epoch 15 due to memory exhaustion. Despite the abrupt termination, the model recorded an impressive peak validation accuracy of \textbf{74.56\%} and an estimated macro-precision of approximately \textbf{73.55\%}. 
+
+To ensure stability and secure a fully completed training cycle, a second run was executed with a reduced target of 10 epochs. This run successfully finished, achieving a validation accuracy of \textbf{73.60\%} and a macro-precision of \textbf{72.64\%}. 
+
+Both ConvNeXt Tiny trials successfully surpassed our previous top-performing custom \texttt{second\_model}, which had previously achieved the highest classification accuracy at 71.04\%.
+
+The comparative analysis of all tested architectures, now including the ConvNeXt Tiny iterations, is compiled in Table \ref{tab:final_results}.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{|l|c|c|}
         \hline
         \textbf{Model} & \textbf{Accuracy} & \textbf{Macro-Precision} \\
-        \hline
-        second\_model & \textbf{71.04\%} & \textbf{70.19\%} \\
+\hline
+        ConvNeXt Tiny (15 epochs - crashed) & \textbf{74.56\%} & \textbf{$\sim$73.55\%} \\
+        ConvNeXt Tiny (10 epochs - completed) & \textbf{73.60\%} & \textbf{72.64\%} \\
+        second\_model & 71.04\% & 70.19\% \\
         VGG19 & 70.07\% & 69.47\% \\
         VGG16 & 68.24\% & 66.57\% \\
         ResNet50 & 68.00\% & 67.40\% \\
@@ -425,15 +443,25 @@ The comparative analysis of all tested architectures is compiled in Table \ref{t
     \label{tab:final_results}
 \end{table}
 
-Remarkably, our custom-built \texttt{second\_model} outperformed all heavy, reference DCNN architectures. The Xception and ResNet models, despite their tremendous depth, exhibited slight overfitting tendencies in the late epochs, suggesting their parameter capacity might be too vast for this specific classification task.
+he confusion matrix for the completed ConvNeXt Tiny training session (10 epochs) is presented in Figure \ref{fig:cm_convnext}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{convnext_cm.png} 
+    \caption{Confusion Matrix - ConvNeXt Tiny (Fine-tuned, 10 epochs)}
+    \label{fig:cm_convnext}
+\end{figure}
+
+The matrix reveals that the model significantly improved recognition across difficult categories, particularly in distinguishing between "sad" and "neutral" states, which was a known bottleneck in previous architectures like the \texttt{second\_model}. This success is attributed to the combination of the modern ConvNeXt architecture and the two-stage fine-tuning process, where the entire base was eventually unfrozen to adapt to facial features. 
+
+The high macro-precision of 72.64\% confirms that the model is not just biased toward the most frequent classes but maintains a high level of reliability across all seven emotional states. This makes it the most suitable candidate for deployment on the target hardware platform (Raspberry Pi), despite its higher computational requirements compared to the initial basic models.
 
 \subsection{Conclusion}
 The development of the vision module for the robotic head successfully met its primary objectives. Through rigorous data preprocessing, including pHash deduplication, OCR artifact removal, demographic filtering, and data augmentation via Generative AI (Flux.1), we constructed a highly robust training corpus of over 120,000 images.
 
-The comparative study between custom-designed Convolutional Neural Networks and industry-standard transfer learning models (VGG, ResNet, Inception) yielded unexpected but highly satisfactory results. Our custom \texttt{second\_model} achieved the highest classification accuracy at 71.04\%, closely approaching our initial 75\% target. The application of Fine-Tuning and innovative data colorization techniques proved effective, though heavy architectures like ResNet101 and InceptionV3 did not justify their computational overhead in this specific use case. 
+The comparative study between custom-designed Convolutional Neural Networks and industry-standard transfer learning models (VGG, ResNet, Inception, ConvNeXt) yielded highly satisfactory results. While our custom \texttt{second\_model} achieved a highly commendable accuracy of 71.04\%, closely approaching our initial 75\% target, the integration of the ConvNeXt Tiny architecture pushed our results even further, peaking at 74.56\%.
 
-The trained \texttt{second\_model} is lightweight enough to be deployed on an edge computing device (Raspberry Pi) and accurate enough to feed reliable affective data to the robot's speech synthesis subsystem, paving the way for empathetic, human-robot interaction.
-
+The application of Fine-Tuning and innovative data colorization techniques proved highly effective. While heavy architectures like ResNet101 and InceptionV3 did not justify their computational overhead in this specific use case, modern architectures like ConvNeXt Tiny demonstrate immense potential. The best-performing models will serve as a reliable engine to feed affective data to the robot's speech synthesis subsystem, paving the way for empathetic, human-robot interaction.
 \begin{thebibliography}{9}
 
     \bibitem{blazeface} 
