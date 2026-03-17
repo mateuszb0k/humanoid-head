@@ -22,7 +22,7 @@
 - [X] eyeAdaptor4.stl
 - [X] eyeConnector.stl
 - [ ] eyeCorePivotHolder.stl
-- [ ] eyes.stl
+- [X] eyes.stl
 - [X] fanBracket.stl
 - [X] forehead1left.stl
 - [X] forehead1right.stl
