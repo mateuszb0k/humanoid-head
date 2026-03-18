@@ -62,7 +62,7 @@
 - [X] smallMount3.stl
 - [X] smallMount4.stl
 - [X] sMountLeft.stl
-- [ ] sMountRight.stl
+- [X] sMountRight.stl
 - [X] structure.stl
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
@@ -73,7 +73,7 @@
 - [X] topLidHorn4.stl
 - [X] topLidLever1.stl
 - [X] topLidLever2.stl
-- [ ] trippleLink.stl
+- [X] trippleLink.stl
 - [X] upperLeftLip.stl
 - [X] upperRightLip.stl
 - [X] verticalHorn.stl
@@ -93,4 +93,4 @@
 * Encountered a failure printing "eyes" 3D part due to printer misscalibration. Brim settings changed to resolve the issue.
 
 ---
-*Last Update: 16-03-2026
+*Last Update: 18-03-2026
