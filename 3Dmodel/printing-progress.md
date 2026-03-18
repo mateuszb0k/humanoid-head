@@ -21,7 +21,7 @@
 - [X] eyeAdaptor3.stl
 - [X] eyeAdaptor4.stl
 - [X] eyeConnector.stl
-- [ ] eyeCorePivotHolder.stl
+- [X] eyeCorePivotHolder.stl
 - [X] eyes.stl
 - [X] fanBracket.stl
 - [X] forehead1left.stl
@@ -33,10 +33,10 @@
 - [X] jawConnector.stl
 - [X] jawLinkLeft.stl
 - [X] jawLinkRight.stl
-- [ ] lid1.stl
-- [ ] lid2.stl
-- [ ] lid3.stl
-- [ ] lid4.stl
+- [X] lid1.stl
+- [X] lid2.stl
+- [X] lid3.stl
+- [X] lid4.stl
 - [X] link1a.stl
 - [X] link1b.stl
 - [X] link2a.stl
