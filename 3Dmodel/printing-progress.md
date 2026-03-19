@@ -67,10 +67,10 @@
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
 - [X] topBase.stl
-- [X] topLidHorn1.stl
-- [X] topLidHorn2.stl
-- [X] topLidHorn3.stl
-- [X] topLidHorn4.stl
+- [ ] topLidHorn1.stl
+- [ ] topLidHorn2.stl
+- [ ] topLidHorn3.stl
+- [ ] topLidHorn4.stl
 - [X] topLidLever1.stl
 - [X] topLidLever2.stl
 - [X] trippleLink.stl
@@ -92,6 +92,7 @@
 * Encountered a fourth failure while printing the "skullFrame" 3D part. Problem unknown. Re-printing part again. Decided to upload photos of failures.
 * Encountered a failure printing "eyes" 3D part due to printer misscalibration. Brim settings changed to resolve the issue.
 * 5th failure printing "skullFrame" 3D part. This time tried different fillament and different printer. Seam settings updated to random.
+* Parts broke during assembly - topLidHorn(1-4) and rampMount1. RampMount reprinted without changes. TopLidHorns will be reprinted with new g-code with different angles.
 
 ---
 *Last Update: 19-03-2026
