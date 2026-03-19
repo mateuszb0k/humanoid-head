@@ -21,8 +21,8 @@
 - [X] eyeAdaptor3.stl
 - [X] eyeAdaptor4.stl
 - [X] eyeConnector.stl
-- [ ] eyeCorePivotHolder.stl
-- [ ] eyes.stl
+- [X] eyeCorePivotHolder.stl
+- [X] eyes.stl
 - [X] fanBracket.stl
 - [X] forehead1left.stl
 - [X] forehead1right.stl
@@ -33,10 +33,10 @@
 - [X] jawConnector.stl
 - [X] jawLinkLeft.stl
 - [X] jawLinkRight.stl
-- [ ] lid1.stl
-- [ ] lid2.stl
-- [ ] lid3.stl
-- [ ] lid4.stl
+- [X] lid1.stl
+- [X] lid2.stl
+- [X] lid3.stl
+- [X] lid4.stl
 - [X] link1a.stl
 - [X] link1b.stl
 - [X] link2a.stl
@@ -62,7 +62,7 @@
 - [X] smallMount3.stl
 - [X] smallMount4.stl
 - [X] sMountLeft.stl
-- [ ] sMountRight.stl
+- [X] sMountRight.stl
 - [X] structure.stl
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
@@ -73,7 +73,7 @@
 - [X] topLidHorn4.stl
 - [X] topLidLever1.stl
 - [X] topLidLever2.stl
-- [ ] trippleLink.stl
+- [X] trippleLink.stl
 - [X] upperLeftLip.stl
 - [X] upperRightLip.stl
 - [X] verticalHorn.stl
@@ -90,6 +90,8 @@
 * Encountered a third failure while printing the "skullFrame" 3D part. The G-code has been updated with a different support type.
 * Encountered a failure printing multiple parts: "lid1", "lid1", "lid1", "lid1", "trippleLink" and "eyeCorePivotHolder". Parts will be reprinted in a later batch with different supports.
 * Encountered a fourth failure while printing the "skullFrame" 3D part. Problem unknown. Re-printing part again. Decided to upload photos of failures.
+* Encountered a failure printing "eyes" 3D part due to printer misscalibration. Brim settings changed to resolve the issue.
+* 5th failure printing "skullFrame" 3D part. This time tried different fillament and different printer. Seam settings updated to random.
 
 ---
-*Last Update: 16-03-2026
+*Last Update: 19-03-2026
