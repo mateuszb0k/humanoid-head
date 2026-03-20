@@ -56,7 +56,7 @@
 - [X] rampMount1.stl
 - [X] rampMount2.stl
 - [ ] rearPlate.stl
-- [ ] skullFrame.stl
+- [X] skullFrame.stl
 - [X] smallMount1.stl
 - [X] smallMount2.stl
 - [X] smallMount3.stl
@@ -93,7 +93,7 @@
 * Encountered a failure printing "eyes" 3D part due to printer misscalibration. Brim settings changed to resolve the issue.
 * 5th failure printing "skullFrame" 3D part. This time tried different fillament and different printer. Seam settings updated to random.
 * Parts broke during assembly - topLidHorn(1-4) and rampMount1. RampMount reprinted without changes. TopLidHorns will be reprinted with new g-code with different angles.
-* 6th failure printing "skullFrame" 3D part. The G-code has been updated with a different support type, different angle, differrent seam settings and different layer size.
+* 6th failure printing "skullFrame" 3D part. Broken sections weres printed seperetly and attached to the model with soldering iron and hot air
 
 ---
 *Last Update: 20-03-2026
