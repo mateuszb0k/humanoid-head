@@ -12,13 +12,13 @@
 - [X] bottomLidLever2.stl
 - [X] braw1.stl
 - [X] braw2.stl
-- [X] centralServoHorn.stl
-- [X] cheekBone.stl
+- [ ] centralServoHorn.stl
+- [ ] cheekBone.stl
 - [X] cheekConnector1a.stl
 - [X] cheekConnector1b.stl
 - [X] eyeAdaptor1.stl
 - [X] eyeAdaptor2.stl
-- [X] eyeAdaptor3.stl
+- [ ] eyeAdaptor3.stl
 - [X] eyeAdaptor4.stl
 - [X] eyeConnector.stl
 - [X] eyeCorePivotHolder.stl
@@ -67,10 +67,10 @@
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
 - [X] topBase.stl
-- [ ] topLidHorn1.stl
-- [ ] topLidHorn2.stl
-- [ ] topLidHorn3.stl
-- [ ] topLidHorn4.stl
+- [X] topLidHorn1.stl
+- [X] topLidHorn2.stl
+- [X] topLidHorn3.stl
+- [X] topLidHorn4.stl
 - [X] topLidLever1.stl
 - [X] topLidLever2.stl
 - [X] trippleLink.stl
@@ -94,6 +94,7 @@
 * 5th failure printing "skullFrame" 3D part. This time tried different fillament and different printer. Seam settings updated to random.
 * Parts broke during assembly - topLidHorn(1-4) and rampMount1. RampMount reprinted without changes. TopLidHorns will be reprinted with new g-code with different angles.
 * 6th failure printing "skullFrame" 3D part. Broken sections weres printed seperetly and attached to the model with soldering iron and hot air
+* Parts broke during assembly - centralServoHorn, EyeAdaptor3 and cheekBone. Parts will be reprinted with new g-code with different angles.
 
 ---
 *Last Update: 20-03-2026
