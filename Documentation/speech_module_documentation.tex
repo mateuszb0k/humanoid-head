@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{svg}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[margin=3cm]{geometry}
+\graphicspath{{images/}{img/}}
+
+\lstset{
+	language=Python,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{orange},
+	breaklines=true,
+	frame=lines,
+	numbers=left,
+	numberstyle=\tiny\color{gray}
+}
+
+\title{Speech Module - Technical Documentation}
+\author{Mateusz Block, Lucjan Butko, Adam Macko}
+\date{March 2026}
+
+\begin{document}
+	
+	\maketitle
+	\tableofcontents
+	\newpage
+	
+\section{Project Overview and Purpose}
+The main goal of the speech module, developed as part of the "humanoid-head" project, is to enable the robot to conduct natural and meaningful conversations with humans. Our team's task is to ensure that the machine not only reacts to rigid commands but can also respond fluently and logically to questions, mimicking a real conversation.
+
+The assistant was designed with the students of the Gdańsk University of Technology in mind. Its practical applications within this interaction include:
+\begin{itemize}
+	\item Providing precise navigation directions, making it easier to reach specific rooms in university buildings (such as EA or NE).
+	\item Providing up-to-date information about weather conditions.
+	\item Engaging in casual conversations on general topics, using artificial intelligence to generate natural-sounding responses.
+\end{itemize}
+	
+	\section{System Architecture}
+	The system is designed as a continuous loop that runs until it is stopped manually. It uses a pipeline structure with three main steps:
+	\begin{itemize}
+		\item \textbf{Speech-to-Text (STT):} The system uses a microphone to listen to the user. It records the sound and uses the Whisper AI model (the "small" version) to change the user's voice into text.
+		\item \textbf{Intent Detection and Processing (LLM):} After getting the text, the system checks what the user wants using the \texttt{IntentDetector}.
+		\begin{itemize}
+			\item If the user asks about the weather ("POGODA") or university classes ("PG"), the system uses specific logic to find this data.
+			\item For all other questions, it sends the text to a Large Language Model. The project uses the Ollama framework with the "gemma3:4b" model, connected through the LangChain library. The model gets a special prompt with a database of rooms and weather data to know how to answer correctly.
+		\end{itemize}
+		\item \textbf{Text-to-Speech (TTS):} When the text answer is ready, the system uses the \texttt{pyttsx3} library to read it out loud.
+	\end{itemize}
+	
+	\section{Environment and Dependencies}
+	
+	\subsection{Required libraries}
+	\subsection{AI Models}
+	
+	\section{Core Modules Implementation}
+	\subsection{NLP Pipleline}
+	\subsection{Intent Detection}
+	\subsection{Weather Integration}
+	\subsection{Rooms Database and Navigation}
+	\subsection{Staff Information}
+	
+	\section{Prompt Engineering}
+	\subsection {System prompt}
+	\subsection{RAG}
+	
+
+	
+\end{document}
