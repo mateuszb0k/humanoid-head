@@ -259,6 +259,34 @@ The initial fine-tuning of ResNet101 resulted in a validation accuracy of \textb
     \end{minipage}
 \end{figure}
 
+\subsection{ResNet101 - Second Training Run}
+Building upon the successful two-stage training strategy implemented for ResNet50, a parallel optimization was conducted for the deeper ResNet101 architecture. To accommodate the increased memory requirements (VRAM) of the 101-layer network, the batch size was reduced from 32 to 16. The custom classification head remained identical to the ResNet50 configuration to ensure an objective comparison.
+
+The training process utilized the proven sequential approach:
+\begin{itemize}
+    \item \textbf{Phase 1 (Warm-up):} 5 epochs with a frozen base, using the Adam optimizer ($1 \times 10^{-3}$).
+    \item \textbf{Phase 2 (Fine-tuning):} The entire network was unfrozen and trained for 10 epochs applying a heavily reduced learning rate ($1 \times 10^{-5}$).
+    \item \textbf{Callbacks:} \texttt{EarlyStopping} configured with \texttt{restore\_best\_weights=True} (patience=5) and \texttt{ModelCheckpoint} to secure optimal weights.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{resnet101_run2_history.png}
+    \caption{Training and validation metrics for the ResNet101 second run. The deeper architecture benefits significantly from the two-stage fine-tuning approach.}
+    \label{fig:resnet101_history}
+\end{figure}
+
+The learning curves (Fig. \ref{fig:resnet101_history}) demonstrate a highly effective training cycle. The transition into fine-tuning initially yields steady improvements in both metrics. As the training progresses, a divergence between the training and validation loss emerges, signaling the onset of overfitting as the high-capacity model begins memorizing the training set. Fortunately, the \texttt{EarlyStopping} mechanism successfully intervened, rewinding the weights to the exact epoch where validation accuracy peaked.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{resnet101_run2_cm.png}
+    \caption{Confusion matrix for the optimized ResNet101 model, showing the highest overall performance.}
+    \label{fig:resnet101_cm}
+\end{figure}
+
+The optimized ResNet101 achieved an outstanding final accuracy of \textbf{77.28\%} and a macro-precision of \textbf{76.00\%}, establishing it as the absolute top-performing model in the entire study. The confusion matrix (Fig. \ref{fig:resnet101_cm}) reveals robust classification across the board. While inherent dataset challenges remain (such as distinguishing between \textit{sad} and \textit{neutral}), the extra depth of ResNet101 allowed for more nuanced feature extraction, comfortably exceeding the project's baseline target of 75\%.
+
 \section{Final Comparison and Benchmarking}
 The following table provides a comprehensive summary of the performance metrics achieved by all evaluated architectures. The models are ranked by their validation accuracy. This comparison highlights the transition from custom baseline models to state-of-the-art architectures using advanced fine-tuning techniques on the unified 121,133 image dataset.
 
@@ -268,8 +296,10 @@ The following table provides a comprehensive summary of the performance metrics 
         \hline
         \textbf{Model} & \textbf{Accuracy} & \textbf{Macro-Precision} \\
         \hline
-        ConvNeXt Tiny (Run 1 - 15 epochs) & \textbf{74.56\%} & \textbf{73.55\%} \\
-        ConvNeXt Tiny (Run 2 - 10 epochs) & \textbf{73.60\%} & \textbf{72.64\%} \\
+        \textbf{ResNet101 (Fine-tuned, Two-stage)} & \textbf{77.28\%} & \textbf{76.00\%} \\
+        \textbf{ResNet50 (Fine-tuned, Two-stage)} & \textbf{75.22\%} & \textbf{73.36\%} \\
+        ConvNeXt Tiny (Run 1 - 15 epochs) & 74.56\% & 73.55\% \\
+        ConvNeXt Tiny (Run 2 - 10 epochs) & 73.60\% & 72.64\% \\
         second\_model (Custom) & 71.04\% & 70.19\% \\
         VGG19 & 70.07\% & 69.47\% \\
         VGG16 & 68.24\% & 66.57\% \\
@@ -286,9 +316,13 @@ The following table provides a comprehensive summary of the performance metrics 
 \end{table}
 
 \subsection{Performance Summary}
-Analysis of the final benchmarks reveals that the \textbf{ConvNeXt Tiny} architecture remains the superior choice for the vision module, successfully nearing the project's target accuracy of 75\%. It is followed closely by our custom \textbf{second\_model}, which demonstrates that well-optimized simpler architectures can compete with deeper networks like VGG19 in specific facial expression domains. The application of class weights in Xception and InceptionV3 provided more balanced recognition across minority categories, though it slightly impacted the overall accuracy compared to the top-performing models.
+Analysis of the final benchmarks reveals that the optimized \textbf{ResNet101} and \textbf{ResNet50} architectures, trained using the two-stage fine-tuning approach, have become the superior choices for the vision module. Both models successfully exceeded the project's target accuracy of 75\%, with \textbf{ResNet101} reaching a peak of \textbf{77.28\%} and \textbf{ResNet50} achieving \textbf{75.22\%}. 
+
+While the \textbf{ConvNeXt Tiny} architecture remained a very strong and modern contender (74.56\%), the additional depth and refined training process of the ResNet family allowed for more precise feature extraction in the facial expression domain. The results also show that while custom models like \texttt{second\_model} perform well for their size, they cannot match the generalization capabilities of deeper, fine-tuned residual networks. The application of class weights in other models like Xception provided better balance for minority classes, but the overall accuracy and reliability of ResNet101 make it the definitive leader of this comparison.
 
 \section{Conclusion}
-The development of the vision module successfully met its goals. While custom models like \texttt{second\_model} performed well, the modern ConvNeXt Tiny architecture provided the most reliable results (74.56\%). The model demonstrates strong generalization even in difficult classes like "sad" vs "neutral". Future work will focus on deployment optimization for the Raspberry Pi platform.
+The development of the vision module successfully exceeded its initial goals. Through systematic experimentation and the implementation of an advanced two-stage training strategy, the \textbf{ResNet101} architecture was selected as the primary vision engine, providing the most reliable results with an accuracy of \textbf{77.28\%}. 
+
+The model demonstrates strong generalization and effectively handles the difficult task of distinguishing subtle emotional cues, even in historically problematic pairs like "sad" vs "neutral". This high level of performance ensures that the humanoid head can interact with users in a more natural and responsive manner. Future work will now focus on the deployment phase, specifically optimizing and quantizing the ResNet101 model for real-time inference on the Raspberry Pi platform.
 
 \end{document}
