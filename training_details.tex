@@ -194,6 +194,34 @@ In this first training run, the ResNet50 model achieved a validation accuracy of
     \end{minipage}
 \end{figure}
 
+\subsection{ResNet50 - Second Training Run}
+To surpass the performance of previous iterations, a second training run for the ResNet50 model was conducted using a refined two-stage transfer learning strategy. The model architecture was extended with a custom classification head: Global Average Pooling, Batch Normalization, a Dropout layer (0.4), and a Dense layer with 256 units using ReLU activation.
+
+The training parameters and process were structured as follows:
+\begin{itemize}
+    \item \textbf{Phase 1 (Warm-up):} 5 epochs with a frozen ResNet50 base, utilizing the Adam optimizer with a learning rate of $1 \times 10^{-3}$.
+    \item \textbf{Phase 2 (Fine-tuning):} The base was unfrozen and trained for 10 epochs with a significantly lower learning rate of $1 \times 10^{-5}$ to perform subtle weight adjustments.
+    \item \textbf{Callbacks:} \texttt{EarlyStopping} was implemented with a patience of 5 and, crucially, \texttt{restore\_best\_weights=True}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{resnet50_run2_history.png}
+    \caption{Training and validation metrics for the ResNet50 second run. The dashed red line indicates the transition from warm-up to fine-tuning.}
+    \label{fig:resnet50_history}
+\end{figure}
+
+The learning curves (Fig. \ref{fig:resnet50_history}) show a successful convergence. A notable observation is the behavior during the final epochs of fine-tuning: while the training loss continued to decrease, the validation loss showed a slight upward trend, indicating the onset of overfitting. However, due to the \texttt{restore\_best\_weights} parameter, the training process effectively "rewound" the model to the state of epoch 11, where validation accuracy was maximized and loss was at its lowest.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{resnet50_run2_cm.png}
+    \caption{Confusion matrix for the optimized ResNet50 model.}
+    \label{fig:resnet50_cm}
+\end{figure}
+
+The final model achieved a peak accuracy of \textbf{75.22\%} and a macro-precision of \textbf{73.36\%}. As shown in the confusion matrix (Fig. \ref{fig:resnet50_cm}), the model excels at identifying \textit{happy} and \textit{neutral} expressions. Consistent with previous models, the primary confusion occurs between \textit{sad} and \textit{neutral} classes, which is expected given the visual similarity of these expressions in the dataset. This result represents the best performance achieved in the project thus far.
+
 \subsection{ResNet101 (Initial Training Run)}
 To investigate whether a deeper residual architecture would yield better feature extraction, the \texttt{ResNet101} model was subjected to a similar initial training process.
 
