@@ -58,11 +58,11 @@ def scrape_smart_pg_teachers(main_url):
             raw_text = prof_soup.get_text(separator=' ', strip=True) # Do szukania pokoju i emaila
             raw_text_piped = prof_soup.get_text(separator='|', strip=True) # Do szukania konkretnych sekcji
             
-            # email
-            email = "Brak"
-            email_match = re.search(r'([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})', raw_text)
-            if email_match:
-                email = email_match.group(1).strip()
+            # # email
+            # email = "Brak"
+            # email_match = re.search(r'([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})', raw_text)
+            # if email_match:
+            #     email = email_match.group(1).strip()
                 
             # katedra
             department = "Brak"
@@ -89,7 +89,7 @@ def scrape_smart_pg_teachers(main_url):
                 "title": title,
                 "building": building,
                 "room": room_number,
-                "email": email,
+                #"email": email,
                 "department": department
             }
             

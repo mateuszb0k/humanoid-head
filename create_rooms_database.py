@@ -9,7 +9,6 @@ def get_floor(room_num):
     return room_num // 100
 
 # RULES FOR BUILDING EA
-
 # Middle rooms 
 mid_rooms = [126, 130, 222, 224, 328, 330, 436, 438, 532, 534, 628, 630, 734, 736]
 mid_template = "Udaj się na piętro {floor} środkową windą lub schodami. sala {room} będzie się znajdować na środku holu, na przeciwko okien."
