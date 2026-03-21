@@ -1,8 +1,8 @@
 import json
 import os
 from rapidfuzz import process,fuzz
-THRESHOLD = 75 #% seems to be optimal
-def get_teacher_room(teacher_name, db_filepath="teachers_info.json"):
+THRESHOLD = 50 #% seems to be optimal
+def get_teacher_room(teacher_name, db_filepath="./teachers_info.json"):
     empty_result = {
         "teacher_name": None,
         "room": None,
@@ -24,7 +24,7 @@ def get_teacher_room(teacher_name, db_filepath="teachers_info.json"):
     # Search w/ fuzzy matching
     keys = teachers_db.keys()
     key,score,_ = process.extractOne(teacher_name, keys, scorer= fuzz.WRatio) #fuzzy matching
-    print(key,score)
+    # print(key,score)
     if score>=THRESHOLD:
         teacher_info  = teachers_db[key]
         room = teacher_info.get("room",None)
@@ -49,7 +49,7 @@ def get_teacher_room(teacher_name, db_filepath="teachers_info.json"):
 
 
 if __name__ == "__main__":
-    target_person = "mgr dr hab prof inz Place Holder"  # person to be found
+    target_person = "Adam Macko"  # person to be found
     output_teacher = get_teacher_room(target_person)
 
     print(f"result: {output_teacher}")

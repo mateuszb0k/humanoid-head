@@ -1,6 +1,6 @@
 import json
 
-def get_room_directions(input_room_str, database_filepath='room_directions.json'):
+def get_room_directions(input_room_str, database_filepath='./room_directions.json'):
     # reading database
     try:
         with open(database_filepath, 'r', encoding='utf-8') as db_file:
@@ -23,9 +23,9 @@ def get_room_directions(input_room_str, database_filepath='room_directions.json'
         if target_room in building_data:
             return building_data[target_room]["directions"]
         else:
-            return f"Błąd: Pokój '{target_room}' nie istnieje w budynku '{target_building}'."
+            return f"Błąd Pokój '{target_room}' nie istnieje w budynku '{target_building}'."
     else:
-        return f"Błąd: Budynek '{target_building}' nie istnieje w bazie."
+        return f"Błąd Budynek '{target_building}' nie istnieje w bazie. "
 
 if __name__ == "__main__":
     # input as string

@@ -25,7 +25,7 @@ def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[eE](\d+)',r'ea\1',text)
     return text
 def split_building_numer(text:str) ->str:
-    text = re.sub(r'\b(ne|ea)(\d+)',r'\1,\2',text)
+    text = re.sub(r'\b(NE|EA)(\d+)',r'\1,\2',text)
     return text
 class NlpModel:
     """
@@ -62,6 +62,7 @@ class NlpModel:
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
+            print(question)
 
             if intent == "POGODA":
                 result = weather_prompt() #default gdansk
@@ -75,11 +76,13 @@ class NlpModel:
                 if entities:
                     if 'room code' in label_text:
                         room = label_text['room code'].upper()
-                        # print(room)
                         room_split = split_building_numer(room)
                         directions = get_room_directions(room_split)
-                        result = f"Aby dojść do pokoju {room} {directions}"
-                        # print(result)
+
+                        if directions.find("Błąd ") != -1:
+                            result = directions.replace("Błąd ","")
+                        else:
+                            result = f"Aby dojść do pokoju {room} {directions}"
                     elif 'person' in label_text:
                         person = label_text['person']
                         teacher_data = get_teacher_room(person)
@@ -89,11 +92,12 @@ class NlpModel:
                                 building = teacher_data['building']
                                 room_directions = get_room_directions(f"{building},{room}")
                                 result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}"
-                                # print(result)
                             else:
                                 result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju "
+                        else:
+                            result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                 else:
-                    result = "Nie rozumiem, powiedz jeszce raz."
+                    result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
             else:
                 # LLM phase
                 result = self.chain.invoke({"question": question})
@@ -133,38 +137,10 @@ class NlpModel:
 
 
 if __name__ == "__main__":
-    weather_text_prompt = weather_prompt()  # defaults to gdansk
-    rooms_data = {
-        "EA": {
-            "107": {"floor": "1",
-                    "directions": "pojedź windą lub pójdź schodami na {floor} piętro i pójdź holem w lewo"},
-            "240": {"floor": "2",
-                    "directions": "pojedź windą lub pójdź schodami na {floor} piętro i pójdź holem w prawo"}
-        },
-        "NE": {
-            "105": {"floor": "1",
-                    "directions": "Pójdź w lewo od głównego wejścia, po schodach lub windą udaj się na {floor} piętro i wejdź w korytarz po lewej stronie"},
-            "215": {"floor": "2",
-                    "directions": "Pójdź na prawo od głównego wejścia, po schodach lub windą udaj się na {floor} piętro i wejdź w korytarz po prawej stronie"}
-        }
-    }
-
-    rooms_context = json.dumps(rooms_data, ensure_ascii=False, indent=2)
-
-    rooms_context_escaped = rooms_context.replace("{", "{{").replace("}", "}}")
-    weather_text_escaped = weather_text_prompt.replace("{", "{{").replace("}", "}}")
-
     template = f"""Jesteś wszechstronnym asystentem studentów Politechniki Gdańskiej. 
 
     Instrukcje zachowania:
-    1. Pytania o plan zajęć, uczelnię i lokalizację sal opieraj wyłącznie na poniższej bazie wiedzy.
-    2. Gdy podajesz wskazówki dojścia do sali, obowiązkowo podmień tekst '{{{{floor}}}}' na odpowiedni numer piętra z danych.
-    3. Pytania o pogodę opieraj na następujących danych: {weather_text_escaped}
-    4. Pytania niezwiązane z uczelnią (np. programowanie, ogólna wiedza) traktuj jak standardowy sztuczna inteligencja, korzystając z własnej wiedzy.
-    5. Odpowiadaj naturalnie i unikaj zbędnych powitań.
-
-    Baza wiedzy o salach (Format: Budynek -> Numer sali -> Szczegóły):
-    {rooms_context_escaped}
+    1. Odpowiadaj naturalnie i unikaj zbędnych powitań.
 
     Pytanie od użytkownika:
     {{question}}

@@ -6,7 +6,7 @@ class IntentDetector:
 
         self.pg_keywords = {
             "sala", "plan", "zajęcie", "wykład", "ćwiczenie",
-            "laboratorium", "uczelnia", "weti", "pg", "harmonogram",  "doktor", "inżynier", "profesor",
+            "laboratorium", "uczelnia", "weti", "pg", "harmonogram",  "doktor", "inżynier", "profesor", "dojść",
 
         }
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     detector = IntentDetector()
 
     test_sentences = [
-        "Jak dojść do sali EA 201??",
+        "Jak doszła do sklepiku",
         "Gdzie znajdę doktora Czubenko?",
         "Co tam u Ciebie?",
         "Ile jest stopni?"
