@@ -7,7 +7,25 @@ import pyttsx3
 from weather import get_weather,weather_prompt
 import json
 from intent_module import IntentDetector
+from gliner import GLiNER
+import re
+GLINER_LABELS  = [
+    "room code",
+    "person"
+]
 
+def preprocess_stt(text: str) -> str:
+    text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
+    text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)  # e-a -> ea
+    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)          # ea-103 -> ea103
+    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)              # ea 103 -> ea103
+    text  = re.sub(r'\b[nN](\d+)',r'ne\1',text)
+    text = re.sub(r'\b[eE](\d+)',r'ea\1',text)
+    return text
+def split_building_numer(text:str) ->str:
+    text = re.sub(r'\b(ne|ea)(\d+)',r'\1,\2',text)
+    return text
 class NlpModel:
     """
     This class manages the voice assistant model. It integrates speech recognition (Whisper),
@@ -29,11 +47,13 @@ class NlpModel:
             self.prompt = ChatPromptTemplate.from_template(template)
         self.chain = self.prompt | self.model_llm
 
+
     def start(self):
         """
         STT -> LLM -> TTS
         The process runs indefinetely unless it is interrupted.
         """
+        gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         while True:
             # STT phase
             question = self._stt_module()
@@ -43,11 +63,24 @@ class NlpModel:
             intent = self.intent_detector.detect_intent(question)
 
             if intent == "POGODA":
-                # We will create here entity extraction module to get certain information
-                result = weather_prompt()
+                result = weather_prompt() #default gdansk
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
-                result = "Dziś nie ma zajęć"
+                data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
+                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
+                labels = [entity['label'] for entity in entities]
+                if entities:
+                    if 'room code' in labels:
+                        #extract info about room
+                        pass
+                    elif 'person' in labels:
+                        #extract info about person
+                        pass
+                    else:
+                        #else if both get both
+                        pass
+                else:
+                   result = "Nie rozumiem, powiedz jeszce raz."
             else:
                 # LLM phase
                 result = self.chain.invoke({"question": question})
