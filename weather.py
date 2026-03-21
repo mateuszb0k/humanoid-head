@@ -55,6 +55,7 @@ async def get_weather(city: str = 'Gdansk'):
         except Exception as e:
             print(f"Failed to get weather {e}")
             return {}
+
 '''
 Used to inject weather data in polish into LLM prompt defaults to Gdansk
 returns a sentence with weather kind mapped into polish.
@@ -62,9 +63,10 @@ Can be expanded to give the model more data pressure etc.
 '''
 def weather_prompt(city: str = 'Gdansk'):
     weather = asyncio.run(get_weather(city))
-    return f"W {city} aktualnie jest {weather['kind']} i temperatura {weather['temperature']} stopni Celsjusza, temperatura odczuwalna {weather['feels_like']} stopni Celsjusza"
+    if weather:
+        return f"W {city} aktualnie jest {weather['kind']} i temperatura {weather['temperature']} stopni Celsjusza, temperatura odczuwalna {weather['feels_like']} stopni Celsjusza"
+    else:
+        return f"Nie udało uzyskać się danych o pogodzie w {city}"
 if __name__ == '__main__':
-    pass
-    # print("Getting weather...")
-    # weather = asyncio.run(get_weather('Gdansk'))
-    # print(weather['kind'])
+    print("Getting weather...")
+    weather = weather_prompt('Gdansk')
