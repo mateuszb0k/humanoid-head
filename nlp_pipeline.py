@@ -4,16 +4,17 @@ from langchain_core.prompts import ChatPromptTemplate
 import whisper
 import speech_recognition as sr
 import pyttsx3
-from weather import get_weather,weather_prompt
+from utils.weather import weather_prompt
 import json
-from intent_module import IntentDetector
+from utils.intent_module import IntentDetector
 from gliner import GLiNER
 import re
+from utils.find_teacher import get_teacher_room
+from utils.find_room import get_room_directions
 GLINER_LABELS  = [
     "room code",
     "person"
 ]
-
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
@@ -68,19 +69,31 @@ class NlpModel:
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
                 entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
-                labels = [entity['label'] for entity in entities]
+                label_text = {}
+                for entity in entities:
+                    label_text[entity['label']] = entity['text']
                 if entities:
-                    if 'room code' in labels:
-                        #extract info about room
-                        pass
-                    elif 'person' in labels:
-                        #extract info about person
-                        pass
-                    else:
-                        #else if both get both
-                        pass
+                    if 'room code' in label_text:
+                        room = label_text['room code'].upper()
+                        # print(room)
+                        room_split = split_building_numer(room)
+                        directions = get_room_directions(room_split)
+                        result = f"Aby dojść do pokoju {room} {directions}"
+                        # print(result)
+                    elif 'person' in label_text:
+                        person = label_text['person']
+                        teacher_data = get_teacher_room(person)
+                        if teacher_data['teacher_name'] is not None:
+                            if teacher_data['room'] is not None and teacher_data['building'] is not None:
+                                room = teacher_data['room']
+                                building = teacher_data['building']
+                                room_directions = get_room_directions(f"{building},{room}")
+                                result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}"
+                                # print(result)
+                            else:
+                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju "
                 else:
-                   result = "Nie rozumiem, powiedz jeszce raz."
+                    result = "Nie rozumiem, powiedz jeszce raz."
             else:
                 # LLM phase
                 result = self.chain.invoke({"question": question})

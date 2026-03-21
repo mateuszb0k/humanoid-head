@@ -6,12 +6,12 @@ class IntentDetector:
 
         self.pg_keywords = {
             "sala", "plan", "zajęcie", "wykład", "ćwiczenie",
-            "laboratorium", "uczelnia", "weti", "pg", "harmonogram", "słonecznie", "deszczowo", "doktor", "inżynier", "profesor",
+            "laboratorium", "uczelnia", "weti", "pg", "harmonogram",  "doktor", "inżynier", "profesor",
 
         }
 
         self.weather_keywords = {
-            "pogoda", "temperatura", "deszcz", "parasol",
+            "pogoda", "temperatura", "deszcz", "parasol","słonecznie", "deszczowo",
             "słońce", "wiatr", "prognoza", "zimno", "ciepło", "stopnie", "stopień"
         }
 

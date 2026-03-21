@@ -16,4 +16,6 @@ dependencies = [
     "spacy>=3.8.0",
     "speechrecognition>=3.14.5",
     "pl_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl",
+    "gliner>=0.2.25",
+    "rapidfuzz>=3.14.3",
 ]
