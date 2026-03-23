@@ -57,6 +57,21 @@ The assistant was designed with the students of the Gdańsk University of Techno
 	\section{Environment and Dependencies}
 	
 	\subsection{Required libraries}
+	The project relies on a variety of Python libraries for natural language processing, speech recognition, speech synthesis, and data retrieval. The key dependencies are described below:
+	
+	\begin{itemize}
+		\item \textbf{BeautifulSoup4} (\texttt{beautifulsoup4}): Used for parsing HTML documents. It is utilized to scrape information and extract staff details from the university's websites.
+		\item \textbf{GLiNER} (\texttt{gliner}): A Generalized Language Information Extraction library used for Named Entity Recognition (NER). It predicts and extracts specific entities, such as room codes and person names, directly from the transcribed speech.
+		\item \textbf{LangChain} (\texttt{langchain-core}, \texttt{langchain-ollama}): Manages the integration with local Large Language Models (e.g., \texttt{gemma3:4b}) via Ollama and formats chat prompt templates.
+		\item \textbf{Whisper} (\texttt{openai-whisper}): An AI model by OpenAI used for highly accurate Speech-to-Text (STT) transcription of user queries.
+		\item \textbf{PyAudio} (\texttt{pyaudio}): Provides Python bindings for PortAudio, essential for capturing live audio streams from the microphone.
+		\item \textbf{Python Weather} (\texttt{python-weather}): An asynchronous library used to fetch current weather data and conditions.
+		\item \textbf{pyttsx3} (\texttt{pyttsx3}): An offline Text-to-Speech (TTS) conversion library that allows the assistant to vocalize its responses to the user.
+		\item \textbf{RapidFuzz} (\texttt{rapidfuzz}): A fast string matching library used for fuzzy search. It helps in matching spoken teacher names against the database, accommodating slight mispronunciations or transcription errors.
+		\item \textbf{Requests} (\texttt{requests}): An HTTP library utilized to send requests to external university web pages for data scraping purposes.
+		\item \textbf{spaCy} (\texttt{spacy}, \texttt{pl\_core\_news\_sm}): An advanced natural language processing library. It is used alongside a Polish language model for word lemmatization and keyword-based user intent detection.
+		\item \textbf{SpeechRecognition} (\texttt{speechrecognition}): A wrapper library that facilitates capturing microphone input, detecting speech, and automatically adjusting for ambient noise levels.
+	\end{itemize}
 	\subsection{AI Models}
 	
 	\section{Core Modules Implementation}
