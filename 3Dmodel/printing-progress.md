@@ -39,7 +39,7 @@
 - [X] lid4.stl
 - [X] link1a.stl
 - [X] link1b.stl
-- [X] link2a.stl
+- [ ] link2a.stl
 - [X] link2b.stl
 - [X] link3a.stl
 - [X] link3b.stl
@@ -67,7 +67,7 @@
 - [X] tongueConnector1.stl
 - [X] tongueConnector2.stl
 - [X] topBase.stl
-- [X] topLidHorn1.stl
+- [ ] topLidHorn1.stl
 - [X] topLidHorn2.stl
 - [X] topLidHorn3.stl
 - [X] topLidHorn4.stl
@@ -95,6 +95,7 @@
 * Parts broke during assembly - topLidHorn(1-4) and rampMount1. RampMount reprinted without changes. TopLidHorns will be reprinted with new g-code with different angles.
 * 6th failure printing "skullFrame" 3D part. Broken sections weres printed seperetly and attached to the model with soldering iron and hot air
 * Parts broke during assembly - centralServoHorn, EyeAdaptor3 and cheekBone. Parts will be reprinted with new g-code with different angles.
+* Parts broke during assembly - topLidHorn, link2a. Parts will be reprinted with new g-code with different angles.
 
 ---
 *Last Update: 20-03-2026
