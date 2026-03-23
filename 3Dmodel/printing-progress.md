@@ -12,13 +12,13 @@
 - [X] bottomLidLever2.stl
 - [X] braw1.stl
 - [X] braw2.stl
-- [ ] centralServoHorn.stl
-- [ ] cheekBone.stl
+- [X] centralServoHorn.stl
+- [X] cheekBone.stl
 - [X] cheekConnector1a.stl
 - [X] cheekConnector1b.stl
 - [X] eyeAdaptor1.stl
 - [X] eyeAdaptor2.stl
-- [ ] eyeAdaptor3.stl
+- [X] eyeAdaptor3.stl
 - [X] eyeAdaptor4.stl
 - [X] eyeConnector.stl
 - [X] eyeCorePivotHolder.stl
