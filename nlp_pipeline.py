@@ -25,7 +25,7 @@ def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[eE](\d+)',r'ea\1',text)
     return text
 def split_building_numer(text:str) ->str:
-    text = re.sub(r'\b(NE|EA)(\d+)',r'\1,\2',text)
+    text = re.sub(r'(?i)\b(ne|ea)(\d+)',r'\1,\2',text)
     return text
 class NlpModel:
     """
