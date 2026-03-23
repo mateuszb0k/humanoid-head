@@ -5,14 +5,20 @@ class IntentDetector:
         self.nlp = spacy.load("pl_core_news_sm")
 
         self.pg_keywords = {
-            "sala", "plan", "zajęcie", "wykład", "ćwiczenie",
-            "laboratorium", "uczelnia", "weti", "pg", "harmonogram",  "doktor", "inżynier", "profesor", "dojść",
-
+            "sala", "gabinet", "audytorium", "laboratorium", "budynek",
+            "wydział", "dziekanat", "piętro", "parter", "wejście", "pokój",
+            "weti", "eti", "pg", "doktor", "profesor", "inżynier",
+            "magister", "wykładowca", "prowadzący", "dziekan",
+            "dojść", "znaleźć", "szukać", "trafić", "zaprowadzić",
+            "pokierować", "mapa", "plan"
         }
 
         self.weather_keywords = {
-            "pogoda", "temperatura", "deszcz", "parasol","słonecznie", "deszczowo",
-            "słońce", "wiatr", "prognoza", "zimno", "ciepło", "stopnie", "stopień"
+            "pogoda", "temperatura", "deszcz", "parasol", "słońce",
+            "wiatr", "prognoza", "zimno", "ciepło", "stopień",
+            "śnieg", "burza", "chmura", "mróz", "upał", "padać",
+            "wiać", "aura", "warunek", "niebo", "zewnątrz",
+            "ciepły", "zimny", "słoneczny", "pochmurny", "deszczowy"
         }
 
     def detect_intent(self, text: str) -> str:
@@ -35,10 +41,11 @@ if __name__ == "__main__":
     detector = IntentDetector()
 
     test_sentences = [
-        "Jak doszła do sklepiku",
+        "Gdzie znajde pogodnego doktora?",
         "Gdzie znajdę doktora Czubenko?",
         "Co tam u Ciebie?",
-        "Ile jest stopni?"
+        "Ile jest stopni?",
+        "Jak ciepło dziś będzie?"
     ]
 
     for sentence in test_sentences:
