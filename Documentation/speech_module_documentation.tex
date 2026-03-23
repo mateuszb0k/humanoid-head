@@ -151,6 +151,28 @@ To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig
 \end{figure}
 
 	\subsection{Intent Detection}
+	The intent detection module is responsible for classifying the user's transcribed speech into one of the predefined categories, which determines how the query is routed within the NLP pipeline. This logic is encapsulated within the \texttt{IntentDetector} class.
+	
+	\subsubsection*{Initialization and Keyword Sets}
+	The module uses the \texttt{spaCy} library along with the Polish language model (\texttt{pl\_core\_news\_sm}) to perform advanced text analysis. During initialization, it defines two primary sets of base words used for classification:
+	\begin{itemize}
+		\item \textbf{PG Keywords:} Terms related to the university, such as "sala", "wykład", "harmonogram", "profesor" and "dojść".
+		\item \textbf{Weather Keywords:} Terms related to meteorological conditions, such as "pogoda", "temperatura", "deszcz" and "wiatr".
+	\end{itemize}
+	
+	\subsubsection*{Operating Principle}
+	The core classification is handled by the \texttt{detect\_intent()} method, which processes the input through the following steps:
+	\begin{enumerate}
+		\item \textbf{Text Preprocessing:} The raw input string is converted to lowercase and passed through the spaCy processing pipeline.
+		\item \textbf{Lemmatization and Filtering:} The module iterates over the generated tokens, actively filtering out punctuation marks (\texttt{is\_punct}) and common Polish stop words (\texttt{is\_stop}). It extracts the base form (lemma) of each remaining token and stores them in a set for optimized searching.
+		\item \textbf{Set Intersection and Classification:} The system uses logical set intersections to check for overlaps between the extracted lemmas and the predefined keyword sets. 
+		\begin{itemize}
+			\item If an intersection with the university keywords is found, it returns the \texttt{"PG"} intent.
+			\item If an intersection with the weather keywords is found, it returns the \texttt{"POGODA"} intent.
+			\item If there are no matches, the function returns \texttt{"OGOLNA"} intent (general intent), signaling the pipeline to process the query using the large language model.
+		\end{itemize}
+	\end{enumerate}
+	
 	\subsection{Weather Integration}
 	\subsection{Rooms Database and Navigation}
 	\subsection{Staff Information}
