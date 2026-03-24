@@ -196,8 +196,18 @@ To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig
 	
 	\section{Prompt Engineering}
 	\subsection {System prompt}
-	\subsection{RAG}
-	
+	\subsection{Deterministic Retrieval and Tool Calling}
+	During the initial development phases, the implementation of a Retrieval-Augmented Generation (RAG) architecture was considered. Ultimately, the RAG approach was abandoned in favor of a deterministic "Tool Calling" architecture. 
 
-	
+	When the system detects a specific, university-related intent, it bypasses the LLM's generative capabilities. Instead, the text is processed by the \textbf{GLiNER} model (for Named Entity Recognition) to extract key parameters, which then triggers dedicated Python scripts to fetch hardcoded, verified data. The two primary retrieval tools used in this process are:
+
+	\begin{itemize}
+		\item \textbf{\texttt{find\_room.py} (Exact Match Retrieval):} This script is executed when the GLiNER model extracts a \texttt{room code} entity. It takes a formatted input string, splits it into building and room components using a comma delimiter, and performs a strict exact-match search within the \texttt{room\_directions.json} database. If a match is found, it directly returns the precise, step-by-step navigation instructions.
+		
+		\item \textbf{\texttt{find\_teacher.py} (Fuzzy Match Retrieval):} This script is invoked when a \texttt{person} entity is detected by GLiNER. Because Speech-to-Text models often mistranscribe proper nouns and surnames, an exact match approach would frequently fail. To solve this, the script utilizes the \texttt{rapidfuzz} library to calculate a string similarity score against the \texttt{teachers\_info.json} database. If the match score meets or exceeds the defined threshold of 50\%, the system assumes a successful identification and retrieves the professor's assigned office location.
+	\end{itemize}
+
+	By employing these retrieval scripts as external tools, the system guarantees factual accuracy in its navigational responses and significantly reduces latency, completely mitigating the risk of LLM hallucinations.
+
+		
 \end{document}
