@@ -10,7 +10,7 @@ class IntentDetector:
             "weti", "eti", "pg", "doktor", "profesor", "inżynier",
             "magister", "wykładowca", "prowadzący", "dziekan",
             "dojść", "znaleźć", "szukać", "trafić", "zaprowadzić",
-            "pokierować", "mapa", "plan"
+            "pokierować", "mapa", "plan","sala ea","sala ne"
         }
 
         self.weather_keywords = {

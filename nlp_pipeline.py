@@ -35,7 +35,7 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="gemma3:4b")
+        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat")
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
@@ -66,6 +66,9 @@ class NlpModel:
 
             if intent == "POGODA":
                 result = weather_prompt() #default gdansk
+                self._tts_module("Poczekaj sprawdzam pogodę")
+                self._tts_module("Szukam termometru")
+                self._tts_module("Własnie dokonuje pomiaru")
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
@@ -141,6 +144,9 @@ if __name__ == "__main__":
 
     Instrukcje zachowania:
     1. Odpowiadaj naturalnie i unikaj zbędnych powitań.
+    Odpowiadasz krótko naturalnie i zwięźle. Masz absolutny zakaz używania emoji, gwiazdek, znaczników markdown 
+    oraz wypunktowań — generuj wyłącznie czysty, spójny tekst mówiony.
+    Odpowiadaj tylko i wyłącznie na temat.
 
     Pytanie od użytkownika:
     {{question}}
