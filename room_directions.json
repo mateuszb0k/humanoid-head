@@ -1,0 +1,1878 @@
+{
+  "EA": {
+    "1": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 1 będzie znajdowała się po prawej stronie holu"
+    },
+    "2": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 2 będzie znajdowała się po lewej stronie holu"
+    },
+    "3": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 3 będzie znajdowała się po prawej stronie holu"
+    },
+    "4": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 4 będzie znajdowała się po lewej stronie holu"
+    },
+    "5": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 5 będzie znajdowała się po prawej stronie holu"
+    },
+    "6": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 6 będzie znajdowała się po lewej stronie holu"
+    },
+    "7": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 7 będzie znajdowała się po prawej stronie holu"
+    },
+    "8": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 8 będzie znajdowała się po lewej stronie holu"
+    },
+    "9": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 9 będzie znajdowała się po prawej stronie holu"
+    },
+    "10": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 10 będzie znajdowała się po lewej stronie holu"
+    },
+    "11": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 11 będzie znajdowała się po prawej stronie holu"
+    },
+    "12": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 12 będzie znajdowała się po lewej stronie holu"
+    },
+    "13": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 13 będzie znajdowała się po prawej stronie holu"
+    },
+    "14": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 14 będzie znajdowała się po lewej stronie holu"
+    },
+    "15": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 15 będzie znajdowała się po prawej stronie holu"
+    },
+    "16": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 16 będzie znajdowała się po lewej stronie holu"
+    },
+    "17": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 17 będzie znajdowała się po prawej stronie holu"
+    },
+    "18": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 18 będzie znajdowała się po lewej stronie holu"
+    },
+    "19": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 19 będzie znajdowała się po prawej stronie holu"
+    },
+    "20": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 20 będzie znajdowała się po lewej stronie holu"
+    },
+    "21": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 21 będzie znajdowała się po prawej stronie holu"
+    },
+    "22": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 22 będzie znajdowała się po lewej stronie holu"
+    },
+    "23": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 23 będzie znajdowała się po prawej stronie holu"
+    },
+    "24": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 24 będzie znajdowała się po lewej stronie holu"
+    },
+    "25": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 25 będzie znajdowała się po prawej stronie holu"
+    },
+    "26": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 26 będzie znajdowała się po prawej stronie holu"
+    },
+    "27": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 27 będzie znajdowała się po prawej stronie holu"
+    },
+    "28": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 28 będzie znajdowała się po prawej stronie holu"
+    },
+    "29": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 29 będzie znajdowała się po prawej stronie holu"
+    },
+    "30": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 30 będzie znajdowała się po prawej stronie holu"
+    },
+    "31": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 31 będzie znajdowała się po prawej stronie holu"
+    },
+    "32": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 32 będzie znajdowała się po prawej stronie holu"
+    },
+    "34": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 34 będzie znajdowała się po prawej stronie holu"
+    },
+    "36": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 36 będzie znajdowała się po prawej stronie holu"
+    },
+    "38": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 38 będzie znajdowała się po prawej stronie holu"
+    },
+    "55": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 55 będzie znajdowała się po lewej stronie holu"
+    },
+    "57": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 57 będzie znajdowała się po lewej stronie holu"
+    },
+    "59": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 59 będzie znajdowała się po lewej stronie holu"
+    },
+    "61": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 61 będzie znajdowała się po lewej stronie holu"
+    },
+    "63": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 63 będzie znajdowała się po lewej stronie holu"
+    },
+    "65": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 65 będzie znajdowała się po lewej stronie holu"
+    },
+    "67": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 67 będzie znajdowała się po lewej stronie holu"
+    },
+    "69": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 69 będzie znajdowała się po lewej stronie holu"
+    },
+    "99": {
+      "floor": "0",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 0 i pójdź holem w prawo, sala 99 będzie znajdowała się po prawej stronie holu"
+    },
+    "101": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 101 będzie znajdowała się po prawej stronie holu"
+    },
+    "102": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 102 będzie znajdowała się po lewej stronie holu"
+    },
+    "103": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 103 będzie znajdowała się po prawej stronie holu"
+    },
+    "104": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 104 będzie znajdowała się po lewej stronie holu"
+    },
+    "105": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 105 będzie znajdowała się po prawej stronie holu"
+    },
+    "106": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 106 będzie znajdowała się po lewej stronie holu"
+    },
+    "107": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 107 będzie znajdowała się po prawej stronie holu"
+    },
+    "108": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 108 będzie znajdowała się po lewej stronie holu"
+    },
+    "109": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 109 będzie znajdowała się po prawej stronie holu"
+    },
+    "110": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 110 będzie znajdowała się po lewej stronie holu"
+    },
+    "111": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 111 będzie znajdowała się po prawej stronie holu"
+    },
+    "112": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 112 będzie znajdowała się po lewej stronie holu"
+    },
+    "113": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 113 będzie znajdowała się po prawej stronie holu"
+    },
+    "114": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 114 będzie znajdowała się po lewej stronie holu"
+    },
+    "115": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 115 będzie znajdowała się po prawej stronie holu"
+    },
+    "116": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 116 będzie znajdowała się po lewej stronie holu"
+    },
+    "117": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 117 będzie znajdowała się po prawej stronie holu"
+    },
+    "118": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 118 będzie znajdowała się po lewej stronie holu"
+    },
+    "119": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 119 będzie znajdowała się po prawej stronie holu"
+    },
+    "120": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 120 będzie znajdowała się po lewej stronie holu"
+    },
+    "121": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 121 będzie znajdowała się po prawej stronie holu"
+    },
+    "122": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 122 będzie znajdowała się po lewej stronie holu"
+    },
+    "123": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 123 będzie znajdowała się po prawej stronie holu"
+    },
+    "124": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 124 będzie znajdowała się po lewej stronie holu"
+    },
+    "125": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 125 będzie znajdowała się po prawej stronie holu"
+    },
+    "126": {
+      "floor": "1",
+      "directions": "Udaj się na piętro 1 środkową windą lub schodami. sala 126 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "127": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 127 będzie znajdowała się po prawej stronie holu"
+    },
+    "129": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 129 będzie znajdowała się po prawej stronie holu"
+    },
+    "130": {
+      "floor": "1",
+      "directions": "Udaj się na piętro 1 środkową windą lub schodami. sala 130 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "131": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 131 będzie znajdowała się po prawej stronie holu"
+    },
+    "133": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w prawo, sala 133 będzie znajdowała się po prawej stronie holu"
+    },
+    "134": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 134 będzie znajdowała się po prawej stronie holu"
+    },
+    "136": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 136 będzie znajdowała się po prawej stronie holu"
+    },
+    "137": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 137 będzie znajdowała się po lewej stronie holu"
+    },
+    "138": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 138 będzie znajdowała się po prawej stronie holu"
+    },
+    "139": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 139 będzie znajdowała się po lewej stronie holu"
+    },
+    "140": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 140 będzie znajdowała się po prawej stronie holu"
+    },
+    "141": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 141 będzie znajdowała się po lewej stronie holu"
+    },
+    "142": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 142 będzie znajdowała się po prawej stronie holu"
+    },
+    "143": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 143 będzie znajdowała się po lewej stronie holu"
+    },
+    "144": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 144 będzie znajdowała się po prawej stronie holu"
+    },
+    "145": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 145 będzie znajdowała się po lewej stronie holu"
+    },
+    "146": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 146 będzie znajdowała się po prawej stronie holu"
+    },
+    "147": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 147 będzie znajdowała się po lewej stronie holu"
+    },
+    "148": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 148 będzie znajdowała się po prawej stronie holu"
+    },
+    "149": {
+      "floor": "1",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 149 będzie znajdowała się po lewej stronie holu"
+    },
+    "201": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 201 będzie znajdowała się po prawej stronie holu"
+    },
+    "202": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 202 będzie znajdowała się po lewej stronie holu"
+    },
+    "203": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 203 będzie znajdowała się po prawej stronie holu"
+    },
+    "204": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 204 będzie znajdowała się po lewej stronie holu"
+    },
+    "205": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 205 będzie znajdowała się po prawej stronie holu"
+    },
+    "206": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 206 będzie znajdowała się po lewej stronie holu"
+    },
+    "207": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 207 będzie znajdowała się po prawej stronie holu"
+    },
+    "208": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 208 będzie znajdowała się po lewej stronie holu"
+    },
+    "209": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 209 będzie znajdowała się po prawej stronie holu"
+    },
+    "210": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 210 będzie znajdowała się po lewej stronie holu"
+    },
+    "211": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 211 będzie znajdowała się po prawej stronie holu"
+    },
+    "212": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 212 będzie znajdowała się po lewej stronie holu"
+    },
+    "213": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 213 będzie znajdowała się po prawej stronie holu"
+    },
+    "214": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 214 będzie znajdowała się po lewej stronie holu"
+    },
+    "215": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 215 będzie znajdowała się po prawej stronie holu"
+    },
+    "216": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 216 będzie znajdowała się po lewej stronie holu"
+    },
+    "217": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 217 będzie znajdowała się po prawej stronie holu"
+    },
+    "218": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 218 będzie znajdowała się po lewej stronie holu"
+    },
+    "219": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 219 będzie znajdowała się po prawej stronie holu"
+    },
+    "220": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 220 będzie znajdowała się po lewej stronie holu"
+    },
+    "221": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 221 będzie znajdowała się po prawej stronie holu"
+    },
+    "222": {
+      "floor": "2",
+      "directions": "Udaj się na piętro 2 środkową windą lub schodami. sala 222 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "223": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 223 będzie znajdowała się po prawej stronie holu"
+    },
+    "224": {
+      "floor": "2",
+      "directions": "Udaj się na piętro 2 środkową windą lub schodami. sala 224 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "225": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 225 będzie znajdowała się po prawej stronie holu"
+    },
+    "226": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 226 będzie znajdowała się po prawej stronie holu"
+    },
+    "227": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 227 będzie znajdowała się po prawej stronie holu"
+    },
+    "228": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 228 będzie znajdowała się po prawej stronie holu"
+    },
+    "229": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 229 będzie znajdowała się po prawej stronie holu"
+    },
+    "230": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 230 będzie znajdowała się po prawej stronie holu"
+    },
+    "231": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 231 będzie znajdowała się po prawej stronie holu"
+    },
+    "232": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 232 będzie znajdowała się po prawej stronie holu"
+    },
+    "233": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 233 będzie znajdowała się po prawej stronie holu"
+    },
+    "234": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 234 będzie znajdowała się po prawej stronie holu"
+    },
+    "235": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 235 będzie znajdowała się po prawej stronie holu"
+    },
+    "236": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 236 będzie znajdowała się po prawej stronie holu"
+    },
+    "237": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 237 będzie znajdowała się po lewej stronie holu"
+    },
+    "238": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 238 będzie znajdowała się po prawej stronie holu"
+    },
+    "239": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 239 będzie znajdowała się po lewej stronie holu"
+    },
+    "240": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 240 będzie znajdowała się po prawej stronie holu"
+    },
+    "241": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 241 będzie znajdowała się po lewej stronie holu"
+    },
+    "242": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 242 będzie znajdowała się po prawej stronie holu"
+    },
+    "243": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 243 będzie znajdowała się po lewej stronie holu"
+    },
+    "245": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 245 będzie znajdowała się po lewej stronie holu"
+    },
+    "247": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 247 będzie znajdowała się po lewej stronie holu"
+    },
+    "249": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 249 będzie znajdowała się po lewej stronie holu"
+    },
+    "251": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 251 będzie znajdowała się po lewej stronie holu"
+    },
+    "253": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 253 będzie znajdowała się po lewej stronie holu"
+    },
+    "255": {
+      "floor": "2",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 255 będzie znajdowała się po lewej stronie holu"
+    },
+    "301": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 301 będzie znajdowała się po prawej stronie holu"
+    },
+    "302": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 302 będzie znajdowała się po lewej stronie holu"
+    },
+    "303": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 303 będzie znajdowała się po prawej stronie holu"
+    },
+    "304": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 304 będzie znajdowała się po lewej stronie holu"
+    },
+    "305": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 305 będzie znajdowała się po prawej stronie holu"
+    },
+    "306": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 306 będzie znajdowała się po lewej stronie holu"
+    },
+    "307": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 307 będzie znajdowała się po prawej stronie holu"
+    },
+    "308": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 308 będzie znajdowała się po lewej stronie holu"
+    },
+    "309": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 309 będzie znajdowała się po prawej stronie holu"
+    },
+    "310": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 310 będzie znajdowała się po lewej stronie holu"
+    },
+    "311": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 311 będzie znajdowała się po prawej stronie holu"
+    },
+    "312": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 312 będzie znajdowała się po lewej stronie holu"
+    },
+    "313": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 313 będzie znajdowała się po prawej stronie holu"
+    },
+    "314": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 314 będzie znajdowała się po lewej stronie holu"
+    },
+    "315": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 315 będzie znajdowała się po prawej stronie holu"
+    },
+    "316": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 316 będzie znajdowała się po lewej stronie holu"
+    },
+    "317": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 317 będzie znajdowała się po prawej stronie holu"
+    },
+    "318": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 318 będzie znajdowała się po lewej stronie holu"
+    },
+    "319": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 319 będzie znajdowała się po prawej stronie holu"
+    },
+    "320": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 320 będzie znajdowała się po lewej stronie holu"
+    },
+    "321": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 321 będzie znajdowała się po prawej stronie holu"
+    },
+    "322": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 322 będzie znajdowała się po lewej stronie holu"
+    },
+    "323": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 323 będzie znajdowała się po prawej stronie holu"
+    },
+    "324": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 324 będzie znajdowała się po lewej stronie holu"
+    },
+    "325": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 325 będzie znajdowała się po prawej stronie holu"
+    },
+    "326": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 326 będzie znajdowała się po lewej stronie holu"
+    },
+    "327": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 327 będzie znajdowała się po prawej stronie holu"
+    },
+    "328": {
+      "floor": "3",
+      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 328 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "329": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 329 będzie znajdowała się po prawej stronie holu"
+    },
+    "330": {
+      "floor": "3",
+      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 330 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "331": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 331 będzie znajdowała się po prawej stronie holu"
+    },
+    "334": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 334 będzie znajdowała się po prawej stronie holu"
+    },
+    "336": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 336 będzie znajdowała się po prawej stronie holu"
+    },
+    "338": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 338 będzie znajdowała się po prawej stronie holu"
+    },
+    "339": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 339 będzie znajdowała się po lewej stronie holu"
+    },
+    "340": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 340 będzie znajdowała się po prawej stronie holu"
+    },
+    "341": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 341 będzie znajdowała się po lewej stronie holu"
+    },
+    "342": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 342 będzie znajdowała się po prawej stronie holu"
+    },
+    "343": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 343 będzie znajdowała się po lewej stronie holu"
+    },
+    "344": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 344 będzie znajdowała się po prawej stronie holu"
+    },
+    "345": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 345 będzie znajdowała się po lewej stronie holu"
+    },
+    "346": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 346 będzie znajdowała się po prawej stronie holu"
+    },
+    "347": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 347 będzie znajdowała się po lewej stronie holu"
+    },
+    "348": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 348 będzie znajdowała się po prawej stronie holu"
+    },
+    "349": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 349 będzie znajdowała się po lewej stronie holu"
+    },
+    "350": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 350 będzie znajdowała się po prawej stronie holu"
+    },
+    "351": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 351 będzie znajdowała się po lewej stronie holu"
+    },
+    "353": {
+      "floor": "3",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 353 będzie znajdowała się po lewej stronie holu"
+    },
+    "401": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 401 będzie znajdowała się po prawej stronie holu"
+    },
+    "402": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 402 będzie znajdowała się po lewej stronie holu"
+    },
+    "403": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 403 będzie znajdowała się po prawej stronie holu"
+    },
+    "404": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 404 będzie znajdowała się po lewej stronie holu"
+    },
+    "405": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 405 będzie znajdowała się po prawej stronie holu"
+    },
+    "406": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 406 będzie znajdowała się po lewej stronie holu"
+    },
+    "407": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 407 będzie znajdowała się po prawej stronie holu"
+    },
+    "408": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 408 będzie znajdowała się po lewej stronie holu"
+    },
+    "409": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 409 będzie znajdowała się po prawej stronie holu"
+    },
+    "410": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 410 będzie znajdowała się po lewej stronie holu"
+    },
+    "411": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 411 będzie znajdowała się po prawej stronie holu"
+    },
+    "412": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 412 będzie znajdowała się po lewej stronie holu"
+    },
+    "413": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 413 będzie znajdowała się po prawej stronie holu"
+    },
+    "414": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 414 będzie znajdowała się po lewej stronie holu"
+    },
+    "415": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 415 będzie znajdowała się po prawej stronie holu"
+    },
+    "416": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 416 będzie znajdowała się po lewej stronie holu"
+    },
+    "417": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 417 będzie znajdowała się po prawej stronie holu"
+    },
+    "418": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 418 będzie znajdowała się po lewej stronie holu"
+    },
+    "419": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 419 będzie znajdowała się po prawej stronie holu"
+    },
+    "420": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 420 będzie znajdowała się po lewej stronie holu"
+    },
+    "421": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 421 będzie znajdowała się po prawej stronie holu"
+    },
+    "422": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 422 będzie znajdowała się po lewej stronie holu"
+    },
+    "423": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 423 będzie znajdowała się po prawej stronie holu"
+    },
+    "424": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 424 będzie znajdowała się po lewej stronie holu"
+    },
+    "425": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 425 będzie znajdowała się po prawej stronie holu"
+    },
+    "426": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 426 będzie znajdowała się po lewej stronie holu"
+    },
+    "427": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 427 będzie znajdowała się po prawej stronie holu"
+    },
+    "428": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 428 będzie znajdowała się po lewej stronie holu"
+    },
+    "429": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 429 będzie znajdowała się po prawej stronie holu"
+    },
+    "430": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 430 będzie znajdowała się po lewej stronie holu"
+    },
+    "431": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 431 będzie znajdowała się po prawej stronie holu"
+    },
+    "432": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 432 będzie znajdowała się po lewej stronie holu"
+    },
+    "433": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 433 będzie znajdowała się po prawej stronie holu"
+    },
+    "434": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 434 będzie znajdowała się po lewej stronie holu"
+    },
+    "436": {
+      "floor": "4",
+      "directions": "Udaj się na piętro 4 środkową windą lub schodami. sala 436 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "438": {
+      "floor": "4",
+      "directions": "Udaj się na piętro 4 środkową windą lub schodami. sala 438 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "440": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 440 będzie znajdowała się po prawej stronie holu"
+    },
+    "441": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 441 będzie znajdowała się po lewej stronie holu"
+    },
+    "442": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 442 będzie znajdowała się po prawej stronie holu"
+    },
+    "443": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 443 będzie znajdowała się po lewej stronie holu"
+    },
+    "444": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 444 będzie znajdowała się po prawej stronie holu"
+    },
+    "445": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 445 będzie znajdowała się po lewej stronie holu"
+    },
+    "446": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 446 będzie znajdowała się po prawej stronie holu"
+    },
+    "447": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 447 będzie znajdowała się po lewej stronie holu"
+    },
+    "448": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 448 będzie znajdowała się po prawej stronie holu"
+    },
+    "449": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 449 będzie znajdowała się po lewej stronie holu"
+    },
+    "450": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 450 będzie znajdowała się po prawej stronie holu"
+    },
+    "451": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 451 będzie znajdowała się po lewej stronie holu"
+    },
+    "452": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 452 będzie znajdowała się po prawej stronie holu"
+    },
+    "454": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 454 będzie znajdowała się po prawej stronie holu"
+    },
+    "456": {
+      "floor": "4",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 456 będzie znajdowała się po prawej stronie holu"
+    },
+    "501": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 501 będzie znajdowała się po prawej stronie holu"
+    },
+    "502": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 502 będzie znajdowała się po lewej stronie holu"
+    },
+    "503": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 503 będzie znajdowała się po prawej stronie holu"
+    },
+    "504": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 504 będzie znajdowała się po lewej stronie holu"
+    },
+    "505": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 505 będzie znajdowała się po prawej stronie holu"
+    },
+    "506": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 506 będzie znajdowała się po lewej stronie holu"
+    },
+    "507": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 507 będzie znajdowała się po prawej stronie holu"
+    },
+    "508": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 508 będzie znajdowała się po lewej stronie holu"
+    },
+    "509": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 509 będzie znajdowała się po prawej stronie holu"
+    },
+    "510": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 510 będzie znajdowała się po lewej stronie holu"
+    },
+    "511": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 511 będzie znajdowała się po prawej stronie holu"
+    },
+    "512": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 512 będzie znajdowała się po lewej stronie holu"
+    },
+    "513": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 513 będzie znajdowała się po prawej stronie holu"
+    },
+    "514": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 514 będzie znajdowała się po lewej stronie holu"
+    },
+    "515": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 515 będzie znajdowała się po prawej stronie holu"
+    },
+    "516": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 516 będzie znajdowała się po lewej stronie holu"
+    },
+    "517": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 517 będzie znajdowała się po prawej stronie holu"
+    },
+    "518": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 518 będzie znajdowała się po lewej stronie holu"
+    },
+    "519": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 519 będzie znajdowała się po prawej stronie holu"
+    },
+    "520": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 520 będzie znajdowała się po lewej stronie holu"
+    },
+    "521": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 521 będzie znajdowała się po prawej stronie holu"
+    },
+    "522": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 522 będzie znajdowała się po lewej stronie holu"
+    },
+    "523": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 523 będzie znajdowała się po prawej stronie holu"
+    },
+    "524": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 524 będzie znajdowała się po lewej stronie holu"
+    },
+    "525": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 525 będzie znajdowała się po prawej stronie holu"
+    },
+    "526": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 526 będzie znajdowała się po lewej stronie holu"
+    },
+    "527": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 527 będzie znajdowała się po prawej stronie holu"
+    },
+    "528": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 528 będzie znajdowała się po lewej stronie holu"
+    },
+    "529": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 529 będzie znajdowała się po prawej stronie holu"
+    },
+    "530": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 530 będzie znajdowała się po lewej stronie holu"
+    },
+    "531": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 531 będzie znajdowała się po prawej stronie holu"
+    },
+    "532": {
+      "floor": "5",
+      "directions": "Udaj się na piętro 5 środkową windą lub schodami. sala 532 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "534": {
+      "floor": "5",
+      "directions": "Udaj się na piętro 5 środkową windą lub schodami. sala 534 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "536": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 536 będzie znajdowała się po prawej stronie holu"
+    },
+    "538": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 538 będzie znajdowała się po prawej stronie holu"
+    },
+    "539": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 539 będzie znajdowała się po lewej stronie holu"
+    },
+    "540": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 540 będzie znajdowała się po prawej stronie holu"
+    },
+    "541": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 541 będzie znajdowała się po lewej stronie holu"
+    },
+    "542": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 542 będzie znajdowała się po prawej stronie holu"
+    },
+    "543": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 543 będzie znajdowała się po lewej stronie holu"
+    },
+    "544": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 544 będzie znajdowała się po prawej stronie holu"
+    },
+    "545": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 545 będzie znajdowała się po lewej stronie holu"
+    },
+    "546": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 546 będzie znajdowała się po prawej stronie holu"
+    },
+    "547": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 547 będzie znajdowała się po lewej stronie holu"
+    },
+    "548": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 548 będzie znajdowała się po prawej stronie holu"
+    },
+    "549": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 549 będzie znajdowała się po lewej stronie holu"
+    },
+    "550": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 550 będzie znajdowała się po prawej stronie holu"
+    },
+    "551": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 551 będzie znajdowała się po lewej stronie holu"
+    },
+    "552": {
+      "floor": "5",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 552 będzie znajdowała się po prawej stronie holu"
+    },
+    "600": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 600 będzie znajdowała się po lewej stronie holu"
+    },
+    "601": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 601 będzie znajdowała się po prawej stronie holu"
+    },
+    "602": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 602 będzie znajdowała się po lewej stronie holu"
+    },
+    "603": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 603 będzie znajdowała się po prawej stronie holu"
+    },
+    "604": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 604 będzie znajdowała się po lewej stronie holu"
+    },
+    "605": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 605 będzie znajdowała się po prawej stronie holu"
+    },
+    "606": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 606 będzie znajdowała się po lewej stronie holu"
+    },
+    "607": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 607 będzie znajdowała się po prawej stronie holu"
+    },
+    "608": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 608 będzie znajdowała się po lewej stronie holu"
+    },
+    "609": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 609 będzie znajdowała się po prawej stronie holu"
+    },
+    "610": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 610 będzie znajdowała się po lewej stronie holu"
+    },
+    "611": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 611 będzie znajdowała się po prawej stronie holu"
+    },
+    "612": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 612 będzie znajdowała się po lewej stronie holu"
+    },
+    "613": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 613 będzie znajdowała się po prawej stronie holu"
+    },
+    "614": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 614 będzie znajdowała się po lewej stronie holu"
+    },
+    "615": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 615 będzie znajdowała się po prawej stronie holu"
+    },
+    "616": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 616 będzie znajdowała się po lewej stronie holu"
+    },
+    "617": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 617 będzie znajdowała się po prawej stronie holu"
+    },
+    "618": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 618 będzie znajdowała się po lewej stronie holu"
+    },
+    "619": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 619 będzie znajdowała się po prawej stronie holu"
+    },
+    "620": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 620 będzie znajdowała się po lewej stronie holu"
+    },
+    "621": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 621 będzie znajdowała się po prawej stronie holu"
+    },
+    "622": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 622 będzie znajdowała się po lewej stronie holu"
+    },
+    "623": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 623 będzie znajdowała się po prawej stronie holu"
+    },
+    "624": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 624 będzie znajdowała się po lewej stronie holu"
+    },
+    "625": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 625 będzie znajdowała się po prawej stronie holu"
+    },
+    "626": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 626 będzie znajdowała się po lewej stronie holu"
+    },
+    "627": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 627 będzie znajdowała się po prawej stronie holu"
+    },
+    "628": {
+      "floor": "6",
+      "directions": "Udaj się na piętro 6 środkową windą lub schodami. sala 628 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "629": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 629 będzie znajdowała się po prawej stronie holu"
+    },
+    "630": {
+      "floor": "6",
+      "directions": "Udaj się na piętro 6 środkową windą lub schodami. sala 630 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "631": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 631 będzie znajdowała się po prawej stronie holu"
+    },
+    "632": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 632 będzie znajdowała się po prawej stronie holu"
+    },
+    "633": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 633 będzie znajdowała się po prawej stronie holu"
+    },
+    "634": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 634 będzie znajdowała się po prawej stronie holu"
+    },
+    "636": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 636 będzie znajdowała się po prawej stronie holu"
+    },
+    "638": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 638 będzie znajdowała się po prawej stronie holu"
+    },
+    "640": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 640 będzie znajdowała się po prawej stronie holu"
+    },
+    "641": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 641 będzie znajdowała się po lewej stronie holu"
+    },
+    "642": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 642 będzie znajdowała się po prawej stronie holu"
+    },
+    "643": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 643 będzie znajdowała się po lewej stronie holu"
+    },
+    "644": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 644 będzie znajdowała się po prawej stronie holu"
+    },
+    "645": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 645 będzie znajdowała się po lewej stronie holu"
+    },
+    "646": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 646 będzie znajdowała się po prawej stronie holu"
+    },
+    "647": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 647 będzie znajdowała się po lewej stronie holu"
+    },
+    "648": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 648 będzie znajdowała się po prawej stronie holu"
+    },
+    "649": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 649 będzie znajdowała się po lewej stronie holu"
+    },
+    "651": {
+      "floor": "6",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 651 będzie znajdowała się po lewej stronie holu"
+    },
+    "701": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 701 będzie znajdowała się po prawej stronie holu"
+    },
+    "702": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 702 będzie znajdowała się po lewej stronie holu"
+    },
+    "703": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 703 będzie znajdowała się po prawej stronie holu"
+    },
+    "704": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 704 będzie znajdowała się po lewej stronie holu"
+    },
+    "705": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 705 będzie znajdowała się po prawej stronie holu"
+    },
+    "706": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 706 będzie znajdowała się po lewej stronie holu"
+    },
+    "707": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 707 będzie znajdowała się po prawej stronie holu"
+    },
+    "708": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 708 będzie znajdowała się po lewej stronie holu"
+    },
+    "709": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 709 będzie znajdowała się po prawej stronie holu"
+    },
+    "710": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 710 będzie znajdowała się po lewej stronie holu"
+    },
+    "711": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 711 będzie znajdowała się po prawej stronie holu"
+    },
+    "712": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 712 będzie znajdowała się po lewej stronie holu"
+    },
+    "713": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 713 będzie znajdowała się po prawej stronie holu"
+    },
+    "714": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 714 będzie znajdowała się po lewej stronie holu"
+    },
+    "715": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 715 będzie znajdowała się po prawej stronie holu"
+    },
+    "716": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 716 będzie znajdowała się po lewej stronie holu"
+    },
+    "717": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 717 będzie znajdowała się po prawej stronie holu"
+    },
+    "718": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 718 będzie znajdowała się po lewej stronie holu"
+    },
+    "719": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 719 będzie znajdowała się po prawej stronie holu"
+    },
+    "720": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 720 będzie znajdowała się po lewej stronie holu"
+    },
+    "721": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 721 będzie znajdowała się po prawej stronie holu"
+    },
+    "722": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 722 będzie znajdowała się po lewej stronie holu"
+    },
+    "723": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 723 będzie znajdowała się po prawej stronie holu"
+    },
+    "724": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 724 będzie znajdowała się po lewej stronie holu"
+    },
+    "725": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 725 będzie znajdowała się po prawej stronie holu"
+    },
+    "726": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 726 będzie znajdowała się po lewej stronie holu"
+    },
+    "727": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 727 będzie znajdowała się po prawej stronie holu"
+    },
+    "728": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 728 będzie znajdowała się po lewej stronie holu"
+    },
+    "729": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 729 będzie znajdowała się po prawej stronie holu"
+    },
+    "730": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 730 będzie znajdowała się po lewej stronie holu"
+    },
+    "731": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 731 będzie znajdowała się po prawej stronie holu"
+    },
+    "732": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 732 będzie znajdowała się po lewej stronie holu"
+    },
+    "733": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 733 będzie znajdowała się po prawej stronie holu"
+    },
+    "734": {
+      "floor": "7",
+      "directions": "Udaj się na piętro 7 środkową windą lub schodami. sala 734 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "735": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 735 będzie znajdowała się po prawej stronie holu"
+    },
+    "736": {
+      "floor": "7",
+      "directions": "Udaj się na piętro 7 środkową windą lub schodami. sala 736 będzie się znajdować na środku holu, na przeciwko okien."
+    },
+    "738": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 738 będzie znajdowała się po prawej stronie holu"
+    },
+    "740": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 740 będzie znajdowała się po prawej stronie holu"
+    },
+    "741": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 741 będzie znajdowała się po lewej stronie holu"
+    },
+    "742": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 742 będzie znajdowała się po prawej stronie holu"
+    },
+    "743": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 743 będzie znajdowała się po lewej stronie holu"
+    },
+    "744": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 744 będzie znajdowała się po prawej stronie holu"
+    },
+    "745": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 745 będzie znajdowała się po lewej stronie holu"
+    },
+    "746": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 746 będzie znajdowała się po prawej stronie holu"
+    },
+    "747": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 747 będzie znajdowała się po lewej stronie holu"
+    },
+    "748": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 748 będzie znajdowała się po prawej stronie holu"
+    },
+    "749": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 749 będzie znajdowała się po lewej stronie holu"
+    },
+    "750": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 750 będzie znajdowała się po prawej stronie holu"
+    },
+    "751": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 751 będzie znajdowała się po lewej stronie holu"
+    },
+    "752": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 752 będzie znajdowała się po prawej stronie holu"
+    },
+    "753": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 753 będzie znajdowała się po lewej stronie holu"
+    },
+    "754": {
+      "floor": "7",
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w lewo, sala 754 będzie znajdowała się po prawej stronie holu"
+    },
+    "AUD.1": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem, pójdź na wprost, wejdź po schodkach, audytorium będzie znajdowało się po lewej stronie"
+    },
+    "AUD.2": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem, pójdź na wprost, wejdź po schodkach, audytorium będzie znajdowało się po prawej stronie"
+    },
+    "szatnia": {
+      "floor": "-1",
+      "directions": "Szatnia znajduje się na -1, wystarczy, że zejdziesz schodami lub zjedziesz windą i na środku znajdziesz szatnię, gdzie możesz powiesić swoją kurtkę"
+    }
+  },
+  "NE": {
+    "51": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem przejdź przez dwoje drzwi po lewej, następnie omiń szatnię i po prawej stronie znajdziesz bibliotekę i tam na wprost wejścia znajdziesz salę 51."
+    },
+    "104": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i sala 104 będzie znajdować się po lewej stronie."
+    },
+    "105": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i sala 105 będzie znajdować się po lewej stronie."
+    },
+    "106": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i sala 106 będzie znajdować się po lewej stronie."
+    },
+    "109": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i sala 109 będzie znajdować się po prawej stronie."
+    },
+    "110": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i sala 110 będzie znajdować się po prawej stronie."
+    },
+    "140": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 140 będzie znajdować się po lewej stronie."
+    },
+    "141": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 141 będzie znajdować się po lewej stronie."
+    },
+    "142": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 142 będzie znajdować się po lewej stronie."
+    },
+    "143": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 143 będzie znajdować się po lewej stronie."
+    },
+    "144": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 144 będzie znajdować się po lewej stronie."
+    },
+    "145": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 145 będzie znajdować się po lewej stronie."
+    },
+    "146": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 146 będzie znajdować się po lewej stronie."
+    },
+    "147": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 147 będzie znajdować się po lewej stronie."
+    },
+    "149": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 149 będzie znajdować się po prawej stronie."
+    },
+    "151": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 151 będzie znajdować się po prawej stronie."
+    },
+    "153": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 153 będzie znajdować się po prawej stronie."
+    },
+    "155": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 155 będzie znajdować się po prawej stronie."
+    },
+    "156": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 156 będzie znajdować się po prawej stronie."
+    },
+    "157": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i sala 157 będzie znajdować się po prawej stronie."
+    },
+    "159": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i skręć w prawo, sala 159 będzie znajdować się po lewej stronie."
+    },
+    "160": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 1, wejdź do holu po prawej stronie i skręć w lewo, sala 160 będzie znajdować się po prawej stronie."
+    },
+    "161": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i skręć w prawo, sala 161 będzie znajdować się po lewej stronie."
+    },
+    "162": {
+      "floor": "1",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 1, wejdź do holu po lewej stronie i skręć w lewo, sala 162 będzie znajdować się po prawej stronie."
+    },
+    "204": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 204 będzie znajdować się po lewej stronie."
+    },
+    "205": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 205 będzie znajdować się po lewej stronie."
+    },
+    "206": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 206 będzie znajdować się po lewej stronie."
+    },
+    "207": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 207 będzie znajdować się po prawej stronie."
+    },
+    "208": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 208 będzie znajdować się po prawej stronie."
+    },
+    "209": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i sala 209 będzie znajdować się po prawej stronie."
+    },
+    "215": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i skręć w lewo, sala 215 będzie znajdować się na wprost."
+    },
+    "216": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i skręć w lewo, sala 216 będzie znajdować się na wprost."
+    },
+    "217": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i skręć w lewo, sala 217 będzie znajdować się na wprost."
+    },
+    "219": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i skręć w prawo, sala 219 będzie znajdować się na wprost."
+    },
+    "220": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i skręć w prawo, sala 220 będzie znajdować się na wprost."
+    },
+    "230": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 230 będzie znajdować się po lewej stronie."
+    },
+    "231": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 231 będzie znajdować się po lewej stronie."
+    },
+    "232": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 232 będzie znajdować się po lewej stronie."
+    },
+    "233": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 233 będzie znajdować się po prawej stronie."
+    },
+    "234": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 234 będzie znajdować się po prawej stronie."
+    },
+    "235": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i sala 235 będzie znajdować się po prawej stronie."
+    },
+    "237": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i skręć w lewo, sala 237 będzie znajdować się po prawej stronie."
+    },
+    "238": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 2, wejdź do holu po prawej stronie i skręć w lewo, sala 238 będzie znajdować się po prawej stronie."
+    },
+    "239": {
+      "floor": "2",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 2, wejdź do holu po lewej stronie i skręć w prawo, sala 239 będzie znajdować się po lewej stronie."
+    },
+    "302": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 302 będzie znajdować się po lewej stronie korytarza."
+    },
+    "303": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 303 będzie znajdować się po lewej stronie korytarza."
+    },
+    "304": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 304 będzie znajdować się po lewej stronie korytarza."
+    },
+    "305": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 305 będzie znajdować się po lewej stronie korytarza."
+    },
+    "306": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 306 będzie znajdować się po lewej stronie korytarza."
+    },
+    "307": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w lewo i następnie w prawo sala 307 będzie znajdować się po lewej stronie korytarza."
+    },
+    "309": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie sala 309 będzie znajdować się na wprost."
+    },
+    "310": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w prawo i w lewo sala 310 będzie znajdować się na wprost."
+    },
+    "311": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w prawo i następnie w lewo sala 311 będzie znajdować się po prawej stronie korytarza."
+    },
+    "312": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w prawo i następnie w lewo sala 312 będzie znajdować się po prawej stronie korytarza."
+    },
+    "313": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w prawo i następnie w lewo sala 313 będzie znajdować się po prawej stronie korytarza."
+    },
+    "314": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie, skręć w prawo i następnie w lewo sala 314 będzie znajdować się po prawej stronie korytarza."
+    },
+    "323": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie i skręć w lewo, sala 323 będzie znajdować się na wprost."
+    },
+    "324": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie i skręć w lewo, sala 324 będzie znajdować się na wprost."
+    },
+    "325": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie i skręć w lewo, sala 325 będzie znajdować się na wprost."
+    },
+    "326": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie i skręć w prawo, sala 326 będzie znajdować się na wprost."
+    },
+    "327": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie i skręć w prawo, sala 327 będzie znajdować się na wprost."
+    },
+    "328": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po lewej stronie i skręć w prawo, sala 328 będzie znajdować się na wprost."
+    },
+    "330": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w lewo i następnie w prawo sala 330 będzie znajdować się po lewej stronie korytarza."
+    },
+    "332": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w lewo i następnie w prawo sala 332 będzie znajdować się po lewej stronie korytarza."
+    },
+    "334": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w lewo i następnie w prawo sala 334 będzie znajdować się po lewej stronie korytarza."
+    },
+    "335": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w lewo i następnie w prawo sala 335 będzie znajdować się po lewej stronie korytarza."
+    },
+    "336": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w prawo i następnie w lewo sala 336 będzie znajdować się po prawej stronie korytarza."
+    },
+    "338": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w prawo i następnie w lewo sala 338 będzie znajdować się po prawej stronie korytarza."
+    },
+    "339": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w prawo i następnie w lewo sala 339 będzie znajdować się po prawej stronie korytarza."
+    },
+    "342": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w prawo i następnie w lewo sala 342 będzie znajdować się po prawej stronie korytarza."
+    },
+    "343": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie, skręć w prawo i następnie w lewo sala 343 będzie znajdować się po prawej stronie korytarza."
+    },
+    "346": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie sala 346 będzie znajdować się na wprost."
+    },
+    "Aud 2": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem przejdź przez dwoje drzwi po lewej, następnie okrąż szatnię z lewej lub z prawej strony."
+    },
+    "Aud1L": {
+      "floor": "1",
+      "directions": "Wejdź do budynku głównym wejściem skieruj się na schody na wprost od prawej strony, wejdź na pierwsze piętro i sala wykładowa będzie znajdować się po prawej stronie."
+    },
+    "Aud1P": {
+      "floor": "1",
+      "directions": "Wejdź do budynku głównym wejściem skieruj się na schody na wprost od lewej strony, wejdź na pierwsze piętro i sala wykładowa będzie znajdować się po lewej stronie."
+    },
+    "Biblioteka": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem przejdź przez dwoje drzwi po lewej, następnie omiń szatnię i po prawej stronie znajdziesz bibliotekę."
+    },
+    "Stołówka": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem, pójdź na wprost lekko w lewo, tam będziesz mógł coś zjeść i się napić."
+    },
+    "Szatnia": {
+      "floor": "0",
+      "directions": "W budynku Nowego Eti znajdują się dwie szatnie, wejdź głównym wejściem przejdź przez dwoje drzwi po prawej i zobaczysz szatnię lub wejdź głównym wejściem przejdź przez dwoje drzwi po lewej i tam zobaczysz szatnię."
+    }
+  }
+}
