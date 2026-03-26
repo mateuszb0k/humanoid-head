@@ -55,7 +55,7 @@
 - [X] pad4.stl
 - [X] rampMount1.stl
 - [X] rampMount2.stl
-- [ ] rearPlate.stl
+- [X] rearPlate.stl
 - [X] skullFrame.stl
 - [X] smallMount1.stl
 - [X] smallMount2.stl
