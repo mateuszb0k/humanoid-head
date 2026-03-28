@@ -8,7 +8,7 @@
 \usepackage{xcolor}
 \usepackage{amsmath}
 \usepackage[margin=3cm]{geometry}
-\graphicspath{{images/}{img/}}
+\graphicspath{{../images/}}
 
 \lstset{
     language=Python,
@@ -456,7 +456,71 @@ The matrix reveals that the model significantly improved recognition across diff
 
 The high macro-precision of 72.64\% confirms that the model is not just biased toward the most frequent classes but maintains a high level of reliability across all seven emotional states. This makes it the most suitable candidate for deployment on the target hardware platform (Raspberry Pi), despite its higher computational requirements compared to the initial basic models.
 
-\subsection{Conclusion}
+\section{Real-Time Face Detection and Recognition System}
+To ensure the robotic head can interact dynamically with its environment, a real-time vision processing subsystem was implemented. During the development phase, two distinct architectural approaches were tested to evaluate performance, accuracy, and resource utilization: a CPU-based system utilizing HOG (Histogram of Oriented Gradients) and a GPU-accelerated system leveraging the InsightFace framework.
+
+\subsection{CPU-Based Approach (HOG)}
+The initial prototype was designed to run entirely on the CPU using the \texttt{face\_recognition} library, which relies on dlib's state-of-the-art C++ toolkit. 
+\begin{itemize}
+    \item \textbf{Detection Algorithm:} Histogram of Oriented Gradients (HOG) combined with a linear classifier.
+    \item \textbf{Implementation Details:} To maintain a functional framerate, the input video stream was downscaled by a factor of 4 (scale factor = 0.25). 
+    \item \textbf{Pros \& Cons:} While highly accessible and requiring no specialized hardware or CUDA configuration, the CPU-bound approach struggles with high-resolution frames and multiple faces, leading to significant thermal throttling and lower FPS.
+\end{itemize}
+
+\subsection{GPU-Accelerated Approach (InsightFace)}
+To overcome the computational bottlenecks, the system was migrated to a GPU-accelerated architecture using the \texttt{InsightFace} library with the ONNX Runtime (CUDA Execution Provider).
+\begin{itemize}
+    \item \textbf{Detection Algorithm:} Deep neural networks optimized for spatial detection and feature extraction.
+    \item \textbf{Implementation Details:} This script processes a designated "active zone" in the center of the frame to minimize unnecessary computation. It integrates directly with the trained Keras emotion classification model, analyzing frames at regular intervals (\texttt{EMOTION\_SKIP\_FRAMES = 3}) to balance accuracy and performance. Face data and emotional states are serialized to a JSON file for the conversation subsystem.
+    \item \textbf{Pros \& Cons:} This approach offloads heavy matrix multiplications to the GPU, allowing for processing of higher resolution frames (up to 720p) with minimal CPU overhead.
+\end{itemize}
+
+\subsection{Hardware Performance Comparison}
+Benchmarking was conducted to quantify the performance delta between the two implementations. To ensure a comprehensive evaluation, the tests were executed across different hardware configurations, comparing legacy CPU-bound methods with modern GPU acceleration.
+
+\begin{itemize}
+    \item \textbf{Setup A (Main Workstation):}
+    \begin{itemize}
+        \item CPU: Intel Core i5-10400F (2.90 GHz, 6 Cores / 12 Threads)
+        \item GPU: NVIDIA GeForce GTX 1060 (6GB GDDR5)
+    \end{itemize}
+    
+    \item \textbf{Setup B (Mobile Workstation):}
+    \begin{itemize}
+        \item CPU: 12th Gen Intel Core i5-12450H (2.00 GHz, 8 Cores / 12 Threads)
+        \item GPU: NVIDIA GeForce RTX 3050Ti (4GB GDDR6)
+    \end{itemize}
+
+    \item \textbf{Setup C (Target Platform - Raspberry Pi):}
+    \begin{itemize}
+        \item CPU: Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC
+        \item GPU: VideoCore VI (Not used for acceleration in this test)
+        \item RAM: 8GB LPDDR4
+    \end{itemize}
+\end{itemize}
+
+The results of the real-time processing performance, measured in Frames Per Second (FPS), are summarized in Table \ref{tab:fps_comparison}. The benchmarking reveals that while CPU-based HOG detection is usable for background tasks (without face presence), it is insufficient for real-time interaction.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Hardware Setup} & \textbf{HOG / dlib (CPU)} & \textbf{InsightFace (GPU)} & \textbf{No face detected*} \\
+        \hline
+        Setup A (i5-10400F / GTX 1060) & 2-3 FPS & \textbf{22-26 FPS} & 35-45 FPS \\
+        Setup B (i5-12450H / 3050Ti) & 3-4 FPS & \textbf{20-25 FPS} & 35-45 FPS \\
+        Setup C (Raspberry Pi 4) & N/A FPS & N/A & N/A FPS \\
+        \hline
+    \end{tabular}
+    \caption{Performance comparison. *FPS increases significantly when no face is present due to lower computational load on the embedding and emotion models.}
+    \label{tab:fps_comparison}
+\end{table}
+
+\subsection{Future Architecture: Event-Based Processing}
+Following the successful validation of the GPU-accelerated pipeline (Milestone 1), the system architecture will transition from continuous streaming transmission to an event-based model. This shift is designed to optimize resource usage and streamline data flow to the conversation processing unit. 
+
+Instead of analyzing every single frame continuously, face recognition and deep emotion detection will be triggered only by specific threshold events—such as a user entering the camera's field of view or a sudden, mathematically significant shift in facial landmarks. This paradigm will allow the robotic head to conserve computational power, reduce thermal load, and focus strictly on relevant interaction moments.
+\section{Conclusion}
 The development of the vision module for the robotic head successfully met its primary objectives. Through rigorous data preprocessing, including pHash deduplication, OCR artifact removal, demographic filtering, and data augmentation via Generative AI (Flux.1), we constructed a highly robust training corpus of over 120,000 images.
 
 The comparative study between custom-designed Convolutional Neural Networks and industry-standard transfer learning models (VGG, ResNet, Inception, ConvNeXt) yielded highly satisfactory results. While our custom \texttt{second\_model} achieved a highly commendable accuracy of 71.04\%, closely approaching our initial 75\% target, the integration of the ConvNeXt Tiny architecture pushed our results even further, peaking at 74.56\%.
