@@ -476,44 +476,70 @@ To overcome the computational bottlenecks, the system was migrated to a GPU-acce
 \end{itemize}
 
 \subsection{Hardware Performance Comparison}
-Benchmarking was conducted to quantify the performance delta between the two implementations. To ensure a comprehensive evaluation, the tests were executed across different hardware configurations, comparing legacy CPU-bound methods with modern GPU acceleration.
+Benchmarking was conducted to quantify the performance delta between the two implementations across various hardware configurations. The tests compare legacy CPU-bound methods (HOG) with modern GPU acceleration (InsightFace).
 
 \begin{itemize}
     \item \textbf{Setup A (Main Workstation):}
     \begin{itemize}
-        \item CPU: Intel Core i5-10400F (2.90 GHz, 6 Cores / 12 Threads)
+        \item CPU: Intel Core i5-10400F (2.90 GHz)
         \item GPU: NVIDIA GeForce GTX 1060 (6GB GDDR5)
     \end{itemize}
     
     \item \textbf{Setup B (Mobile Workstation):}
     \begin{itemize}
-        \item CPU: 12th Gen Intel Core i5-12450H (2.00 GHz, 8 Cores / 12 Threads)
+        \item CPU: 12th Gen Intel Core i5-12450H (2.00 GHz)
         \item GPU: NVIDIA GeForce RTX 3050Ti (4GB GDDR6)
     \end{itemize}
 
-    \item \textbf{Setup C (Target Platform - Raspberry Pi):}
+    \item \textbf{Setup C (High-End Mobile Workstation):}
     \begin{itemize}
-        \item CPU: Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC
-        \item GPU: VideoCore VI (Not used for acceleration in this test)
-        \item RAM: 8GB LPDDR4
+        \item CPU: Intel Core i9-13900HX (2.20 GHz)
+        \item GPU: NVIDIA GeForce RTX 4060 (8GB GDDR6)
+    \end{itemize}
+
+    \item \textbf{Setup D (Target Platform - Raspberry Pi 5):}
+    \begin{itemize}
+        \item CPU: Broadcom BCM2712 (ARM v8) @ 2.4GHz
+        \item RAM: 8GB LPDDR4X
     \end{itemize}
 \end{itemize}
 
-The results of the real-time processing performance, measured in Frames Per Second (FPS), are summarized in Table \ref{tab:fps_comparison}. The benchmarking reveals that while CPU-based HOG detection is usable for background tasks (without face presence), it is insufficient for real-time interaction.
+\subsubsection{CPU-Based Performance (HOG)}
+The following table summarizes the performance of the HOG-based detection algorithm. FPS values increase significantly when no face is present due to the bypass of embedding and emotion classification models.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|c|c|c|}
+    \begin{tabular}{|l|c|c|}
         \hline
-        \textbf{Hardware Setup} & \textbf{HOG / dlib (CPU)} & \textbf{InsightFace (GPU)} & \textbf{No face detected*} \\
+        \textbf{Hardware Setup} & \textbf{Face Detected} & \textbf{No Face Detected} \\
         \hline
-        Setup A (i5-10400F / GTX 1060) & 2-3 FPS & \textbf{22-26 FPS} & 35-45 FPS \\
-        Setup B (i5-12450H / 3050Ti) & 3-4 FPS & \textbf{20-25 FPS} & 35-45 FPS \\
-        Setup C (Raspberry Pi 4) & N/A FPS & N/A & N/A FPS \\
+        Setup A (GTX 1060 / i5-10400F) & 2-3 FPS & 40-50 FPS \\
+        Setup B (RTX 3050Ti / i5-12450H) & 3-4 FPS & 50-60 FPS \\
+        Setup C (RTX 4060 / i9-13900HX) & 4 FPS & 90 FPS \\
+        Setup D (Raspberry Pi 5) & N/A & N/A \\
         \hline
     \end{tabular}
-    \caption{Performance comparison. *FPS increases significantly when no face is present due to lower computational load on the embedding and emotion models.}
-    \label{tab:fps_comparison}
+    \caption{Performance results for CPU-based HOG detection.}
+    \label{tab:fps_hog}
+\end{table}
+
+\subsubsection{GPU-Accelerated Performance (InsightFace)}
+The GPU-based approach offloads heavy matrix multiplications, enabling higher efficiency.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Hardware Setup} & \textbf{Face Detected} & \textbf{No Face Detected} \\
+        \hline
+        Setup A (GTX 1060 / i5-10400F) & 22-26 FPS & 35-45 FPS \\
+        Setup B (RTX 3050Ti / i5-12450H) & 20-25 FPS & 35-45 FPS \\
+        Setup C (RTX 4060 / i9-13900HX) & 30-35 FPS & 65-70 FPS \\
+        Setup D (Raspberry Pi 5) & N/A & N/A \\
+        \hline
+    \end{tabular}
+    \caption{Performance results for GPU-accelerated InsightFace detection.}
+    \label{tab:fps_insightface}
 \end{table}
 
 \subsection{Future Architecture: Event-Based Processing}
