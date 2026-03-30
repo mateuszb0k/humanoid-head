@@ -58,9 +58,7 @@ class NlpModel:
         """
         TEXT INPUT -> LLM -> TEXT OUTPUT
         """
-        print("Ładowanie modelu GLiNER (Encje)...")
         gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
-        print("Gotowe! Możesz zacząć pisać.")
         
         while True:
             question = input("\nTwoje pytanie (lub 'q' aby wyjść): ")
@@ -108,12 +106,6 @@ class NlpModel:
                                 room = teacher_data['room']
                                 building = teacher_data['building']
                                 room_directions = get_room_directions(f"{building},{room}")
-                                
-                                # FIX: teacher error
-                                if room_directions.find("Błąd ") != -1:
-                                    room_directions = "ale niestety nie mam w bazie instrukcji, jak tam dojść."
-                                else:
-                                    room_directions = f"aby dojść do {building}{room} {room_directions}"
                                     
                                 result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room}, {room_directions}"
                             else:
@@ -121,9 +113,6 @@ class NlpModel:
                         else:
                             result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                     
-                    # FIX: UnboundLocalError
-                    else:
-                        result = "Wykryłem obiekt, ale nie jest to ani sala, ani nazwisko."
                 else:
                     result = "Jeśli chodzi o Politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
             
