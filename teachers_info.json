@@ -1,0 +1,2312 @@
+{
+    "Michał Kopczyński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Michał Czubenko": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "638",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Marta Nowicka": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tomasz Stefański": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "336",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Katarzyna Dorosz": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "547",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Jakub Wszołek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "205",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Marek Grzegorek": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "210",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Michał Wróblewski": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Krzysztof Oliński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "453",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tomasz Nowak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tymoteusz Byrwa": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Mariusz Domżalski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "205",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tymoteusz Skrzyński": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Piotr Dalka": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "726",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Janusz Kozłowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tomasz Białaszewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "205",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Tomasz Talaśka": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "336",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Robert Jaworski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "540",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Sebastian Dziedziewicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "205",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Marek Tatara": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "453",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Aleksander Mroziński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Jan Glinko": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "314",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Jakub Kłopotek Główczewski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "207",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Krzysztof Topolski": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Barbara Klaudel": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Michał Kolada": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Decyzyjnych i Robotyki"
+    },
+    "Michał Małafiejski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "224",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Andrzej Jastrzębski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "238",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Dariusz Dereniowski": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "251",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Paweł Żyliński": {
+        "title": "dr hab.",
+        "building": "EA",
+        "room": "224",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Robert Janczewski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "224",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Krzysztof Pastuszak": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "226",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Joanna Raczek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "247",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Tomasz Goluch": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "253",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Katarzyna Wasińska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "249",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Piotr Mironowicz": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "253",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Tytus Pikies": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "209",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Krzysztof Giaro": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "236",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Krzysztof Manuszewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "226",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Robert Ostrowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "209",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Michał Szyfelbein": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Paweł Obszarski": {
+        "title": "dr",
+        "building": "EA",
+        "room": "238",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Jan Wojtkiewicz": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "247",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Marcin Jurkiewicz": {
+        "title": "dr",
+        "building": "EA",
+        "room": "226",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Robert Okuła": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Algorytmów i Modelowania Systemów"
+    },
+    "Radosław Targoński": {
+        "title": "dr hab. lek.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jerzy Proficz": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "344",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Szymon Olewniczak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "530",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Michał Wójcik": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "523",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Dominik Lau": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "524",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Marcin Serowiec": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "501",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Mariusz Matuszek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "523",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Anna Domagalska": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "531",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Paweł Kozyra": {
+        "title": "dr",
+        "building": "EA",
+        "room": "521",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Robert Benke": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "522",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Tomasz Dziubich": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "524",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Adam Brzeski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "521",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Joanna Szłapczyńska": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "522",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Tomasz Boiński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "530",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Andrzej Sobecki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "516",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Robert Kałaska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "530",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Henryk Krawczyk": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "520",
+        "department": "Centrum Informatyczne TASK"
+    },
+    "Jan Dobrosolski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "518",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Grzegorz Koszczał": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "523",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jerzy Szyjut": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "524",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jakub Stachowicz": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "520",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jan Cychnerski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "521",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Karol Draszawka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "521",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Kamil Dobies": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "520",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Hubert Malinowski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "524",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Julian Szymański": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "516",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Mateusz Gierszewski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Marcin Pucek": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "520",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Agnieszka Królicka-Gałązka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "528",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Konrad Zawora": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "514",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Paweł Czarnul": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "526",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Hammed Mojeed": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "514",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Natalia Zielińska": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Michał Kościowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "518",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jan Majkutewicz": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "516",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Krystyna Dziubich": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "524",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Piotr Sieński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Stanisław Barański": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "518",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Jarosław Kuchta": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "531",
+        "department": "Katedra Architektury Systemów Komputerowych"
+    },
+    "Antoni Górecki": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "207",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Artur Poliński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "316",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Natalia Kowalczyk": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "106",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Konrad Mrozowski": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "22",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Andrzej Galikowski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "109",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Monika Kowalska-Dykier": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "229",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Michał Boczoń": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "22",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Anna Węsierska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "106",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Paweł Słomiński": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "22",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Dmytro Tkachenko": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "22",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Grzegorz Jasiński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "235",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Renata Bańka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "207",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Ignacy Rogoń": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "216",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Adam Bujnowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "105",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Tomasz Neumann": {
+        "title": "dr",
+        "building": "EA",
+        "room": "105",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Artur Adamczyk": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "109",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Muhammad Usman": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "316",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Magdalena Mazur-Milecka": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "106",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Marek Dudek": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Marcin Gruszecki": {
+        "title": "dr hab.",
+        "building": "EA",
+        "room": "216",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Jacek Rumiński": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "227",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Magdalena Madej": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "109",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Tomasz Kocejko": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "216",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Milena Sobotka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "207",
+        "department": "Katedra Inżynierii Biomedycznej"
+    },
+    "Mariusz Kaczmarek": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "231",
+        "department": "Prorektor ds. Kształcenia"
+    },
+    "Sylwia Wielechowska": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "712",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Mateusz Derc": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Grzegorz Fotyga": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "724",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Jakub Łęcki": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Marcin Cieślik": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Aleksander Krupa": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "701",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Rafał Lech": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "722",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Patryk Kalkowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "701",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Ewa Knapińska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Rafał Baranowski": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Anna Majewska": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "302",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Adam Lamęcki": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "708",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Krzysztof Nyka": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "704",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Ali Farahbakhsh": {
+        "title": "dr",
+        "building": "EA",
+        "room": "710",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Łukasz Szczygielski": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "306",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Hubert Lewandowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Włodzimierz Zieniutycz": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "720",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Przemysław Kwapisiewicz": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "701",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Mateusz Czeleń": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Małgorzata Warecka": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "724",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Kamil Trzebiatowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "900",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Piotr Sypek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "720",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Piotr Kowalczyk": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "722",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Michał Baranowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "725",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Robert Piotrowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "701",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Dariusz Juwa": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Kamil Domański": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "703",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Luiza Leszkowska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "900",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Michał Rewieński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "718",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Łukasz Kulas": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "704",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Mateusz Rzymowski": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "304",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Benedykt Sikorski": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "900",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Tristan Wójciak": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "305",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Jakub Brzozowski": {
+        "title": "Brak",
+        "building": "NE",
+        "room": "305",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Małgorzata Łukaszewicz": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "302",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Tobiasz Dryjański": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Davood Zarifi": {
+        "title": "dr",
+        "building": "EA",
+        "room": "710",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Michał Mrozowski": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "706",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Maciej Kupiszewski": {
+        "title": "lic.",
+        "building": "EA",
+        "room": "702",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Damian Duraj": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "702",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Mateusz Groth": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "304",
+        "department": "Katedra Inżynierii Mikrofalowej i Antenowej"
+    },
+    "Michał Zawadzki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "608",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Elżbieta Zamiar": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "647",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Adam Przybyłek": {
+        "title": "dr",
+        "building": "EA",
+        "room": "631",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Maciej Kucharski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "631",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Patryk Żukowski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "624",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Paweł Weichbroth": {
+        "title": "dr",
+        "building": "EA",
+        "room": "623",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Krzysztof Goczyła": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "629",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Rafał Dobrosielski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "648",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Janina Cholewińska": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "627",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Marcin Kwiatkowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "649",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Wojciech Waloszek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "608",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Aleksander Jarzębowicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "648",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Dariusz Kobiela": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "623",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Jakub Miler": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "648",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Aleksandra Karpus": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "646",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Grzegorz Gołaszewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "647",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Michał Wróbel": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "649",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Katarzyna Łukasiewicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Michał Sieczczyński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "623",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Małgorzata Pykała": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "646",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Natalia Tyszka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Teresa Zawadzka": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "608",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Agnieszka Landowska": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "622",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Andrzej Wardziński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "318",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Janusz Czaja": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "624",
+        "department": "Katedra Inżynierii Oprogramowania"
+    },
+    "Robert Trzosowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "70",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Maciej Lica": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "88",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Adam Kaczmarek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "422",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Adam Sobociński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "405",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Mariusz Szwoch": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "420",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Bogdan Wiszniewski": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "423",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Piotr Sokołowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Zdzisław Kowalczuk": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "549",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Patryk Ciurak": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Jacek Lebiedź": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "420",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Dawid Łydka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Wojciech Jędruch": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "549",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Jerzy Redlarski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "405",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Michał Barański": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "70",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Jerzy Dembski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "422",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Ivan Vakulko": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "70",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Wioleta Szwoch": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "424",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Magdalena Kwaśniewska": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "421",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Janusz Przewocki": {
+        "title": "dr inż.",
+        "building": "NE",
+        "room": "314",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Mikołaj Nadzieja": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Agata Kołakowska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "424",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Grzegorz Wierczyński": {
+        "title": "dr hab.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Magdalena Godlewska": {
+        "title": "dr",
+        "building": "EA",
+        "room": "405",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Jan Daciuk": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "423",
+        "department": "Katedra Inteligentnych Systemów Interaktywnych"
+    },
+    "Michał Kowalewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "448",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Katarzyna Drozdowska-Czubek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "255",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Sylwia Babicz-Kiewlicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "449",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Zbigniew Czaja": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "230",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Barbara Stawarz-Graczyk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "449",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Stanisław Galla": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "446",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Dariusz Palmowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Grzegorz Lentka": {
+        "title": "dr hab. inż.",
+        "building": "NE",
+        "room": "143",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Arkadiusz Szewczyk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "446",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Janusz Smulko": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "445",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Agnieszka Tracz-Sagajdakow": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "447",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Andrzej Kwiatkowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "448",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Michał Rycewicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "342",
+        "department": "Katedra Metrologii i Systemów Elektronicznych"
+    },
+    "Sylwia Pawłowska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "124",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Szymon Potrykus": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Mohammad Taghi Tourchi Moghadam": {
+        "title": "dr",
+        "building": "NE",
+        "room": "313",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Bartłomiej Lemieszek": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Bartosz Kamecki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "900",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Piotr Jasiński": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "103",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Piotr Kościński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "128",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Paweł Kalinowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "811",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Aleksandra Tober": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Milena Marycz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "101",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Karolina Cysewska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Tomasz Roman": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "811",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Md Shoriful Islam": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Katarzyna Ostrowska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Rishika Chakraborty": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Sebastian Molin": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "235",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Ye Zar Ni Htwe": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Maciej Haras": {
+        "title": "dr inż.",
+        "building": "NE",
+        "room": "313",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Zaeem Ur Rehman": {
+        "title": "dr -",
+        "building": "EA",
+        "room": "811",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Patryk Błaszczak": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "209",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Justyna Ignaczak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "233",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Carsten Schwandt": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Joanna Wysocka": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Joanna Baum": {
+        "title": "dr",
+        "building": "EA",
+        "room": "128",
+        "department": "Katedra Inżynierii Materiałów Funkcjonalnych"
+    },
+    "Joanna Rydzewska-Pieczonka": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "747",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Piotr Grall": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "636",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Marcin Ciołek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "546",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Michał Dolot": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Piotr Kaczmarek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "544",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Maciej Niedźwiecki": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "548",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Tomasz Sidorko": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Krzysztof Liedtke": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Stefan Szulc": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Zawisza Ostrowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Aleksander Żmuda-Trzebiatowski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "552",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Hubert Boratyński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Dorota Toboła": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Lech Kilian": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "752",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Krzysztof Dudziak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "546",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Damian Kąkol": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Mariusz Rudnicki": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Kamil Stawiarski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "550",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Jacek Marszal": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "750",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Henryk Lasota": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "748",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Roman Salamon": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "750",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Paweł Raczyński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "542",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Krzysztof Cisowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "542",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Aleksander Schmidt": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "752",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Iwona Kochańska": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "749",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Piotr Darski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Jan Schmidt": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "753",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Artur Gańcza": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "546",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Marcin Pazio": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "550",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Piotr Fiertek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "544",
+        "department": "Katedra Sygnałów i Systemów"
+    },
+    "Anna Bikonis": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "744",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Zbigniew Łubniewski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "746",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Michał Kassjański": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "329",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Tomasz Idzi": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "329",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Marcin Ciecholewski": {
+        "title": "dr hab.",
+        "building": "EA",
+        "room": "451",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Emilia Lubecka": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "329",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Karol Białkowski": {
+        "title": "lic.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Marcin Kulawiak": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "644",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Marek Moszyński": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "742",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Krzysztof Bikonis": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "610",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Tomasz Berezowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "738",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Tomasz Bieliński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "738",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Marek Kulawiak": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "645",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Jerzy Demkowicz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "610",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Przemysław Falkowski-Gilski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "329",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Andrzej Chybicki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "738",
+        "department": "Katedra Systemów Geoinformatycznych"
+    },
+    "Tibor Cinkler": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "149",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Jerzy Konorski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "139",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Michał Pióro": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "149",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Krzysztof Karwaczyński": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "146",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Krzysztof Nowicki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "143",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Jakub Grochowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "141",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Artur Tomaszewski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "149",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Jan Kornacki": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "140",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Krzysztof Gierłowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "140",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Jacek Rak": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "144",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Teresa Pluta": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "147",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Michał Hoeft": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "145",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Wojciech Gumiński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "145",
+        "department": "Katedra Teleinformatyki"
+    },
+    "Jacek Jakusz": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "305",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Grzegorz Blakiewicz": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "305",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Aleksandra Zaborowska": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "302",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Anna Pietrenko-Dąbrowska": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "311",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Bogdan Pankiewicz": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "307",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Piotr Kurgan": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "304",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Miron Kłosowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "309",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Jamal Nasir": {
+        "title": "dr",
+        "building": "EA",
+        "room": "511",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Tomasz Nowosad": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "306",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Stanisław Szczepański": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "303",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Piotr Płotka": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "301",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Łukasz Gołuński": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "304",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Maciej Kokot": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "331",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Wiesław Kordalski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "331",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Waldemar Jendernalik": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "309",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Marek Wójcikowski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "303",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Sławomir Kozieł": {
+        "title": "prof. dr inż.",
+        "building": "EA",
+        "room": "311",
+        "department": "Katedra Systemów Mikroelektronicznych"
+    },
+    "Karolina Marciniuk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Piotr Szczuko": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "729",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Olga Szmit": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "733",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Szymon Zaporowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Luis Sarmiento Rivera": {
+        "title": "dr",
+        "building": "EA",
+        "room": "628",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Mariusz Mróz": {
+        "title": "prof. dr hab.",
+        "building": "EA",
+        "room": "730",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Arkadiusz Harasimiuk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "732",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Józef Kotus": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "729",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Maciej Jankowski": {
+        "title": "dr",
+        "building": "EA",
+        "room": "201",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Piotr Odya": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "730",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Paweł Spaleniak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "809",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Daniel Wiśniewski": {
+        "title": "Brak",
+        "building": "EA",
+        "room": "727",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Bartłomiej Mróz": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "726",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Adam Kurowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "726",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Grzegorz Szwoch": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "732",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Marta Zielonka": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "734",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Maciej Szczodrak": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "729",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Jesus Garcia Salinas": {
+        "title": "dr",
+        "building": "EA",
+        "room": "628",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Daniel Cieślak": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Michał Kucewicz": {
+        "title": "dr hab.",
+        "building": "EA",
+        "room": "642",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Daniel Węsierski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "640",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Sebastian Cygert": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "640",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Wanda Ludwikowska": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "726",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Andrzej Czyżewski": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "733",
+        "department": "Katedra Systemów Multimedialnych"
+    },
+    "Sławomir Gajewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "434",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Alicja Olejniczak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "402",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Jarosław Sadowski": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "430",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Krzysztof Kowalewski": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "403",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Sebastian Górski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "402",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Krzysztof Cwalina": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "404",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Andrzej Marczak": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "412",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Olga Błaszkiewicz": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "402",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Małgorzata Gajewska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "434",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Sławomir Ambroziak": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "406",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Jarosław Magiera": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "403",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Joanna Hering-Kobyłecka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "429",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Agnieszka Czapiewska": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "126",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Piotr Rajchowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "404",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Wojciech Siwicki": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "406",
+        "department": "Katedra Systemów i Sieci Radiokomunikacyjnych"
+    },
+    "Bartosz Czaplewski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "604",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Sylwester Kaczmarek": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "606",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Adrian Bekasiewicz": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "600",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Marcin Narloch": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "603",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Agnieszka Kondratowicz": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "602",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Magdalena Młynarczuk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "603",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Mariusz Dzwonkowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "604",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Maciej Sac": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "603",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Wojciech Borkowski": {
+        "title": "mgr",
+        "building": "EA",
+        "room": "601",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Remigiusz Martyniak": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "601",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Jacek Litka": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "601",
+        "department": "Katedra Sieci Teleinformacyjnych"
+    },
+    "Maciej Wróbel": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "346",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Franciszek Skiba": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Marcin Strąkowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "355",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Iwona Kaczmarzyk-Knitter": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Katarzyna Karpienko": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "355",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Marek Sienkiewicz": {
+        "title": "inż.",
+        "building": "EA",
+        "room": "332",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Jerzy Pluciński": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "355",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Mateusz Ficek": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "346",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Adam Mazikowski": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "344",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Sourav Sain": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Krzysztof Pyrchla": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "355",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Michał Sobaszek": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "232",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Paweł Jakóbczyk": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "342",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Bartłomiej Dec": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "232",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Adrian Olejnik": {
+        "title": "dr inż.",
+        "building": "EA",
+        "room": "353",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Marcin Gnyba": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "255",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Paweł Wierzba": {
+        "title": "dr hab. inż.",
+        "building": "EA",
+        "room": "344",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Filip Janiak": {
+        "title": "dr",
+        "building": "EA",
+        "room": "351",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Patryk Sokołowski": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "355",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Robert Bogdanowicz": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "353",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Małgorzata Szczerska": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "351",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Tomasz Chludziński": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "444",
+        "department": "Katedra Optoelektroniki"
+    },
+    "Mattia Pierpaoli": {
+        "title": "dr",
+        "building": "EA",
+        "room": "Brak",
+        "department": "Katedra Optoelektroniki"
+    }
+}

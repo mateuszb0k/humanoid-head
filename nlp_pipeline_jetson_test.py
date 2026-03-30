@@ -11,7 +11,6 @@ from gliner import GLiNER
 import re
 from utils.find_teacher import get_teacher_room
 from utils.find_room import get_room_directions
-import time
 GLINER_LABELS  = [
     "room code",
     "person"
@@ -36,7 +35,7 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat",temperature = 0.4)
+        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat")
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
@@ -58,17 +57,20 @@ class NlpModel:
         gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         while True:
             # STT phase
-            question = self._stt_module()
+            # question = self._stt_module()
+            question = input("Text: ")
             print("Analyzing...")
+            print(question)
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
             print(question)
 
             if intent == "POGODA":
-                self._tts_module("Poczekaj sprawdzam pogodę")
                 result = weather_prompt() #default gdansk
-                time.sleep(1)
+                self._tts_module("Poczekaj sprawdzam pogodę")
+                self._tts_module("Szukam termometru")
+                self._tts_module("Własnie dokonuje pomiaru")
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
@@ -106,7 +108,8 @@ class NlpModel:
                 result = self.chain.invoke({"question": question})
 
             # TTS phase
-            self._tts_module(result)
+            # self._tts_module(result)
+            print(result)
 
     def _stt_module(self):
         """

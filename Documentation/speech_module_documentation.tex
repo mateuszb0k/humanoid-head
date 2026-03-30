@@ -35,15 +35,15 @@
 	\tableofcontents
 	\newpage
 	
-\section{Project Overview and Purpose}
-The main goal of the speech module, developed as part of the "humanoid-head" project, is to enable the robot to conduct natural and meaningful conversations with humans. Our team's task is to ensure that the machine not only reacts to rigid commands but can also respond fluently and logically to questions, mimicking a real conversation.
-
-The assistant was designed with the students of the Gdańsk University of Technology in mind. Its practical applications within this interaction include:
-\begin{itemize}
-	\item Providing precise navigation directions, making it easier to reach specific rooms in university buildings (such as EA or NE).
-	\item Providing up-to-date information about weather conditions.
-	\item Engaging in casual conversations on general topics, using artificial intelligence to generate natural-sounding responses.
-\end{itemize}
+	\section{Project Overview and Purpose}
+	The main goal of the speech module, developed as part of the "humanoid-head" project, is to enable the robot to conduct natural and meaningful conversations with humans. Our team's task is to ensure that the machine not only reacts to rigid commands but can also respond fluently and logically to questions, mimicking a real conversation.
+	
+	The assistant was designed with the students of the Gdańsk University of Technology in mind. Its practical applications within this interaction include:
+	\begin{itemize}
+		\item Providing precise navigation directions, making it easier to reach specific rooms in university buildings (such as EA or NE).
+		\item Providing up-to-date information about weather conditions.
+		\item Engaging in casual conversations on general topics, using artificial intelligence to generate natural-sounding responses.
+	\end{itemize}
 	
 	\section{System Architecture}
 	The system is designed as a continuous loop that runs until it is stopped manually. It uses a pipeline structure with three main steps:
@@ -59,97 +59,97 @@ The assistant was designed with the students of the Gdańsk University of Techno
 	
 	\section{Environment and Dependencies}
 	
-\subsection{Required Libraries}
-The project relies on a variety of Python libraries for audio processing, web scraping, system integration, and data manipulation. The key dependencies are described below:
-
-\begin{itemize}
-	\item \textbf{BeautifulSoup4} (\texttt{beautifulsoup4}): Used for parsing HTML documents. It is utilized to scrape information and extract staff details from the university's websites.
-	\item \textbf{LangChain} (\texttt{langchain-core}, \texttt{langchain-ollama}): Manages the integration with local Large Language Models via Ollama and formats chat prompt templates.
-	\item \textbf{PyAudio} (\texttt{pyaudio}): Provides Python bindings for PortAudio, essential for capturing live audio streams from the microphone.
-	\item \textbf{Python Weather} (\texttt{python-weather}): An asynchronous library used to fetch current weather data and conditions.
-	\item \textbf{pyttsx3} (\texttt{pyttsx3}): An offline Text-to-Speech (TTS) conversion library that allows the assistant to vocalize its responses to the user.
-	\item \textbf{RapidFuzz} (\texttt{rapidfuzz}): A fast string matching library used for fuzzy search. It helps in matching spoken teacher names against the database, accommodating slight mispronunciations or transcription errors.
-	\item \textbf{Requests} (\texttt{requests}): An HTTP library utilized to send requests to external university web pages for data scraping purposes.
-	\item \textbf{SpeechRecognition} (\texttt{speechrecognition}): A wrapper library that facilitates capturing microphone input, detecting speech, and automatically adjusting for ambient noise levels.
-\end{itemize}
-
-\subsection{AI Models}
-The system implements the following artificial intelligence models and their associated frameworks to process user input, recognize entities, and generate appropriate responses:
-
-\begin{itemize}
-	\item \textbf{Whisper ("small")}: A Speech-to-Text (STT) model developed by OpenAI (managed via the \texttt{openai-whisper} library), used to transcribe the audio captured from the user's microphone into text.
-	\item \textbf{Gemma 3 (\texttt{gemma3:4b})}: A Large Language Model (LLM) served via Ollama. It is responsible for generating conversational responses for general queries when no specific predefined intent is detected.
-	\item \textbf{GLiNER (\texttt{urchade/gliner\_multi-v2.1})}: A Named Entity Recognition (NER) model (implemented via the \texttt{gliner} library) utilized to extract specific information from the transcribed text. It identifies entities such as room codes and person names (using \texttt{room code} and \texttt{person} labels) to assist in university navigation queries.
-	\item \textbf{spaCy (\texttt{pl\_core\_news\_sm})}: A pre-trained Polish language model operating within the \texttt{spacy} NLP library. It performs word lemmatization and tokenization to quickly and accurately match user queries against predefined intent keywords.
-\end{itemize}
+	\subsection{Required Libraries}
+	The project relies on a variety of Python libraries for audio processing, web scraping, system integration, and data manipulation. The key dependencies are described below:
 	
-	
-\section{Core Modules Implementation}
-
-\subsection{NLP Pipeline}
-The Natural Language Processing (NLP) pipeline acts as the central coordinator of the humanoid head's interaction system. Implemented primarily within the \texttt{NlpModel} class, it manages the continuous loop of listening, understanding, and responding to the user. The pipeline is composed of three main stages:
-
-\begin{enumerate}
-	\item \textbf{Speech-to-Text (STT):} The pipeline continuously captures ambient audio via the microphone using the \texttt{SpeechRecognition} library, automatically adjusting for background noise. Once speech is detected, the audio is processed by the Whisper STT model to generate an accurate text transcription.
-	\item \textbf{Intent Routing \& Processing:} The transcribed text is immediately forwarded to the Intent Detection module. This module classifies the user's query into specific operational branches:
 	\begin{itemize}
-		\item If a \textbf{Weather Intent} is detected, the system bypasses the LLM and directly queries the weather integration module to retrieve the current conditions.
-		\item If a \textbf{PG (Politechnika Gdańska) Intent} is detected, the text is preprocessed and analyzed by the GLiNER model to extract entities such as room codes or personnel names, which are then passed to the university database modules.
-		\item If \textbf{No Specific Intent} (General) is detected, the transcribed text is fed into the locally hosted Large Language Model (Gemma 3) via LangChain to generate a natural, conversational response.
+		\item \textbf{BeautifulSoup4} (\texttt{beautifulsoup4}): Used for parsing HTML documents. It is utilized to scrape information and extract staff details from the university's websites.
+		\item \textbf{LangChain} (\texttt{langchain-core}, \texttt{langchain-ollama}): Manages the integration with local Large Language Models via Ollama and formats chat prompt templates.
+		\item \textbf{PyAudio} (\texttt{pyaudio}): Provides Python bindings for PortAudio, essential for capturing live audio streams from the microphone.
+		\item \textbf{Python Weather} (\texttt{python-weather}): An asynchronous library used to fetch current weather data and conditions.
+		\item \textbf{pyttsx3} (\texttt{pyttsx3}): An offline Text-to-Speech (TTS) conversion library that allows the assistant to vocalize its responses to the user.
+		\item \textbf{RapidFuzz} (\texttt{rapidfuzz}): A fast string matching library used for fuzzy search. It helps in matching spoken teacher names against the database, accommodating slight mispronunciations or transcription errors.
+		\item \textbf{Requests} (\texttt{requests}): An HTTP library utilized to send requests to external university web pages for data scraping purposes.
+		\item \textbf{SpeechRecognition} (\texttt{speechrecognition}): A wrapper library that facilitates capturing microphone input, detecting speech, and automatically adjusting for ambient noise levels.
 	\end{itemize}
-	\item \textbf{Text-to-Speech (TTS):} Regardless of which branch processes the query, the resulting answer is sent to the TTS module (\texttt{pyttsx3}) to be synthesized into audible speech, completing the interaction cycle.
-\end{enumerate}
-
-To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig:nlp_pipeline} presents the architectural diagram of the pipeline.
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[
-		scale=0.85, transform shape,
-		node distance=1.4cm and 0.8cm, 
-		box/.style={rectangle, draw=black, thick, fill=blue!5, text width=3.0cm, align=center, minimum height=1.3cm, rounded corners, font=\small},
-		decision/.style={diamond, draw=black, thick, fill=green!5, text width=2.2cm, align=center, inner sep=0pt, aspect=1.3, font=\small},
-		arrow/.style={thick, ->, >=stealth},
-		looparrow/.style={thick, ->, >=stealth, color=gray!80, dashed}
-		]
-		
-		\node[box, fill=gray!10] (voice) {Voice Input};
-		\node[box, below=of voice] (stt) {STT Module\\(Whisper)};
-		\node[decision, below=of stt, yshift=-0.3cm] (intent) {Intent\\Detection};
-		
-		\node[box, below=of intent, yshift=-0.8cm] (llm) {LLM\\(Gemma 3)};
-		
-		\node[box, left=of llm] (weather) {Weather\\Integration};
-		\node[box, right=of llm] (pg) {PG Navigation\\\& Staff Info};
-		
-		\node[box, below=of llm, yshift=-0.2cm] (tts) {TTS Module\\(pyttsx3)};
-		\node[box, fill=gray!10, below=of tts] (audio) {Audio Output};
-		
-		\draw[arrow] (voice) -- (stt);
-		\draw[arrow] (stt) -- (intent) node[midway, right, text width=2.2cm, align=left, font=\footnotesize] {Transcribed\\Text};
-		\draw[arrow] (intent) -- (llm) node[midway, right, font=\footnotesize] {General Intent};
-		\draw[arrow] (llm) -- (tts);
-		\draw[arrow] (tts) -- (audio);
-		
-		\draw[arrow] (intent.west) -| (weather.north) node[near start, above, font=\footnotesize, align=center] {Weather\\Intent};
-		\draw[arrow] (intent.east) -| (pg.north) node[near start, above, font=\footnotesize, align=center] {PG\\Intent};
-		
-		\draw[arrow] (weather.south) |- (tts.west);
-		\draw[arrow] (pg.south) |- (tts.east);
-		
-		\coordinate (Lbottom) at ($(audio.south) + (0,-0.8cm)$);
-		\coordinate (Lleft) at ($(weather.west) + (-1.0cm,0)$);
-		
-		\draw[looparrow] (audio.south) -- (Lbottom) -- (Lbottom -| Lleft)
-		node[midway, below, align=center, font=\footnotesize] {Continuous\\Listening\\Cycle} -- (Lleft |- voice.west) -- (voice.west);
-		
-		\path ($(pg.east) + (1.0cm,0)$);
-		
-	\end{tikzpicture}
-	\caption{NLP Pipeline Data Flow.}
-	\label{fig:nlp_pipeline}
-\end{figure}
-
+	
+	\subsection{AI Models}
+	The system implements the following artificial intelligence models and their associated frameworks to process user input, recognize entities, and generate appropriate responses:
+	
+	\begin{itemize}
+		\item \textbf{Whisper ("small")}: A Speech-to-Text (STT) model developed by OpenAI (managed via the \texttt{openai-whisper} library), used to transcribe the audio captured from the user's microphone into text.
+		\item \textbf{Gemma 3 (\texttt{gemma3:4b})}: A Large Language Model (LLM) served via Ollama. It is responsible for generating conversational responses for general queries when no specific predefined intent is detected.
+		\item \textbf{GLiNER (\texttt{urchade/gliner\_multi-v2.1})}: A Named Entity Recognition (NER) model (implemented via the \texttt{gliner} library) utilized to extract specific information from the transcribed text. It identifies entities such as room codes and person names (using \texttt{room code} and \texttt{person} labels) to assist in university navigation queries.
+		\item \textbf{spaCy (\texttt{pl\_core\_news\_sm})}: A pre-trained Polish language model operating within the \texttt{spacy} NLP library. It performs word lemmatization and tokenization to quickly and accurately match user queries against predefined intent keywords.
+	\end{itemize}
+	
+	
+	\section{Core Modules Implementation}
+	
+	\subsection{NLP Pipeline}
+	The Natural Language Processing (NLP) pipeline acts as the central coordinator of the humanoid head's interaction system. Implemented primarily within the \texttt{NlpModel} class, it manages the continuous loop of listening, understanding, and responding to the user. The pipeline is composed of three main stages:
+	
+	\begin{enumerate}
+		\item \textbf{Speech-to-Text (STT):} The pipeline continuously captures ambient audio via the microphone using the \texttt{SpeechRecognition} library, automatically adjusting for background noise. Once speech is detected, the audio is processed by the Whisper STT model to generate an accurate text transcription.
+		\item \textbf{Intent Routing \& Processing:} The transcribed text is immediately forwarded to the Intent Detection module. This module classifies the user's query into specific operational branches:
+		\begin{itemize}
+			\item If a \textbf{Weather Intent} is detected, the system bypasses the LLM and directly queries the weather integration module to retrieve the current conditions.
+			\item If a \textbf{PG (Politechnika Gdańska) Intent} is detected, the text is preprocessed and analyzed by the GLiNER model to extract entities such as room codes or personnel names, which are then passed to the university database modules.
+			\item If \textbf{No Specific Intent} (General) is detected, the transcribed text is fed into the locally hosted Large Language Model (Gemma 3) via LangChain to generate a natural, conversational response.
+		\end{itemize}
+		\item \textbf{Text-to-Speech (TTS):} Regardless of which branch processes the query, the resulting answer is sent to the TTS module (\texttt{pyttsx3}) to be synthesized into audible speech, completing the interaction cycle.
+	\end{enumerate}
+	
+	To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig:nlp_pipeline} presents the architectural diagram of the pipeline.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			scale=0.85, transform shape,
+			node distance=1.4cm and 0.8cm, 
+			box/.style={rectangle, draw=black, thick, fill=blue!5, text width=3.0cm, align=center, minimum height=1.3cm, rounded corners, font=\small},
+			decision/.style={diamond, draw=black, thick, fill=green!5, text width=2.2cm, align=center, inner sep=0pt, aspect=1.3, font=\small},
+			arrow/.style={thick, ->, >=stealth},
+			looparrow/.style={thick, ->, >=stealth, color=gray!80, dashed}
+			]
+			
+			\node[box, fill=gray!10] (voice) {Voice Input};
+			\node[box, below=of voice] (stt) {STT Module\\(Whisper)};
+			\node[decision, below=of stt, yshift=-0.3cm] (intent) {Intent\\Detection};
+			
+			\node[box, below=of intent, yshift=-0.8cm] (llm) {LLM\\(Gemma 3)};
+			
+			\node[box, left=of llm] (weather) {Weather\\Integration};
+			\node[box, right=of llm] (pg) {PG Navigation\\\& Staff Info};
+			
+			\node[box, below=of llm, yshift=-0.2cm] (tts) {TTS Module\\(pyttsx3)};
+			\node[box, fill=gray!10, below=of tts] (audio) {Audio Output};
+			
+			\draw[arrow] (voice) -- (stt);
+			\draw[arrow] (stt) -- (intent) node[midway, right, text width=2.2cm, align=left, font=\footnotesize] {Transcribed\\Text};
+			\draw[arrow] (intent) -- (llm) node[midway, right, font=\footnotesize] {General Intent};
+			\draw[arrow] (llm) -- (tts);
+			\draw[arrow] (tts) -- (audio);
+			
+			\draw[arrow] (intent.west) -| (weather.north) node[near start, above, font=\footnotesize, align=center] {Weather\\Intent};
+			\draw[arrow] (intent.east) -| (pg.north) node[near start, above, font=\footnotesize, align=center] {PG\\Intent};
+			
+			\draw[arrow] (weather.south) |- (tts.west);
+			\draw[arrow] (pg.south) |- (tts.east);
+			
+			\coordinate (Lbottom) at ($(audio.south) + (0,-0.8cm)$);
+			\coordinate (Lleft) at ($(weather.west) + (-1.0cm,0)$);
+			
+			\draw[looparrow] (audio.south) -- (Lbottom) -- (Lbottom -| Lleft)
+			node[midway, below, align=center, font=\footnotesize] {Continuous\\Listening\\Cycle} -- (Lleft |- voice.west) -- (voice.west);
+			
+			\path ($(pg.east) + (1.0cm,0)$);
+			
+		\end{tikzpicture}
+		\caption{NLP Pipeline Data Flow.}
+		\label{fig:nlp_pipeline}
+	\end{figure}
+	
 	\subsection{Intent Detection}
 	The intent detection module is responsible for classifying the user's transcribed speech into one of the predefined categories, which determines how the query is routed within the NLP pipeline. This logic is encapsulated within the \texttt{IntentDetector} class.
 	
@@ -176,17 +176,17 @@ To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig
 	\subsection{Weather Integration}
 	\subsection{Rooms Database and Navigation}
 	To provide reliable and precise navigation without relying on the unpredictable nature of Large Language Models (which are prone to hallucinations), the system utilizes a deterministic database of room locations. 
-
+	
 	The navigation system is built upon three main components:
 	\begin{itemize}
 		\item \textbf{\texttt{create\_rooms\_database.py}:} A Python script responsible for generating the navigation rules. The architectural layouts of the university buildings (EA and NE buildings) were thoroughly analyzed using the official interactive map (\url{https://campus.pg.edu.pl/}). Based on this spatial data, custom algorithms were devised to group rooms into logical clusters. The script generates custom, natural-language directions in Polish (e.g., "Pojedź windą lub pójdź schodami na piętro 3...").
 		\item \textbf{\texttt{room\_directions.json}:} The output file generated by the aforementioned script. It serves as a static, lightweight JSON database mapping building codes and room numbers to their respective floors and exact walking directions.
 		\item \textbf{\texttt{find\_room.py}:} A search algorithm designed to assist the Large Language Model. When the pipeline extracts a specific room code from the user's speech, this script queries the JSON database and retrieves the exact navigational string. This data is then injected into the system to ground the assistant's response in factual, data.
 	\end{itemize}
-
+	
 	\subsection{Staff Information}
 	Similarly to the spatial navigation module, the assistant is equipped to provide information regarding the university's faculty members, including their academic titles, affiliated departments, and exact office locations.
-
+	
 	The staff database and retrieval logic are managed by the following components:
 	\begin{itemize}
 		\item \textbf{\texttt{teachers\_info.py}:} A web scraping script designed to systematically extract faculty data from the official Gdańsk University of Technology department websites. It parses HTML documents to capture names, titles, and room numbers. However, due to inconsistencies in how information is formatted across different profile pages, the automated scraping was not entirely sufficient. Consequently, a manual verification phase was mandatory to review and correct the scraped data, ensuring the highest accuracy of the database.
@@ -195,19 +195,22 @@ To better illustrate the data flow within the \texttt{NlpModel}, Figure \ref{fig
 	\end{itemize}
 	
 	\section{Prompt Engineering}
-	\subsection {System prompt}
+\subsection{System Prompt}
+The system prompt establishes the assistant as a helpful guide for students of the Gdańsk University of Technology. 
+
+If the intent module detects a general conversational intent rather than a specific command, the system uses this prompt to guide the Large Language Model. The user's transcribed query is simply injected into the \texttt{\{question\}} placeholder, allowing the AI to generate a natural, contextual response.
 	\subsection{Deterministic Retrieval and Tool Calling}
 	During the initial development phases, the implementation of a Retrieval-Augmented Generation (RAG) architecture was considered. Ultimately, the RAG approach was abandoned in favor of a deterministic "Tool Calling" architecture. 
-
+	
 	When the system detects a specific, university-related intent, it bypasses the LLM's generative capabilities. Instead, the text is processed by the \textbf{GLiNER} model (for Named Entity Recognition) to extract key parameters, which then triggers dedicated Python scripts to fetch hardcoded, verified data. The two primary retrieval tools used in this process are:
-
+	
 	\begin{itemize}
 		\item \textbf{\texttt{find\_room.py} (Exact Match Retrieval):} This script is executed when the GLiNER model extracts a \texttt{room code} entity. It takes a formatted input string, splits it into building and room components using a comma delimiter, and performs a strict exact-match search within the \texttt{room\_directions.json} database. If a match is found, it directly returns the precise, step-by-step navigation instructions.
 		
 		\item \textbf{\texttt{find\_teacher.py} (Fuzzy Match Retrieval):} This script is invoked when a \texttt{person} entity is detected by GLiNER. Because Speech-to-Text models often mistranscribe proper nouns and surnames, an exact match approach would frequently fail. To solve this, the script utilizes the \texttt{rapidfuzz} library to calculate a string similarity score against the \texttt{teachers\_info.json} database. If the match score meets or exceeds the defined threshold of 50\%, the system assumes a successful identification and retrieves the professor's assigned office location.
 	\end{itemize}
-
+	
 	By employing these retrieval scripts as external tools, the system guarantees factual accuracy in its navigational responses and significantly reduces latency, completely mitigating the risk of LLM hallucinations.
-
-		
+	
+	
 \end{document}
