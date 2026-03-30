@@ -1,7 +1,7 @@
 import numpy as np
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-# import whisper  <-- Zakomentowane dla testów tekstowych (oszczędność RAM)
+# import whisper  <-- ZAKOMENTOWANE NA CZAS TESTÓW TEKSTOWYCH (Oszczędność RAM!)
 # import speech_recognition as sr
 # import pyttsx3
 from utils.weather import weather_prompt
@@ -11,6 +11,7 @@ from gliner import GLiNER
 import re
 from utils.find_teacher import get_teacher_room
 from utils.find_room import get_room_directions
+import time
 
 GLINER_LABELS  = [
     "room code",
@@ -36,12 +37,12 @@ class NlpModel:
     This class manages the voice assistant model. (TEXT TEST MODE)
     """
     def __init__(self, template = None):
-        # STT i MIC wyłączone na czas testów terminalowych, by nie obciążać RAM-u!
+        # STT i MIC wyłączone na czas testów terminalowych
         # self.model_stt = whisper.load_model("small")
         # self.recognizer = sr.Recognizer()
         # self.mic = sr.Microphone()
         
-        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat")
+        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat", temperature=0.4)
         self.intent_detector = IntentDetector()
 
         # Setting prompt for LLM
@@ -62,26 +63,27 @@ class NlpModel:
         print("Gotowe! Możesz zacząć pisać.")
         
         while True:
-            # Wprowadzanie tekstu w terminalu zamiast _stt_module()
             question = input("\nTwoje pytanie (lub 'q' aby wyjść): ")
             
-            if question.lower() in ['q', 'quit', 'exit', 'wyjdź']:
+            if question.lower() in ['q', 'quit', 'exit']:
                 print("Zamykanie programu...")
                 break
                 
-            print("Analizowanie intencji...")
+            print("Analizowanie...")
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
             print(f"[Wykryta intencja]: {intent}")
 
             if intent == "POGODA":
+                print("Poczekaj sprawdzam pogodę...")
                 result = weather_prompt() #default gdansk
+                time.sleep(1)
             
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) 
+                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
                 
                 label_text = {}
                 for entity in entities:
@@ -107,9 +109,9 @@ class NlpModel:
                                 building = teacher_data['building']
                                 room_directions = get_room_directions(f"{building},{room}")
                                 
-                                # NAPRAWIONY BŁĄD TRASY DLA WYKŁADOWCY
+                                # FIX: teacher error
                                 if room_directions.find("Błąd ") != -1:
-                                    room_directions = "ale nie mam w bazie instrukcji, jak tam dojść."
+                                    room_directions = "ale niestety nie mam w bazie instrukcji, jak tam dojść."
                                 else:
                                     room_directions = f"aby dojść do {building}{room} {room_directions}"
                                     
@@ -119,20 +121,25 @@ class NlpModel:
                         else:
                             result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                     
-                    # NAPRAWIONY BŁĄD BRAKU ZMIENNEJ (UnboundLocalError)
+                    # FIX: UnboundLocalError
                     else:
                         result = "Wykryłem obiekt, ale nie jest to ani sala, ani nazwisko."
                 else:
-                    result = "Jeśli chodzi o Politechnikę Gdańską, jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
+                    result = "Jeśli chodzi o Politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
             
             else:
                 # LLM phase
-                print("Generowanie odpowiedzi przez LLM (Ollama)...")
+                print("Generowanie odpowiedzi przez Ollamę...")
                 result = self.chain.invoke({"question": question})
 
-            # Wypisywanie wyniku w terminalu zamiast TTS
-            print(f"\n[ASYSTENT]: {result}\n")
+            print(f"\n[ASYSTENT]: {result}")
             print("-" * 50)
+
+    def _stt_module(self):
+        pass
+
+    def _tts_module(self, text):
+        pass
 
 
 if __name__ == "__main__":
@@ -140,6 +147,9 @@ if __name__ == "__main__":
 
     Instrukcje zachowania:
     1. Odpowiadaj naturalnie i unikaj zbędnych powitań.
+    Odpowiadasz krótko naturalnie i zwięźle. Masz absolutny zakaz używania emoji, gwiazdek, znaczników markdown 
+    oraz wypunktowań — generuj wyłącznie czysty, spójny tekst mówiony.
+    Odpowiadaj tylko i wyłącznie na temat.
 
     Pytanie od użytkownika:
     {{question}}
