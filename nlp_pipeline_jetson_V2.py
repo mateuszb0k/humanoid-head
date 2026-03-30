@@ -1,9 +1,9 @@
 import numpy as np
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-import whisper
-import speech_recognition as sr
-import pyttsx3
+# import whisper  <-- Zakomentowane dla testów tekstowych (oszczędność RAM)
+# import speech_recognition as sr
+# import pyttsx3
 from utils.weather import weather_prompt
 import json
 from utils.intent_module import IntentDetector
@@ -11,10 +11,12 @@ from gliner import GLiNER
 import re
 from utils.find_teacher import get_teacher_room
 from utils.find_room import get_room_directions
+
 GLINER_LABELS  = [
     "room code",
     "person"
 ]
+
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
@@ -24,20 +26,22 @@ def preprocess_stt(text: str) -> str:
     text  = re.sub(r'\b[nN](\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE](\d+)',r'ea\1',text)
     return text
+
 def split_building_numer(text:str) ->str:
     text = re.sub(r'(?i)\b(ne|ea)(\d+)',r'\1,\2',text)
     return text
+
 class NlpModel:
     """
-    This class manages the voice assistant model. It integrates speech recognition (Whisper),
-    LLM (gemma3:4b) and speech synthesis (pyttsx3)
+    This class manages the voice assistant model. (TEXT TEST MODE)
     """
     def __init__(self, template = None):
-        # The models may change in the future
-        self.model_stt = whisper.load_model("small")
+        # STT i MIC wyłączone na czas testów terminalowych, by nie obciążać RAM-u!
+        # self.model_stt = whisper.load_model("small")
+        # self.recognizer = sr.Recognizer()
+        # self.mic = sr.Microphone()
+        
         self.model_llm = OllamaLLM(model="gemma3:4b-it-qat")
-        self.recognizer = sr.Recognizer()
-        self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
 
         # Setting prompt for LLM
@@ -51,28 +55,38 @@ class NlpModel:
 
     def start(self):
         """
-        STT -> LLM -> TTS
-        The process runs indefinetely unless it is interrupted.
+        TEXT INPUT -> LLM -> TEXT OUTPUT
         """
+        print("Ładowanie modelu GLiNER (Encje)...")
         gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
+        print("Gotowe! Możesz zacząć pisać.")
+        
         while True:
-            # STT phase
-            question = self._stt_module()
-            print("Analyzing...")
+            # Wprowadzanie tekstu w terminalu zamiast _stt_module()
+            question = input("\nTwoje pytanie (lub 'q' aby wyjść): ")
+            
+            if question.lower() in ['q', 'quit', 'exit', 'wyjdź']:
+                print("Zamykanie programu...")
+                break
+                
+            print("Analizowanie intencji...")
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
-            print(question)
+            print(f"[Wykryta intencja]: {intent}")
 
             if intent == "POGODA":
                 result = weather_prompt() #default gdansk
+            
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
+                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) 
+                
                 label_text = {}
                 for entity in entities:
                     label_text[entity['label']] = entity['text']
+                
                 if entities:
                     if 'room code' in label_text:
                         room = label_text['room code'].upper()
@@ -83,6 +97,7 @@ class NlpModel:
                             result = directions.replace("Błąd ","")
                         else:
                             result = f"Aby dojść do pokoju {room} {directions}"
+                    
                     elif 'person' in label_text:
                         person = label_text['person']
                         teacher_data = get_teacher_room(person)
@@ -91,49 +106,33 @@ class NlpModel:
                                 room = teacher_data['room']
                                 building = teacher_data['building']
                                 room_directions = get_room_directions(f"{building},{room}")
-                                result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}"
+                                
+                                # NAPRAWIONY BŁĄD TRASY DLA WYKŁADOWCY
+                                if room_directions.find("Błąd ") != -1:
+                                    room_directions = "ale nie mam w bazie instrukcji, jak tam dojść."
+                                else:
+                                    room_directions = f"aby dojść do {building}{room} {room_directions}"
+                                    
+                                result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room}, {room_directions}"
                             else:
-                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju "
+                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
                         else:
-                            result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
+                            result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
+                    
+                    # NAPRAWIONY BŁĄD BRAKU ZMIENNEJ (UnboundLocalError)
+                    else:
+                        result = "Wykryłem obiekt, ale nie jest to ani sala, ani nazwisko."
                 else:
-                    result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
+                    result = "Jeśli chodzi o Politechnikę Gdańską, jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
+            
             else:
                 # LLM phase
+                print("Generowanie odpowiedzi przez LLM (Ollama)...")
                 result = self.chain.invoke({"question": question})
 
-            # TTS phase
-            self._tts_module(result)
-
-    def _stt_module(self):
-        """
-        Converts input speech into text. This function runs indefinetely unless speech is detected.
-        """
-        with self.mic as source:
-            self.recognizer.adjust_for_ambient_noise(source)
-            # STT phase
-            while True: # The loop continues until the sound is recorded
-                print("Listening...")
-                audio = self.recognizer.listen(source, phrase_time_limit=3)
-                raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
-                raw_data = np.frombuffer(raw_data, dtype=np.int16)
-                audio_np = raw_data.astype(np.float32) / 32768.0
-                result = self.model_stt.transcribe(audio_np, fp16=False)
-                speech = result["text"].strip()
-                if speech:
-                    return speech
-
-
-    def _tts_module(self, text):
-        """
-        Converts generated text into synthesized speech.
-        """
-        model_tts = pyttsx3.init()
-        model_tts.say(text)
-        model_tts.runAndWait()
-        model_tts.stop()
-        del model_tts
-
+            # Wypisywanie wyniku w terminalu zamiast TTS
+            print(f"\n[ASYSTENT]: {result}\n")
+            print("-" * 50)
 
 
 if __name__ == "__main__":
