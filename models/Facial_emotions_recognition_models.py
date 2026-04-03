@@ -10,7 +10,7 @@ from tensorflow.keras.regularizers import l2
 from sklearn.utils.class_weight import compute_class_weight
 from tensorboard.plugins.hparams import api as hp
 from pathlib import Path
-from tfboard import get_confusion_matrix, plot_confusion_matrix
+from models.tfboard import get_confusion_matrix, plot_confusion_matrix
 import json
 
 # disable logging output from TensorFLow
