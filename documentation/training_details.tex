@@ -6,9 +6,10 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{xcolor}
+\usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage[margin=3cm]{geometry}
-\graphicspath{{images/}{img/}}
+\graphicspath{{../images/}{img/}}
 
 \lstset{
     language=Python,
@@ -286,6 +287,132 @@ The learning curves (Fig. \ref{fig:resnet101_history}) demonstrate a highly effe
 \end{figure}
 
 The optimized ResNet101 achieved an outstanding final accuracy of \textbf{77.28\%} and a macro-precision of \textbf{76.00\%}, establishing it as the absolute top-performing model in the entire study. The confusion matrix (Fig. \ref{fig:resnet101_cm}) reveals robust classification across the board. While inherent dataset challenges remain (such as distinguishing between \textit{sad} and \textit{neutral}), the extra depth of ResNet101 allowed for more nuanced feature extraction, comfortably exceeding the project's baseline target of 75\%.
+\subsection{ConvNextV2 - compare}
+We also compared the ConvNeXt V2 model variants: Atto (3.7M parameters), Pico (9.1M parameters), Tiny (28.6M parameters), Base (89M parameters), and Huge (660M parameters). The evaluations were conducted on an NVIDIA RTX 6000 Ada Generation GPU with 48GB of VRAM. The input images were provided in RGB format at a resolution of 224x224 pixels.
+\subsubsection{Architecture adn configuration}
+\begin{itemize}
+    \item \textbf{GlobalAveragePooling2D} and \textbf{LayerNormalization}.
+    \item \textbf{Dropout (0.4):} Set to 0.4 to counteract the risk of overfitting associated with a significantly deeper network.
+    \item \textbf{Dense Layers:} 256 neurons (GELU) and 7 neurons (Softmax).
+\end{itemize}
+\subsubsection{Pre-training}
+Class weights were calculated for the dataset to mitigate the issue of an uneven number of images for individual emotions. During this phase, the entire base architecture of the ConvNeXt model was frozen, and only the newly added classification layers were trained. The learning rate was set to a constant value of 1e-3.
+\subsubsection{Fine-tuning}
+In this phase, the base model was unfrozen; however, to preserve the previously learned low-level image features, its initial layers ("stem", "patch", and the first two convolutional blocks) were refrozen. Only the deeper layers of the base model and the classifier were subjected to training. A variable learning rate was applied using the Cosine Decay with Restarts schedule (with an initial value of 1e-5).
+\subsubsection{Results}
+\begin{itemize}
+    \item \textbf{ConvNeXtV2 Huge:} Macro Precision: 0.6236, Validation Accuracy: $\approx$0.656
+    \item \textbf{ConvNeXtV2 Base:} Macro Precision: 0.5969, Validation Accuracy: $\approx$0.630
+    \item \textbf{ConvNeXtV2 Tiny:} Macro Precision: 0.5635, Validation Accuracy: $\approx$0.597
+    \item \textbf{ConvNeXtV2 Atto:} Macro Precision: 0.4841, Validation Accuracy: $\approx$0.517
+    \item \textbf{ConvNeXtV2 Pico:} Macro Precision: 0.4197, Validation Accuracy: $\approx$0.405
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{TinyV2_CM.png}
+    \caption{Confusion matrix for the optimized ConvNextV2 Tiny model, showing the highest overall performance.}
+    \label{fig:tinyv2_cm}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{TinyV2_Loss.png}
+    \caption{Training and validation metrics for the ConvNextV2 Tiny second run.}
+    \label{fig:tinyv2_loss}
+\end{figure}
+
+\section{ConvNeXtV2 - Custom Dataset}
+We decided to compare the ConvNeXt V1 and V2 architectures. We chose five model sizes for this evaluation: Atto (3.7M parameters), Pico (9.1M parameters), Tiny (28.6M parameters), Base (89M parameters), and Huge (660M parameters).
+
+\subsubsection{New Dataset} 
+For this training, we compiled a custom dataset. It includes:
+\begin{itemize}
+    \item 10,000 images generated with FLUX using prompts based on the scientific definition of each emotion.
+    \item 10,000 generated images that do not conform to these scientific definitions (e.g., featuring slightly turned faces). 
+    \item 59,000 pictures of real humans sourced from the ExpW dataset and Viktor Modroczký's dataset (found on Kaggle; please refer to the technical documentation for details).
+\end{itemize} 
+
+We decided to create a new dataset using generated images to improve model accuracy. Upon inspecting the original dataset, we discovered it contained numerous low-quality images (e.g., poorly visible or obscured faces).
+
+\subsubsection{Architecture and Configuration}
+\begin{itemize}
+    \item Augmentation includes Random Flip, 15\% rotation, 15\% zoom-in, translations, as well as brightness and contrast adjustments.
+    \item We normalized the pixel values to [-1, 1], which is necessary for ConvNeXtV2 models.
+    \item ConvNeXtV2 models were initialized with ImageNet weights (for the Atto and Pico variants) and ImageNet-21k-ft1k weights (for the Tiny, Base, and Huge variants).
+    \item Model Architecture:
+    \begin{itemize}
+        \item GlobalAveragePooling2D
+        \item BatchNormalization
+        \item Dense (512 neurons): With GELU activation function.
+        \item Dropout (0.4)
+        \item Dense (256 neurons): With GELU activation function.
+        \item Dropout (0.2)
+        \item Output Layer (Dense): 7 neurons with Softmax activation function for emotion classification.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Pre-training}
+In the first phase, we focus on training the newly added classification layers, while the previously trained base layers remain frozen.
+\begin{itemize}
+    \item All base layers frozen.
+    \item Epochs: 10
+    \item Learning Rate: Training begins with a 2-epoch warmup, after which the learning rate reaches a maximum value of 0.001, and then gradually decreases following a cosine decay schedule.
+    \item Loss Function: Categorical Crossentropy.
+    \item Class balancing was applied to compensate for the uneven number of samples across individual emotions.
+\end{itemize}
+
+\subsubsection{Fine-tuning}
+Fine-tuning consists of two phases where we progressively unfreeze specific layers.
+
+\paragraph{Phase 1: Partial Fine-Tuning}
+\begin{itemize}
+    \item The last two deepest sections of the base model, responsible for analyzing high-level semantic image features, were unfrozen. The initial layers remained frozen.
+    \item Epochs: 10
+    \item The base Learning Rate was reduced to 0.00003 (3e-5).
+\end{itemize}
+
+\paragraph{Phase 2: Full Fine-Tuning}
+\begin{itemize}
+    \item All four main sections of the base model were unfrozen.
+    \item The "stem" and "patch" layers were kept frozen, as they are responsible for basic shape and edge detection.
+    \item Epochs: 15
+    \item A low base Learning Rate of 0.00001 (1e-5) was applied.
+\end{itemize}
+
+\subsubsection{Results}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Atto_history.png}
+        \caption{Atto - Training History}
+        \label{fig:atto_hist}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Atto_cm.png}
+        \caption{Atto - Confusion Matrix}
+        \label{fig:atto_cm}
+    \end{subfigure}
+    \vspace{1em}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Pico_history.png}
+        \caption{Pico - Training History}
+        \label{fig:pico_hist}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Pico_cm.png}
+        \caption{Pico - Confusion Matrix}
+        \label{fig:pico_cm}
+    \end{subfigure}
+    
+    \caption{Comparison of training histories and confusion matrices for the ConvNeXtV2 Atto and Pico models.}
+    \label{fig:atto_pico_grid}
+\end{figure}
 
 \section{Final Comparison and Benchmarking}
 The following table provides a comprehensive summary of the performance metrics achieved by all evaluated architectures. The models are ranked by their validation accuracy. This comparison highlights the transition from custom baseline models to state-of-the-art architectures using advanced fine-tuning techniques on the unified 121,133 image dataset.
@@ -306,9 +433,14 @@ The following table provides a comprehensive summary of the performance metrics 
         ResNet50 (Initial Training Run) & 67.89\% & 66.21\% \\
         third\_model (Custom) & 67.81\% & 66.42\% \\
         ResNet101 (Initial Training Run) & 67.45\% & 65.88\% \\
+        ConvNeXtV2 Huge & 65.60\% & 62.36\% \\
         Xception (with Class Balancing) & 64.92\% & 63.81\% \\
         InceptionV3 (with Class Balancing) & 63.74\% & 62.19\% \\
+        ConvNeXtV2 Base & 63.00\% & 59.69\% \\
+        ConvNeXtV2 Tiny & 59.70\% & 56.35\% \\
         first\_model (Custom) & 56.17\% & 54.03\% \\
+        ConvNeXtV2 Atto & 51.70\% & 48.41\% \\
+        ConvNeXtV2 Pico & 40.50\% & 41.97\% \\
         \hline
     \end{tabular}
     \caption{Final comparison of model performance metrics on the unified RGB dataset.}
