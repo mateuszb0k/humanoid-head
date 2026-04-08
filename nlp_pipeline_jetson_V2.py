@@ -1,9 +1,9 @@
 import numpy as np
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-# import whisper  <-- ZAKOMENTOWANE NA CZAS TESTÓW TEKSTOWYCH (Oszczędność RAM!)
-# import speech_recognition as sr
-# import pyttsx3
+import whisper
+import speech_recognition as sr
+import pyttsx3
 from utils.weather import weather_prompt
 import json
 from utils.intent_module import IntentDetector
@@ -11,124 +11,228 @@ from gliner import GLiNER
 import re
 from utils.find_teacher import get_teacher_room
 from utils.find_room import get_room_directions
-import time
+import psutil
+import os
 
-GLINER_LABELS  = [
-    "room code",
-    "person"
-]
+GLINER_LABELS = ["room code", "person"]
+
+# ─────────────────────────────────────────────
+# RAM MONITORING HELPERS
+# ─────────────────────────────────────────────
+
+def _ram_mb() -> float:
+    """Zwraca aktualnie używany RAM przez ten proces w MB."""
+    process = psutil.Process(os.getpid())
+    return process.memory_info().rss / 1024 / 1024
+
+def _tegrastats_ram_mb() -> tuple[float, float]:
+    """
+    Próbuje odczytać RAM z /proc/meminfo (całkowity system).
+    Zwraca (used_MB, total_MB).
+    Działa na Jetsonie i zwykłym Linuksie.
+    """
+    try:
+        with open("/proc/meminfo") as f:
+            info = {}
+            for line in f:
+                key, val = line.split(":")[0], line.split(":")[1].strip().split()[0]
+                info[key] = int(val)
+        total = info["MemTotal"] / 1024
+        available = info["MemAvailable"] / 1024
+        used = total - available
+        return used, total
+    except Exception:
+        return 0.0, 0.0
+
+class RamMonitor:
+    """
+    Śledzi zużycie RAM per komponent.
+    Użycie:
+        mon = RamMonitor()
+        mon.checkpoint("przed_whisper")
+        model = whisper.load_model(...)
+        mon.checkpoint("po_whisper")
+        mon.report()
+    """
+    def __init__(self):
+        self.snapshots: list[dict] = []
+
+    def checkpoint(self, label: str):
+        proc_mb = _ram_mb()
+        sys_used, sys_total = _tegrastats_ram_mb()
+        self.snapshots.append({
+            "label": label,
+            "proc_mb": proc_mb,
+            "sys_used_mb": sys_used,
+            "sys_total_mb": sys_total,
+        })
+        print(f"[RAM] {label:30s} | proces: {proc_mb:7.1f} MB | system: {sys_used:7.1f} / {sys_total:.0f} MB")
+
+    def report(self):
+        print("\n" + "═" * 70)
+        print(f"{'Komponent':<25} {'Δ proces MB':>12} {'Δ system MB':>12} {'proces MB':>12}")
+        print("═" * 70)
+
+        pairs = [
+            ("Python baseline",  "baseline",       "po_python"),
+            ("Whisper STT",      "po_python",      "po_whisper"),
+            ("LLM (Bielik)",     "po_whisper",     "po_llm"),
+            ("GLiNER NER",       "po_llm",         "po_gliner"),
+            ("IntentDetector",   "po_gliner",      "po_intent"),
+        ]
+
+        snap = {s["label"]: s for s in self.snapshots}
+
+        for name, before_label, after_label in pairs:
+            if before_label in snap and after_label in snap:
+                b = snap[before_label]
+                a = snap[after_label]
+                delta_proc = a["proc_mb"] - b["proc_mb"]
+                delta_sys  = a["sys_used_mb"] - b["sys_used_mb"]
+                print(f"  {name:<23} {delta_proc:>+11.1f} {delta_sys:>+11.1f} {a['proc_mb']:>11.1f}")
+
+        if self.snapshots:
+            last = self.snapshots[-1]
+            first = self.snapshots[0]
+            print("─" * 70)
+            print(f"  {'RAZEM (od startu)':<23} "
+                  f"{last['proc_mb'] - first['proc_mb']:>+11.1f} "
+                  f"{last['sys_used_mb'] - first['sys_used_mb']:>+11.1f} "
+                  f"{last['proc_mb']:>11.1f}")
+        print("═" * 70 + "\n")
+
+    def tts_checkpoint(self, label: str = "TTS"):
+        """Wywołaj PRZED i PO pyttsx3.init() żeby zmierzyć TTS."""
+        self.checkpoint(label)
+
 
 def preprocess_stt(text: str) -> str:
-    text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
-    text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
-    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)  # e-a -> ea
-    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)          # ea-103 -> ea103
-    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)              # ea 103 -> ea103
-    text  = re.sub(r'\b[nN](\d+)',r'ne\1',text)
-    text = re.sub(r'\b[eE](\d+)',r'ea\1',text)
+    text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)', r'ne\1', text)
+    text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)', r'ea\1', text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)
+    text = re.sub(r'\b[nN](\d+)', r'ne\1', text)
+    text = re.sub(r'\b[eE](\d+)', r'ea\1', text)
     return text
 
-def split_building_numer(text:str) ->str:
-    text = re.sub(r'(?i)\b(ne|ea)(\d+)',r'\1,\2',text)
-    return text
+def split_building_numer(text: str) -> str:
+    return re.sub(r'(?i)\b(ne|ea)(\d+)', r'\1,\2', text)
+
 
 class NlpModel:
-    """
-    This class manages the voice assistant model. (TEXT TEST MODE)
-    """
-    def __init__(self, template = None):
-        # STT i MIC wyłączone na czas testów terminalowych
-        # self.model_stt = whisper.load_model("small")
-        # self.recognizer = sr.Recognizer()
-        # self.mic = sr.Microphone()
-        
-        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat", temperature=0.4)
-        self.intent_detector = IntentDetector()
+    def __init__(self, template=None):
+        self.monitor = RamMonitor()
 
-        # Setting prompt for LLM
-        if template is not None:
-            self.prompt = ChatPromptTemplate.from_template(template)
-        else:
+        self.monitor.checkpoint("baseline")
+
+        self.model_stt = whisper.load_model("small")
+        self.monitor.checkpoint("po_whisper")
+
+        self.model_llm = OllamaLLM(
+            model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf",
+            temperature=0.1
+        )
+        self.monitor.checkpoint("po_llm")
+
+        self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
+        self.monitor.checkpoint("po_gliner")
+
+        self.intent_detector = IntentDetector()
+        self.monitor.checkpoint("po_intent")
+
+        self.recognizer = sr.Recognizer()
+        self.mic = sr.Microphone()
+
+        # Prompt 
+        if template is None:
             template = "Tutaj jest pytanie do Ciebie: {question}"
-            self.prompt = ChatPromptTemplate.from_template(template)
+        self.prompt = ChatPromptTemplate.from_template(template)
         self.chain = self.prompt | self.model_llm
 
+        self.monitor.report()
 
     def start(self):
-        """
-        TEXT INPUT -> LLM -> TEXT OUTPUT
-        """
-        gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
-        
         while True:
-            question = input("\nTwoje pytanie (lub 'q' aby wyjść): ")
-            
-            if question.lower() in ['q', 'quit', 'exit']:
-                print("Zamykanie programu...")
-                break
-                
-            print("Analizowanie...")
+            question = input("Text: ")
+            print("Analyzing...")
 
-            # Detecting intent
             intent = self.intent_detector.detect_intent(question)
-            print(f"[Wykryta intencja]: {intent}")
 
             if intent == "POGODA":
-                print("Poczekaj sprawdzam pogodę...")
-                result = weather_prompt() #default gdansk
-                time.sleep(1)
-            
-            elif intent == "PG":
-                # We will create here entity extraction module to get certain information
-                data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
-                
-                label_text = {}
-                for entity in entities:
-                    label_text[entity['label']] = entity['text']
-                
-                if entities:
-                    if 'room code' in label_text:
-                        room = label_text['room code'].upper()
-                        room_split = split_building_numer(room)
-                        directions = get_room_directions(room_split)
+                result = weather_prompt()
+                self._tts_module("Poczekaj sprawdzam pogodę")
+                self._tts_module("Szukam termometru")
+                self._tts_module("Własnie dokonuje pomiaru")
 
+            elif intent == "PG":
+                data = preprocess_stt(question)
+                entities = self.gliner_model.predict_entities(data, GLINER_LABELS, threshold=0.2)
+                label_text = {e["label"]: e["text"] for e in entities}
+
+                if entities:
+                    if "room code" in label_text:
+                        room = label_text["room code"].upper()
+                        directions = get_room_directions(split_building_numer(room))
                         if directions.find("Błąd ") != -1:
-                            result = directions.replace("Błąd ","")
+                            result = directions.replace("Błąd ", "")
                         else:
                             result = f"Aby dojść do pokoju {room} {directions}"
-                    
-                    elif 'person' in label_text:
-                        person = label_text['person']
+                    elif "person" in label_text:
+                        person = label_text["person"]
                         teacher_data = get_teacher_room(person)
-                        if teacher_data['teacher_name'] is not None:
-                            if teacher_data['room'] is not None and teacher_data['building'] is not None:
-                                room = teacher_data['room']
-                                building = teacher_data['building']
-                                room_directions = get_room_directions(f"{building},{room}")
-                                    
-                                result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room}, {room_directions}"
+                        if teacher_data["teacher_name"] is not None:
+                            if teacher_data["room"] and teacher_data["building"]:
+                                room = teacher_data["room"]
+                                building = teacher_data["building"]
+                                directions = get_room_directions(f"{building},{room}")
+                                result = (f"{teacher_data['teacher_name']} jest w pokoju "
+                                          f"{building}{room} aby dojść do {building}{room} {directions}")
                             else:
-                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
+                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju"
                         else:
-                            result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
-                    
+                            result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć?"
                 else:
-                    result = "Jeśli chodzi o Politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
-            
-            else:
-                # LLM phase
-                print("Generowanie odpowiedzi przez Ollamę...")
-                result = self.chain.invoke({"question": question})
+                    result = ("Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać "
+                              "informacji tylko o lokalizacji sal oraz wykładowców.")
 
-            print(f"\n[ASYSTENT]: {result}")
-            print("-" * 50)
+            else:
+                chunks = []
+                for chunk in self.chain.stream({"question": question}):
+                    text = chunk if isinstance(chunk, str) else str(chunk)
+                    print(text, end="")
+                    chunks.append(text)
+                result = "".join(chunks)
+
+            print(f"\n[Odpowiedź]: {result}")
+            # self._tts_module(result)
 
     def _stt_module(self):
-        pass
+        with self.mic as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            while True:
+                print("Listening...")
+                audio = self.recognizer.listen(source, phrase_time_limit=3)
+                raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
+                raw_data = np.frombuffer(raw_data, dtype=np.int16)
+                audio_np = raw_data.astype(np.float32) / 32768.0
+                result = self.model_stt.transcribe(audio_np, fp16=False)
+                speech = result["text"].strip()
+                if speech:
+                    return speech
 
     def _tts_module(self, text):
-        pass
+        """TTS z pomiarem RAM przed i po."""
+        ram_before = _ram_mb()
+        model_tts = pyttsx3.init()
+        ram_after_init = _ram_mb()
+        model_tts.say(text)
+        model_tts.runAndWait()
+        model_tts.stop()
+        del model_tts
+        ram_after_del = _ram_mb()
+        print(f"[RAM][TTS] init: +{ram_after_init - ram_before:.1f} MB | "
+              f"po del: {ram_after_del:.1f} MB (delta: {ram_after_del - ram_before:+.1f} MB)")
 
 
 if __name__ == "__main__":
