@@ -35,10 +35,11 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf", temperature=0.1, num_predict=300)
+        self.model_llm = OllamaLLM(model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf", temperature=0.1, num_predict=80)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
+        self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
 
         # Setting prompt for LLM
         if template is not None:
@@ -54,7 +55,6 @@ class NlpModel:
         STT -> LLM -> TTS
         The process runs indefinetely unless it is interrupted.
         """
-        gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         while True:
             # STT phase
             # question = self._stt_module()
@@ -74,7 +74,7 @@ class NlpModel:
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
+                entities = self.gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
                 label_text = {}
                 for entity in entities:
                     label_text[entity['label']] = entity['text']
@@ -105,7 +105,15 @@ class NlpModel:
                     result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
             else:
                 # LLM phase
-                result = self.chain.invoke({"question": question})
+                chunks = []
+                for chunk in self.chain.stream({"question": question}):
+                        text = chunk if isinstance(chunk, str) else str(chunk)
+                        print(text, end="")
+                        chunks.append(text)
+
+                result = "".join(chunks)
+
+
 
             # TTS phase
             # self._tts_module(result)
