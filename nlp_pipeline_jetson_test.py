@@ -35,7 +35,7 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat")
+        self.model_llm = OllamaLLM(model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf")
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
@@ -150,6 +150,8 @@ if __name__ == "__main__":
     Odpowiadasz krótko naturalnie i zwięźle. Masz absolutny zakaz używania emoji, gwiazdek, znaczników markdown 
     oraz wypunktowań — generuj wyłącznie czysty, spójny tekst mówiony.
     Odpowiadaj tylko i wyłącznie na temat.
+    
+    2. Udzielona odpowiedź ma mieć maksymalnie dwa zdania.
 
     Pytanie od użytkownika:
     {{question}}
