@@ -16,14 +16,20 @@ import os
 
 GLINER_LABELS = ["room code", "person"]
 
-# ─────────────────────────────────────────────
-# RAM MONITORING HELPERS
-# ─────────────────────────────────────────────
-
 def _ram_mb() -> float:
     """Zwraca aktualnie używany RAM przez ten proces w MB."""
     process = psutil.Process(os.getpid())
     return process.memory_info().rss / 1024 / 1024
+
+def get_ollama_ram_mb() -> float:
+    """Znajduje proces ollama i zwraca jego zużycie RAM."""
+    for proc in psutil.process_iter(['name']):
+        try:
+            if 'ollama' in proc.info['name'].lower():
+                return proc.memory_info().rss / 1024 / 1024
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+    return 0.0
 
 def _tegrastats_ram_mb() -> tuple[float, float]:
     """
@@ -60,13 +66,16 @@ class RamMonitor:
     def checkpoint(self, label: str):
         proc_mb = _ram_mb()
         sys_used, sys_total = _tegrastats_ram_mb()
+        ollama_mb = get_ollama_ram_mb() 
+        
         self.snapshots.append({
             "label": label,
             "proc_mb": proc_mb,
             "sys_used_mb": sys_used,
             "sys_total_mb": sys_total,
+            "ollama_mb": ollama_mb 
         })
-        print(f"[RAM] {label:30s} | proces: {proc_mb:7.1f} MB | system: {sys_used:7.1f} / {sys_total:.0f} MB")
+        print(f"[RAM] {label:30s} | proces: {proc_mb:7.1f} MB | system: {sys_used:7.1f} / {sys_total:.0f} MB | Ollama: {ollama_mb:7.1f} MB")
 
     def report(self):
         print("\n" + "═" * 70)
@@ -198,11 +207,19 @@ class NlpModel:
 
             else:
                 chunks = []
+                iteration = 0
                 for chunk in self.chain.stream({"question": question}):
                     text = chunk if isinstance(chunk, str) else str(chunk)
-                    print(text, end="")
+                    print(text, end="", flush=True)
                     chunks.append(text)
+                    # check 1/5 tokens
+                    iteration += 1
+                    if iteration % 5 == 0:
+                        proc_mb = _ram_mb()
+                        sys_used, _ = _tegrastats_ram_mb()
+                
                 result = "".join(chunks)
+                self.monitor.checkpoint("po_generowaniu_llm")
 
             print(f"\n[Odpowiedź]: {result}")
             # self._tts_module(result)
