@@ -35,7 +35,7 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf", temperature=0.1, num_predict=80)
+        self.model_llm = OllamaLLM(model="mwiewior/bielik:7b-instruct-v0.1.Q3_K_M.gguf", temperature=0.1)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
