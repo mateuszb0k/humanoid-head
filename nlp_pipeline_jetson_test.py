@@ -59,6 +59,8 @@ class NlpModel:
         while True:
             # STT phase
             # question = self._stt_module()
+            start_llm = 0
+            end_llm = 0
             question = input("Text: ")
             start_intent = time.time()
             print("Analyzing...")
