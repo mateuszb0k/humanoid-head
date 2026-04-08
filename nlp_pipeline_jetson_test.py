@@ -6,6 +6,7 @@ import speech_recognition as sr
 import pyttsx3
 from utils.weather import weather_prompt
 import json
+import time
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
 import re
@@ -59,12 +60,13 @@ class NlpModel:
             # STT phase
             # question = self._stt_module()
             question = input("Text: ")
+            start_intent = time.time()
             print("Analyzing...")
-            print(question)
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
             print(question)
+            end_intent = time.time()
 
             if intent == "POGODA":
                 result = weather_prompt() #default gdansk
@@ -106,9 +108,13 @@ class NlpModel:
             else:
                 # LLM phase
                 chunks = []
+                start_llm = time.time()
+                end = 0
                 for chunk in self.chain.stream({"question": question}):
+                        if not end:
+                            end_llm = time.time()
                         text = chunk if isinstance(chunk, str) else str(chunk)
-                        print(text, end="")
+                        # print(text, end="")
                         chunks.append(text)
 
                 result = "".join(chunks)
@@ -117,7 +123,8 @@ class NlpModel:
 
             # TTS phase
             # self._tts_module(result)
-            # print(result)
+            print(f"{result} | LLM time: {end_llm-start_llm} | Intent time: {end_intent - start_intent}")
+
 
     def _stt_module(self):
         """
