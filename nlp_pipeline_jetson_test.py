@@ -117,7 +117,7 @@ class NlpModel:
 
             # TTS phase
             # self._tts_module(result)
-            print(result)
+            # print(result)
 
     def _stt_module(self):
         """
