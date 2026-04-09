@@ -12,6 +12,10 @@ from gliner import GLiNER
 import re
 from utils.find_teacher import get_teacher_room
 from utils.find_room import get_room_directions
+from threading import Thread
+import re
+import string
+
 GLINER_LABELS  = [
     "room code",
     "person"
@@ -36,11 +40,17 @@ class NlpModel:
     def __init__(self, template = None):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="gemma3:4b-it-qat", temperature=0.1)
+        self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.1, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
+
+
+        self.llm_queue = []
+        self.regex = re.compile(f'[{string.punctuation}]')
+        self.result = ''
+        self.end_of_result = False
 
         # Setting prompt for LLM
         if template is not None:
@@ -57,7 +67,7 @@ class NlpModel:
         The process runs indefinetely unless it is interrupted.
         """
 
-        status = self.llm_init()
+        status = self._llm_init()
         print(f"LLM status: {status}")
 
         if not status:
@@ -66,6 +76,8 @@ class NlpModel:
         while True:
             # STT phase
             # question = self._stt_module()
+            self.end_of_result = False
+            self.result = ''
             start_llm = 0
             end_llm = 0
             question = input("Text: ")
@@ -77,15 +89,17 @@ class NlpModel:
             print(question)
             end_intent = time.time()
 
+            # Creating thread for streaming TTS
+            tts_thread = Thread(target = self._tts_stream)
+            tts_thread.start()
+
             if intent == "POGODA":
-                result = weather_prompt() #default gdansk
-                self._tts_module("Poczekaj sprawdzam pogodę")
-                self._tts_module("Szukam termometru")
-                self._tts_module("Własnie dokonuje pomiaru")
+                self.result = "Poczekaj sprawdzam pogodę." + "Szukam termometru." + "Własnie dokonuje pomiaru." + weather_prompt() #default gdansk
+                self.end_of_result = True
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = self.gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO FIND OPTIMAL VALUE
+                entities = self.gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO fix gliner, because it is too slow
                 label_text = {}
                 for entity in entities:
                     label_text[entity['label']] = entity['text']
@@ -96,9 +110,10 @@ class NlpModel:
                         directions = get_room_directions(room_split)
 
                         if directions.find("Błąd ") != -1:
-                            result = directions.replace("Błąd ","")
+                            self.result = directions.replace("Błąd ","")
+                            self.result += '.'
                         else:
-                            result = f"Aby dojść do pokoju {room} {directions}"
+                            self.result = f"Aby dojść do pokoju {room} {directions}."
                     elif 'person' in label_text:
                         person = label_text['person']
                         teacher_data = get_teacher_room(person)
@@ -107,39 +122,74 @@ class NlpModel:
                                 room = teacher_data['room']
                                 building = teacher_data['building']
                                 room_directions = get_room_directions(f"{building},{room}")
-                                result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}"
+                                self.result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}."
                             else:
-                                result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju "
+                                self.result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
                         else:
-                            result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
+                            self.result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                 else:
-                    result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
+                    self.result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
+
+                self.end_of_result = True
             else:
                 # LLM phase
                 chunks = []
                 start_llm = time.time()
                 end_llm = 0
                 for chunk in self.chain.stream({"question": question}):
-                        if not end_llm:
-                            end_llm = time.time()
-                        text = chunk if isinstance(chunk, str) else str(chunk)
-                        print(text, end="", flush = True)
-                        chunks.append(text)
+                    if not end_llm:
+                        end_llm = time.time()
+                    text = chunk if isinstance(chunk, str) else str(chunk)
+                    self.result += text
+                    chunks.append(text)
 
-                result = "".join(chunks)
+                self.end_of_result = True
 
+                # print("".join(chunks))
 
+            tts_thread.join() # Waiting for tts thread to end
+            print(f"TTFT: {end_llm-start_llm}")
 
-            # TTS phase
-            # self._tts_module(result)
-            print(f"LLM time: {end_llm-start_llm} | Intent time: {end_intent - start_intent}")
+    def _tts_stream(self):
+        """
+        This function handles tts asynchronously.
+        """
+        # Waiting until something is pushed to self.result
+        if self.result == '':
+            while self.result == '':
+                pass
 
-    def llm_init(self):
+        current_text = str(self.result)
+        text2say = ""
+        text_said = ""
+
+        while True:
+            current_text = str(self.result)
+            if current_text == text_said and self.end_of_result:
+                break
+
+            # Looking for stop sign, if detected tts module is applied on this section
+            res = re.search(self.regex, current_text[len(text_said):])
+
+            if res is not None:
+                res = res.start()
+                text2say = current_text[len(text_said) : len(text_said) + res+1]
+
+                # Uncomment if microphone is available
+                # self._tts_module(text2say)
+
+                print(text2say, end="", flush=True)
+
+                text_said += text2say
+
+    def _llm_init(self):
+        """
+        Initializes LLM module, because first response is always the longest.
+        """
         try:
             _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
             return True
         except Exception as e:
-            status = e
             return False
 
 
@@ -175,13 +225,15 @@ class NlpModel:
 
 
 if __name__ == "__main__":
-    template = f"""Jesteś wszechstronnym asystentem studentów Politechniki Gdańskiej. 
+    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Służysz pomocą w sprawach związanych z uczelnią i prowadzisz naturalne rozmowy na codzienne tematy.
 
-    Instrukcje zachowania:
-    1. Odpowiadaj naturalnie i unikaj zbędnych powitań.
-    Odpowiadasz krótko naturalnie i zwięźle. Masz absolutny zakaz używania emoji, gwiazdek, znaczników markdown 
-    oraz wypunktowań — generuj wyłącznie czysty, spójny tekst mówiony.
-    Odpowiadaj tylko i wyłącznie na temat.
+Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
+
+1. Odpowiadaj zwięźle i w naturalnym tonie.
+2. Pomijaj całkowicie wszelkie powitania i pożegnania. Przechodź od razu do sedna.
+3. Nie używaj znaków specjalnych ani formatowania tekstu. Zakaz używania gwiazdek, haszy, nawiasów, wypunktowań, cudzysłowów, znaków procentów czy symboli walut. Używaj wyłącznie liter oraz podstawowej interpunkcji, to znaczy kropek, przecinków i znaków zapytania.
+4. Rozwijaj absolutnie wszystkie skróty. Nigdy nie pisz skrótów takich jak: np, itp, itd, dr, prof, PG, mgr. Zawsze używaj pełnych słów: na przykład, i tym podobne, i tak dalej, doktor, profesor, Politechnika Gdańska, magister.
+5. Zapisuj liczby, ułamki, daty i godziny w taki sposób, aby wymuszały poprawne przeczytanie przez syntezator, na przykład: wpół do ósmej, jedna druga, piętnastego października.
 
 
     Pytanie od użytkownika:
