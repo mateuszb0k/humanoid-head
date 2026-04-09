@@ -56,6 +56,13 @@ class NlpModel:
         STT -> LLM -> TTS
         The process runs indefinetely unless it is interrupted.
         """
+
+        status = self.llm_init()
+        print(f"LLM status: {status}")
+
+        if not status:
+            return
+
         while True:
             # STT phase
             # question = self._stt_module()
@@ -111,9 +118,9 @@ class NlpModel:
                 # LLM phase
                 chunks = []
                 start_llm = time.time()
-                end = 0
+                end_llm = 0
                 for chunk in self.chain.stream({"question": question}):
-                        if not end:
+                        if not end_llm:
                             end_llm = time.time()
                         text = chunk if isinstance(chunk, str) else str(chunk)
                         print(text, end="", flush = True)
@@ -126,6 +133,14 @@ class NlpModel:
             # TTS phase
             # self._tts_module(result)
             print(f"LLM time: {end_llm-start_llm} | Intent time: {end_intent - start_intent}")
+
+    def llm_init(self):
+        try:
+            _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
+            return True
+        except Exception as e:
+            status = e
+            return False
 
 
     def _stt_module(self):
