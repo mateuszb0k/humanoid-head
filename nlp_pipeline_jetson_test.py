@@ -15,6 +15,7 @@ from utils.find_room import get_room_directions
 from threading import Thread
 import re
 import string
+import time
 
 GLINER_LABELS  = [
     "room code",
@@ -157,7 +158,7 @@ class NlpModel:
         # Waiting until something is pushed to self.result
         if self.result == '':
             while self.result == '':
-                pass
+                time.sleep(0.1)
 
         current_text = str(self.result)
         text2say = ""
@@ -181,6 +182,8 @@ class NlpModel:
                 print(text2say, end="", flush=True)
 
                 text_said += text2say
+
+            time.sleep(0.1)
 
     def _llm_init(self):
         """
