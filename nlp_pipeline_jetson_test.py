@@ -116,7 +116,7 @@ class NlpModel:
                         if not end:
                             end_llm = time.time()
                         text = chunk if isinstance(chunk, str) else str(chunk)
-                        # print(text, end="")
+                        print(text, end="", flush = True)
                         chunks.append(text)
 
                 result = "".join(chunks)
@@ -125,7 +125,7 @@ class NlpModel:
 
             # TTS phase
             # self._tts_module(result)
-            print(f"{result} | LLM time: {end_llm-start_llm} | Intent time: {end_intent - start_intent}")
+            print(f"LLM time: {end_llm-start_llm} | Intent time: {end_intent - start_intent}")
 
 
     def _stt_module(self):
