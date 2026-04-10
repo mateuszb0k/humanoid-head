@@ -542,6 +542,53 @@ The GPU-based approach offloads heavy matrix multiplications, enabling higher ef
     \label{tab:fps_insightface}
 \end{table}
 
+\subsubsection{Raspberry Pi 5 Performance Profiling (Target Platform)}
+To thoroughly evaluate the system's behavior on the target hardware (Setup D), a series of stress tests were conducted using the \texttt{btop} resource monitor. The profiling focused on CPU utilization, memory footprint, and thermal performance during two distinct states: idling (no face in the frame) and active processing (face detected, invoking face recognition and emotion classification models).
+
+\paragraph{HOG-Based Implementation}
+The CPU-bound approach utilizing Histogram of Oriented Gradients (HOG) demonstrated highly variable resource consumption depending on the system state.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{hogt_without_face.png}
+        \caption{HOG - Idle state (No face)}
+        \label{fig:hog_idle}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{hogt_with_face.png}
+        \caption{HOG - Active state (Face detected)}
+        \label{fig:hog_active}
+    \end{minipage}
+\end{figure}
+
+As observed in Figures \ref{fig:hog_idle} and \ref{fig:hog_active}, when no face is present, the system remains exceptionally cool (51$^{\circ}$C) with minimal CPU utilization (approximately 10\%). However, upon face detection, total CPU load increases to roughly 40\%, and the temperature stabilizes at 65$^{\circ}$C. This moderate total load suggests that the \texttt{dlib} backend is constrained by single-thread performance bottlenecks and cannot fully saturate all four cores of the Raspberry Pi 5. Memory usage remains stable at approximately 1.1 GB.
+
+\paragraph{YuNet-Based Implementation}
+The OpenCV-accelerated YuNet model, while offering superior detection accuracy and framerate scalability, exhibits a significantly more aggressive hardware footprint on the ARM architecture.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{yunet_without_face.png}
+        \caption{YuNet - Idle state (No face)}
+        \label{fig:yunet_idle}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{yunet_with_face.png}
+        \caption{YuNet - Active state (Face detected)}
+        \label{fig:yunet_active}
+    \end{minipage}
+\end{figure}
+
+Figures \ref{fig:yunet_idle} and \ref{fig:yunet_active} illustrate a high baseline operational cost. Even without a face in the frame, continuous neural network inference consumes roughly 46\% of total CPU capacity, elevating the temperature to 68$^{\circ}$C. During active face tracking and emotion recognition, the highly parallelized nature of the OpenCV DNN module heavily tasks the processor, driving total CPU utilization to nearly 79\%. 
+
+Consequently, the SoC temperature reaches 85$^{\circ}$C. This is a critical threshold for the Broadcom BCM2712 chip, at which aggressive thermal throttling occurs, severely degrading performance. These results unequivocally demonstrate that deploying the robust YuNet pipeline on the Raspberry Pi 5 strictly mandates a dedicated active cooling solution (e.g., the official Raspberry Pi Active Cooler) to maintain system stability and real-time processing capabilities over prolonged interaction periods.
+
 \subsection{Future Architecture: Event-Based Processing}
 Following the successful validation of the GPU-accelerated pipeline (Milestone 1), the system architecture will transition from continuous streaming transmission to an event-based model. This shift is designed to optimize resource usage and streamline data flow to the conversation processing unit. 
 
