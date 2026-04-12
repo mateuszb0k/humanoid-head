@@ -409,6 +409,20 @@ Fine-tuning consists of two phases where we progressively unfreeze specific laye
         \caption{Pico - Confusion Matrix}
         \label{fig:pico_cm}
     \end{subfigure}
+    \vspace{1em}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Tiny_history.png}
+        \caption{Tiny - Training History}
+        \label{fig:tiny_hist}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Tiny_cm.png}
+        \caption{Tiny - Confusion Matrix}
+        \label{fig:tiny_cm}
+    \end{subfigure}
     
     \caption{Comparison of training histories and confusion matrices for the ConvNeXtV2 Atto and Pico models.}
     \label{fig:atto_pico_grid}
@@ -441,6 +455,7 @@ The following table provides a comprehensive summary of the performance metrics 
         first\_model (Custom) & 56.17\% & 54.03\% \\
         ConvNeXtV2 Atto & 51.70\% & 48.41\% \\
         ConvNeXtV2 Pico & 40.50\% & 41.97\% \\
+        ConvNeXtV2 Tiny & 73.78\% & 74.45\% \\
         \hline
     \end{tabular}
     \caption{Final comparison of model performance metrics on the unified RGB dataset.}

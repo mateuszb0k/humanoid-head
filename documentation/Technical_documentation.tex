@@ -127,11 +127,11 @@ To further enrich the training corpus and improve the model's generalization cap
 
 Following this comprehensive, multi-model filtration process, 16,944 highly reliable images were successfully extracted and merged into the final database.
 
-\section{Images generated with Flux.1}
-To expand our dataset with additional images, we used generative artificial intelligence models. Our choice fell on the advanced Flux.1 [dev] \cite{flux} model, featuring 12 billion parameters. An attempt to run it in the Kaggle Notebook environment proved suboptimal — generating a single image took approximately 5 minutes. For this reason, we conducted the initial model tests through the Hugging Face platform.
+\section{Images generated with Flux.2}
+To expand our dataset with additional images, we used generative artificial intelligence models. Our choice fell on the advanced Flux.2 [dev] \cite{flux} model, featuring 12 billion parameters. An attempt to run it in the Kaggle Notebook environment proved suboptimal — generating a single image took approximately 5 minutes. For this reason, we conducted the initial model tests through the Hugging Face platform.
 The resulting images were highly consistent with the scientific definitions of individual facial expressions, as illustrated in Figure \ref{fig:emotions}. We prepared a base of 10,000 text prompts for image generation, focusing exclusively on generating human faces expressing the seven basic emotions. We also ensured that the dataset was appropriately balanced in terms of ethnic diversity. Due to the nature of the project and the intended placement of our robot's head, we restricted the generated images to children's faces aged 4 and above.
 A sample input data structure is as follows: {"prompt": "headshot of sad 10 year old European boy, drooping eyelids with loss of eye focus, lips slightly pulled down at corners, grieving expression, overcast outdoor light, highly detailed, photorealistic", "emotion": "sad"}
-Sample images generated using the Flux.1 [dev] model are shown in Figure \ref{fig:generated_em}.
+Sample images generated using the Flux.2 [dev] model are shown in Figure \ref{fig:generated_em}.
 
 \begin{figure}[H]
     \centering
@@ -143,8 +143,63 @@ Sample images generated using the Flux.1 [dev] model are shown in Figure \ref{fi
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{generated_em.png} 
-	\caption{Examples of generated emotions with Flux.1 [dev].}
+	\caption{Examples of generated emotions with Flux.2 [dev].}
 	\label{fig:generated_em}
+\end{figure}
+
+\subsection{Generation of a Synthetic Dataset}
+
+The process of creating a synthetic dataset was divided into three stages, differing in the configuration parameters of the model (Flux.2 [dev]) and the architecture of the introduced prompts. The main assumption in all three stages was to ensure high diversity and representativeness of the dataset. For this purpose, demographic variables such as gender, age range, and ethnic origin were taken into account.
+
+\subsubsection{Stage I: Generation Based on Scientific Definitions (10,000 images)}
+In the first phase, the focus was on the rigorous reproduction of scientific definitions of facial expressions for individual emotions.
+
+\begin{itemize}
+    \item Generation parameters: Non-optimal (in terms of quality) parameter values were applied. A low number of iteration steps (15) and a low guidance scale value of 3.
+    \item Results: Due to the adopted parameters, the generation of a single image was highly computationally efficient (average time: approximately 5 seconds). The obtained images (cf. Figure~\ref{fig:fluxV1}) constituted an almost perfect, textbook reflection of the emotion definitions. This resulted in an unrealistic representation of emotions, which in reality is characterized by much greater variance.
+    \item Prompt structure: Prompts were constructed in a strict manner. \\
+    Example: \textit{"headshot of sad 10 year old European boy, drooping eyelids with loss of eye focus, lips slightly pulled down at corners, grieving expression, overcast outdoor light, highly detailed, photorealistic"}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{flux_1.png}
+    \caption{Examples pictures generated in Stage I}
+    \label{fig:fluxV1}
+\end{figure}
+
+\subsubsection{Stage II: Optimization for Realism (20,000 images)}
+In the second phase, strict adherence to scientific definitions was abandoned. More focus was placed on natural and varied descriptions.
+
+\begin{itemize}
+    \item Generation parameters: The efficient parameters from the first stage were maintained (15 iteration steps, guidance scale of 3; average generation time approx. 5 seconds).
+    \item Results: The introduction of prompt modifications and allowing a face angle deviation of 15–20 degrees relative to the camera axis significantly increased the realism of the obtained samples (cf. Figure~\ref{fig:fluxV2}).
+    \item Prompt structure: Prompts described emotions in a more realistic manner, allowing for natural expression. \\
+    Example: \textit{"medium close-up portrait of a adult (30-45 years old) south asian female, showing neutral emotion with blank gaze, context: listening, harsh overhead light, plain gray background, face clearly visible, realistic facial expression, candid photograph, natural expression"}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{flux_2.png}
+    \caption{Examples pictures generated in Stage II}
+    \label{fig:fluxV2}
+\end{figure}
+
+\subsubsection{Stage III: High-Quality Generation (17,600 images)}
+The third phase was an extension of the assumptions from Stage II, with particular emphasis on maximizing visual quality and the introduction of advanced variability in lighting conditions.
+
+\begin{itemize}
+    \item Generation parameters: The computational load was significantly increased by setting the maximum number of iteration steps to 50 and raising the guidance scale to a level of 6 (on a 10-point scale).
+    \item Results: The effect of changing the parameters was obtaining images of the highest detail, characterized by high realism (cf. Figure~\ref{fig:fluxV3}). However, the increase in precision was associated with a significant drop in efficiency – the average generation time increased to approx. 33 seconds per image.
+    \item Prompt structure: Prompts were highly elaborate, incorporating dynamic head positioning and lighting descriptions. \\
+    Example: \textit{"slight 3/4 angle portrait of a mid 30s indigenous american person, braided hair, with a scar on cheek, displaying fearful — frozen deer-in-headlights stare, situation: receiving emergency news, ring light, blurred bokeh city lights background, sun-kissed skin, face fully visible and in sharp focus, authentic human facial expression, high-resolution 8k portrait, ultra-sharp details"}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{flux_3.png}
+    \caption{Examples pictures generated in Stage III}
+    \label{fig:fluxV3}
 \end{figure}
 
 \subsection{Flux Models Detailed Training Analysis}
@@ -173,7 +228,7 @@ Sample images generated using the Flux.1 [dev] model are shown in Figure \ref{fi
 	\label{fig:flux_run3}
 \end{figure}
 
-The evaluation of synthetic data impact was performed using three distinct datasets generated by the FLUX.1 model. Each dataset consists of a different number of images generated using unique prompt strategies. Dataset 1 contains 10000 images. Dataset 2 contains 20000 images. Dataset 3 contains 17600 images. The exact prompt formulas and generation details for each set will be described in the following sections. The metrics achieved for each unique dataset are presented in the table below.
+The evaluation of synthetic data impact was performed using three distinct datasets generated by the FLUX.2 dev model. Each dataset consists of a different number of images generated using unique prompt strategies. Dataset 1 contains 10000 images. Dataset 2 contains 20000 images. Dataset 3 contains 17600 images. The exact prompt formulas and generation details for each set will be described in the following sections. The metrics achieved for each unique dataset are presented in the table below.
 
 \begin{table}[H]
 	\centering
@@ -343,7 +398,7 @@ To mitigate this issue and improve the network's performance, the following opti
 \subsection{Extended base model}
 Following the baseline observations from the first model, we developed more complex custom architectures: \texttt{second\_model} and \texttt{third\_model}. These models introduced deeper feature extraction blocks and more aggressive dropout rates to counter the previously observed overfitting. 
 
-The \texttt{second\_model} emerged as the most successful architecture in our entire study. It achieved an impressive validation accuracy of \textbf{71.04\%}. As shown in its confusion matrix (Figure \ref{fig:cm_second_third} left), it performs exceptionally well in recognizing the "happy" emotion (over 2000 correct predictions), though it still faces challenges distinguishing between "sad" and "neutral" states. The \texttt{third\_model} also provided solid results (\textbf{67.81\%} accuracy), but exhibited slightly more instability during the validation phases.
+The \texttt{second\_model} emerged as the most successful architecture in our entire study. It achieved an impressive validation accuracy of \textbf{71.04\%}. As shown in its confusion matrix (Figure \ref{fig:cm_second}), it performs exceptionally well in recognizing the "happy" emotion (over 2000 correct predictions), though it still faces challenges distinguishing between "sad" and "neutral" states. The \texttt{third\_model} also provided solid results (\textbf{67.81\%} accuracy), but exhibited slightly more instability during the validation phases.
 
 \begin{figure}[H]
     \centering
@@ -428,7 +483,7 @@ Figure \ref{fig:colorized} illustrates the results of the colorization algorithm
 \subsection{Comparative Analysis and Final Benchmarking}
 After standardizing the dataset and successfully colorizing the input images, we conducted a comprehensive evaluation of both our custom models and the pre-trained DCNN architectures. The implementation of Fine-Tuning on the pre-trained networks yielded highly visible improvements. 
 
-As illustrated in Figure \ref{fig:ft_progress}, the vertical green line marks the 14th epoch, where the deeper layers of the pre-trained models were unfreezed. Immediately following this point, we observed a sharp decline in validation loss and a significant surge in accuracy. This visually confirms that the transferred representations from ImageNet successfully adapted to the facial expression domain.
+As illustrated in Figure \ref{fig:vgg19_ft} and \ref{fig:resnet50_ft}, the vertical green line marks the 14th epoch, where the deeper layers of the pre-trained models were unfreezed. Immediately following this point, we observed a sharp decline in validation loss and a significant surge in accuracy. This visually confirms that the transferred representations from ImageNet successfully adapted to the facial expression domain.
 
 \begin{figure}[H]
     \centering
