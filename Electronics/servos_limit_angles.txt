@@ -1,0 +1,21 @@
+serwo 0 - jezyk sie nie rusza
+serwo 1 - szczeka max otwarta 80, max zamknieta 125
+serwo 2 - prawy korner gorne serwo, max dol 50, max gora 65
+serwo 3 - prawa warga gorna, max dol 20, max gora 80
+serwo 4 - prawy korner dolne serwo, max dol 50, max gora 70
+serwo 5 - prawa warga dolna, dziwnie sie rusza
+serwo 6 - lewa warga dolna, 110 max dol, 45 max gora
+serwo 7 - lewy korner dolne serwo, wstepnie 60 dol, 40 gora
+serwo 8 - lewa gorna warga, dziwnie sie rusza
+serwo 9 - lewy korner gorne serwo, 10 max gora, wstepnie 40 max dol
+serwo 10 - szczeka dziala lustrzanie do serwa 1
+serwo 11 - 111 zamkniecie, 10 otwarcie //prawe oko dolna powieka
+serwo 12 - 115stopni max otwarcie, 30 min (zamkniete) gorna powieka
+serwo 13 - oczy gora-dol, 60 srodek ,120 max gora, 40 - max dol
+serwo 14 - oczy prawo-lewo 100 srodek, 50 - max prawo, 150 - max lewo
+serwo 15 - 90 - zamkniecie, 20 - otwarcie // lewe oko gorna powieka
+serwo 16 - 90 - otwarcie, 25 - zamkniecie dolna powieka
+serwo 17 - prawa brew zewnatrz, 150 max gora, 70 max dol
+serwo 18 - prawa brew srodek, 160 max dol, 70 max gora
+serwo 19 - lewa brew srodek, 140 max gora, 50 max dol
+serwo 20 - lewa brew zewnatrz, 100 max dol, 20 max gora
