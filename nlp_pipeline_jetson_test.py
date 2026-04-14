@@ -36,7 +36,7 @@ def split_building_numer(text:str) ->str:
 class NlpModel:
     """
     This class manages the voice assistant model. It integrates speech recognition (Whisper),
-    LLM (gemma3:4b) and speech synthesis (pyttsx3)
+    LLM and speech synthesis (pyttsx3)
     """
     def __init__(self, template = None):
         # The models may change in the future
