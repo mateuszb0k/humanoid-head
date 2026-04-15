@@ -5,49 +5,16 @@ import whisper
 import speech_recognition as sr
 import pyttsx3
 from utils.weather import weather_prompt
-import json
-import time
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
-import re
 from utils.find_teacher import get_teacher_room,search_teacher
 from utils.find_room import get_room_directions
 from threading import Thread
 import re
 import string
 import time
-THRESHOLD = 60
-TOP_3_THRESHOLD = 90
-GLINER_LABELS  = [
-    "room code",
-    "person"
-]
-MAP_NUMBERS = {
-    "0" : "zero",
-    "1" : "jeden",
-    "2" : "dwa",
-    "3" : "trzy",
-    "4" : "cztery",
-    "5" : "pięć"
-}
-REVERSE_MAP_NUMBERS = {
-    "zero" : "0",
-    "jeden" : "1",
-    "dwa" : "2",
-    "trzy" : "3",
-    "cztery" : "4",
-    "pięć" : "5"
-}
-RANDOM_VOICE_LINES = [
-    "Poczekaj sprawdzam pogode...",
-    "Poczekaj szukam termometru...",
-    "Chwileczke właśnie dokonuje pomiaru temperatury...",
-    "Sprawdzam chmury. Te na niebie, nie moje serwery.",
-    "Moment...Przetwarzam najnowsze raporty ze stacji meteorologicznych.",
-    "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi.",
-    "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego."
+from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES
 
-]
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
@@ -60,25 +27,29 @@ def preprocess_stt(text: str) -> str:
 def split_building_numer(text:str) ->str:
     text = re.sub(r'(?i)\b(ne|ea)(\d+)',r'\1,\2',text)
     return text
+
 class NlpModel:
     """
     This class manages the voice assistant model. It integrates speech recognition (Whisper),
     LLM and speech synthesis (pyttsx3)
     """
-    def __init__(self, template = None):
+    def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.1, reasoning=False)
+        self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
 
-
         self.llm_queue = []
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
         self.end_of_result = False
+
+        # Setting global flags
+        self.using_mic = using_mic
+        self.using_speaker = using_speaker
 
         # Setting prompt for LLM
         if template is not None:
@@ -103,12 +74,16 @@ class NlpModel:
 
         while True:
             # STT phase
-            # question = self._stt_module()
+            if self.using_mic:
+                question = self._stt_module()
+            else:
+                question = input("Text: ")
+
             self.end_of_result = False
             self.result = ''
             start_llm = 0
             end_llm = 0
-            question = input("Text: ")
+
             start_intent = time.time()
             print("Analyzing...")
 
@@ -248,7 +223,8 @@ class NlpModel:
                 text2say = current_text[len(text_said) : len(text_said) + res+1]
 
                 # Uncomment if speaker is available
-                # self._tts_module(text2say)
+                if self.using_speaker:
+                    self._tts_module(text2say)
 
                 print(text2say, end="", flush=True)
 
@@ -309,18 +285,20 @@ class NlpModel:
 
 
 if __name__ == "__main__":
-    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej.
-    Twoje odpowiedzi czyta syntezator mowy (TTS). Przestrzegaj tych zasad:
-    
-    1. Odpowiadaj zwięźle, ale rozwiń myśl, jeśli sytuacja tego wymaga.
-    2. Przechodź od razu do rzeczy. Całkowicie pomijaj powitania i pożegnania.
-    3. Używaj wyłącznie liter i podstawowej interpunkcji. Żadnych znaków specjalnych, symboli czy nawiasów.
-    4. Nigdy nie używaj skrótów. Pisz pełnymi słowami: na przykład, magister, Politechnika Gdańska.
-    5. Liczby i daty zapisuj tak, aby wymuszały poprawne przeczytanie (np. wpół do ósmej, pierwszego października).
+    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Używasz codziennego, studenckiego języka, jesteś bezpośredni, ale przy tym konkretny i pomocny w sprawach uczelnianych.
+
+Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
+
+1. Gadasz krótko, zwięźle i w naturalnym tonie, jakbyś rozmawiał ze znajomym na wydziale.
+2. Używaj naturalnych powitań i pożegnań w studenckim stylu, ale poza tym unikaj zbędnego lania wody i trzymaj się konkretów.
+3. Jeśli nie jesteś pewien odpowiedzi nie halucynuj, tylko powiedz, że nie masz takowej wiedzy.
+3. Nie używaj znaków specjalnych ani formatowania tekstu. Zakaz używania gwiazdek, haszy, nawiasów, wypunktowań, cudzysłowów, znaków procentów czy symboli walut. Używaj wyłącznie liter oraz podstawowej interpunkcji, to znaczy kropek, przecinków i znaków zapytania.
+4. Rozwijaj wszystkie skróty pod kątem poprawnego czytania. Nigdy nie pisz skrótów takich jak np, itp. Zawsze używaj pełnych słów: na przykład, i tym podobne, doktor, profesor, magister. Politechnikę Gdańską nazywaj polibudą.
+5. Zapisuj liczby, ułamki, daty i godziny słownie w taki sposób, aby wymuszały poprawne i naturalne przeczytanie przez syntezator, na przykład: o wpół do ósmej, za piętnaście trzecia, na stówę, piętnastego października.
 
     Pytanie od użytkownika:
     {{question}}
     """
 
-    nlp = NlpModel(template=template)
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=False)
     nlp.start()
