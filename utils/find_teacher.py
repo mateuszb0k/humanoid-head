@@ -4,7 +4,7 @@ from rapidfuzz import process,fuzz
 THRESHOLD = 50
 TOP_3_THRESHOLD = 90
 #% seems to be optimal
-def get_teacher_room(teacher_name: str, db_filepath="../teachers_info.json"):
+def get_teacher_room(teacher_name: str, db_filepath="./teachers_info.json"):
     empty_result = {
         "teacher_name": None,
         "room": None,
@@ -43,7 +43,7 @@ def get_teacher_room(teacher_name: str, db_filepath="../teachers_info.json"):
             }
             return result
 #used to get top n results
-def search_teacher(teacher_name: str, db_filepath="../teachers_info.json",top_n = 3):
+def search_teacher(teacher_name: str, db_filepath="./teachers_info.json",top_n = 3):
     teacher_dict = {}
     if not os.path.exists(db_filepath):
         print( f"Error: Database file '{db_filepath}' not found.")

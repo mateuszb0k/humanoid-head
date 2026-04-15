@@ -10,16 +10,43 @@ import time
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
 import re
-from utils.find_teacher import get_teacher_room
+from utils.find_teacher import get_teacher_room,search_teacher
 from utils.find_room import get_room_directions
 from threading import Thread
 import re
 import string
 import time
-
+THRESHOLD = 60
+TOP_3_THRESHOLD = 90
 GLINER_LABELS  = [
     "room code",
     "person"
+]
+MAP_NUMBERS = {
+    "0" : "zero",
+    "1" : "jeden",
+    "2" : "dwa",
+    "3" : "trzy",
+    "4" : "cztery",
+    "5" : "pięć"
+}
+REVERSE_MAP_NUMBERS = {
+    "zero" : "0",
+    "jeden" : "1",
+    "dwa" : "2",
+    "trzy" : "3",
+    "cztery" : "4",
+    "pięć" : "5"
+}
+RANDOM_VOICE_LINES = [
+    "Poczekaj sprawdzam pogode...",
+    "Poczekaj szukam termometru...",
+    "Chwileczke właśnie dokonuje pomiaru temperatury...",
+    "Sprawdzam chmury. Te na niebie, nie moje serwery.",
+    "Moment...Przetwarzam najnowsze raporty ze stacji meteorologicznych.",
+    "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi.",
+    "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego."
+
 ]
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
@@ -95,7 +122,11 @@ class NlpModel:
             tts_thread.start()
 
             if intent == "POGODA":
-                self.result = "Poczekaj sprawdzam pogodę." + "Szukam termometru." + "Własnie dokonuje pomiaru." + weather_prompt() #default gdansk
+                '''
+                Randomly selects a voiceline to use
+                '''
+                self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()#default gdansk
+                print(self.result)
                 self.end_of_result = True
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
@@ -117,15 +148,55 @@ class NlpModel:
                             self.result = f"Aby dojść do pokoju {room} {directions}."
                     elif 'person' in label_text:
                         person = label_text['person']
-                        teacher_data = get_teacher_room(person)
-                        if teacher_data['teacher_name'] is not None:
-                            if teacher_data['room'] is not None and teacher_data['building'] is not None:
-                                room = teacher_data['room']
-                                building = teacher_data['building']
-                                room_directions = get_room_directions(f"{building},{room}")
-                                self.result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}."
-                            else:
-                                self.result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
+                        # teacher_data = get_teacher_room(person)
+                        top_3 = search_teacher(person)
+                        max_val  = max(top_3.values())
+                        best_teacher = None
+                        candidates = list(top_3.keys())
+                        iter_counter = 0
+                        for k,v in top_3.items():
+                            if v == max_val:
+                                best_teacher = k
+                        if max_val > TOP_3_THRESHOLD:
+                            teacher_data = get_teacher_room(best_teacher)
+                            if teacher_data['teacher_name'] is not None:
+                                self.result = self.handle_teachers(teacher_data)
+                        elif max_val >THRESHOLD:
+                            temp_result = f"Nie jestem pewny o kogo ci chodzi..."
+                            user_done = False
+                            for n,k in enumerate(top_3.keys()):
+                                number = MAP_NUMBERS[str(n)]
+                                temp_result += f"Jeżeli chodzi ci o {k} powiedz {number}..."
+                            print(temp_result) #debug only
+                            # self._tts_module(temp_result)
+                            while not user_done:
+                                # user_input = self._stt_module()
+                                user_input = input("podaj numer") #debug only
+                                if user_input is not None:
+                                    '''
+                                    Only top 3 needs to be modified to be more usable not just in this case
+                                    '''
+                                    '''
+                                    Think about fuzzy matching the text if simple or is not enough
+                                    '''
+                                    if user_input == "zero" or user_input == "0":
+                                        self.result = self.handle_teachers(get_teacher_room(candidates[0]))
+                                        user_done = True
+                                    elif user_input == "jeden" or user_input== "1":
+                                        self.result = self.handle_teachers(get_teacher_room(candidates[1]))
+                                        user_done = True
+                                    elif user_input == "dwa" or user_input ==  "2":
+                                        self.result = self.handle_teachers(get_teacher_room(candidates[2]))
+                                        user_done = True
+                                    else:
+                                        if iter_counter<2:
+                                            print("Nie rozumiem powiedz jeszcze raz")
+                                            # self._tts_module("Nie rozumiem powiedz jeszcze raz")
+                                            iter_counter +=1
+                                        else:
+                                            print("Przepraszam nie jestem w stanie pomóc")
+                                            # self._tts_module("Przepraszam nie jestem w stanie pomóc")
+                                            break
                         else:
                             self.result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                 else:
@@ -176,7 +247,7 @@ class NlpModel:
                 res = res.start()
                 text2say = current_text[len(text_said) : len(text_said) + res+1]
 
-                # Uncomment if microphone is available
+                # Uncomment if speaker is available
                 # self._tts_module(text2say)
 
                 print(text2say, end="", flush=True)
@@ -193,6 +264,7 @@ class NlpModel:
             _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
             return True
         except Exception as e:
+            print(e)
             return False
 
 
@@ -224,6 +296,15 @@ class NlpModel:
         model_tts.runAndWait()
         model_tts.stop()
         del model_tts
+    def handle_teachers(self,teacher_data):
+        if teacher_data['room'] is not None and teacher_data['building'] is not None:
+            room = teacher_data['room']
+            building = teacher_data['building']
+            room_directions = get_room_directions(f"{building},{room}")
+            result = f"{teacher_data['teacher_name']} jest w pokoju {building}{room} aby dojść do {building}{room} {room_directions}."
+        else:
+            result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
+        return result
 
 
 
