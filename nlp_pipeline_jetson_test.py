@@ -13,6 +13,7 @@ from threading import Thread
 import re
 import string
 import time
+from queue import Queue
 from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 
 def preprocess_stt(text: str) -> str:
@@ -36,6 +37,7 @@ class NlpModel:
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
+        # self.model_tts = pyttsx3.init()
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
@@ -50,7 +52,7 @@ class NlpModel:
         # Setting global flags
         self.using_mic = using_mic
         self.using_speaker = using_speaker
-
+        self.tts_queue = Queue()
         # Setting prompt for LLM
         if template is not None:
             self.prompt = ChatPromptTemplate.from_template(template)
@@ -81,6 +83,7 @@ class NlpModel:
 
             self.end_of_result = False
             self.result = ''
+            self.tts_queue = Queue()
             start_llm = 0
             end_llm = 0
 
@@ -106,7 +109,7 @@ class NlpModel:
             elif intent == "PG":
                 # We will create here entity extraction module to get certain information
                 data = preprocess_stt(question) #preprocess the stt if we got data that is corrupted
-                entities = self.gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2) #TODO fix gliner, because it is too slow
+                entities = self.gliner_model.predict_entities(data,GLINER_LABELS,threshold = 0.2)
                 label_text = {}
                 for entity in entities:
                     label_text[entity['label']] = entity['text']
@@ -194,7 +197,13 @@ class NlpModel:
 
                 # print("".join(chunks))
 
-            tts_thread.join() # Waiting for tts thread to end
+            # tts_thread.join() # Waiting for tts thread to end
+            while True:
+                el = self.tts_queue.get()
+                if el is None:
+                    break
+                else:
+                    self._tts_module(el)
             print(f"TTFT: {end_llm-start_llm}")
 
     def _tts_stream(self):
@@ -224,13 +233,17 @@ class NlpModel:
 
                 # Uncomment if speaker is available
                 if self.using_speaker:
-                    self._tts_module(text2say)
+                    # self._tts_module(text2say)
+                    self.tts_queue.put(text2say)
+                    # print(f"QUEUE PUT {self.tts_queue} ")
 
                 print(text2say, end="", flush=True)
 
                 text_said += text2say
 
             time.sleep(0.1)
+        self.tts_queue.put(None)
+        # print(f"QUEUE PUT NONE {self.tts_queue}")
 
     def _llm_init(self):
         """
@@ -257,7 +270,7 @@ class NlpModel:
                 raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
                 raw_data = np.frombuffer(raw_data, dtype=np.int16)
                 audio_np = raw_data.astype(np.float32) / 32768.0
-                result = self.model_stt.transcribe(audio_np, fp16=False)
+                result = self.model_stt.transcribe(audio_np, fp16=False,language = "pl")
                 speech = result["text"].strip()
                 if speech:
                     return speech
@@ -300,5 +313,5 @@ Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzg
     {{question}}
     """
 
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=False)
+    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
     nlp.start()
