@@ -75,6 +75,15 @@ def set_servo_angle(s_id, target_angle):
 
 # Main terminal control loop
 if __name__ == "__main__":
+
+    print("\n Initializing servos to mid-range positions")
+    for s_id in range(len(servos)):
+        if s_id in limits:
+            min_ang, max_ang = limits[s_id]
+            mid_angle = (min_ang + max_ang) / 2
+            set_servo_angle(s_id, mid_angle)
+        time.sleep(0.05)
+
     print("Enter command in format: [ID] [ANGLE] (e.g., '1 100'). Ctrl+C to exit.")
     try:
         while True:
