@@ -13,7 +13,7 @@ from threading import Thread
 import re
 import string
 import time
-from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES
+from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
