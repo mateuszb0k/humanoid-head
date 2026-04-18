@@ -716,10 +716,21 @@ Figure~\ref{fig:yunet_radiator} illustrates the thermal impact of the active coo
 \paragraph{Summary}
 The introduction of the active cooler reduces peak SoC temperatures by 15$^{\circ}$C for the HOG pipeline and by 30$^{\circ}$C for the YuNet pipeline. These findings confirm that the Raspberry Pi Active Cooler is a mandatory hardware component for any deployment of the vision module in a sustained, real-time interaction scenario — particularly when using the OpenCV DNN-accelerated YuNet backend.
 
-\subsection{Future Architecture: Event-Based Processing}
-Following the successful validation of the GPU-accelerated pipeline (Milestone 1), the system architecture will transition from continuous streaming transmission to an event-based model. This shift is designed to optimize resource usage and streamline data flow to the conversation processing unit. 
+\subsection{Finalized Vision Pipeline: YuNet and SFace Integration}
+To achieve the optimal balance between high framerates on the Raspberry Pi 5 and reliable recognition, the final production pipeline was built around OpenCV's YuNet for face detection and SFace for facial recognition. This approach bypasses the heavy overhead of previous methods while maintaining robust accuracy.
 
-Instead of analyzing every single frame continuously, face recognition and deep emotion detection will be triggered only by specific threshold events—such as a user entering the camera's field of view or a sudden, mathematically significant shift in facial landmarks. This paradigm will allow the robotic head to conserve computational power, reduce thermal load, and focus strictly on relevant interaction moments.
+\textbf{Detection and Recognition Flow} \\
+The system continuously captures frames using Picamera2. YuNet efficiently isolates the largest face in the frame, which is then cropped and aligned. The SFace model extracts a 128-dimensional feature vector (embedding) from this crop. Recognition is performed by calculating the cosine similarity against known vectors stored in the local database, with a strict matching threshold set to 0.28.
+
+\textbf{Majority Voting Filter for Stability} \\
+A common issue in single-shot recognition systems is the flickering of identity predictions due to minor lighting changes or head movements. To solve this without adding heavy computational load, we implemented a majority voting mechanism. The system stores the raw recognition results from the last 7 frames in a fast rolling buffer. The final identity is determined by the most common result in this buffer. This ensures that the robot's tracking and JSON telemetry remain perfectly stable, ignoring split-second misclassifications.
+
+\textbf{Event-Driven Emotion Analysis} \\
+Running the deep Keras emotion classification model on every single frame caused severe thermal throttling and dropped the system to unplayable framerates. To fix this, the architecture was optimized to run the emotion network strictly on an event-driven basis. The heavy emotion model is only triggered when the majority voting filter confirms a new identity has entered the frame, or when a completely new session starts. Once the emotion is calculated, it is locked and broadcasted in the JSON payload alongside the live bounding box coordinates. This logic allows the system to easily maintain a smooth 14 FPS.
+
+\textbf{Automated Database Management} \\
+To comply with privacy constraints and prevent memory bloat, the system features a self-cleaning SQLite database. It stores only numeric feature embeddings and names, ensuring no actual photographs are saved to the disk. An automated cleanup routine is triggered before any new user is saved, enforcing a strict 7-day Time-To-Live (TTL) for all records and a hard cap of 200 profiles. If the limit is exceeded, the oldest records are automatically purged.
+
 \section{Conclusion}
 The development of the vision module for the robotic head successfully met its primary objectives. Through rigorous data preprocessing, including pHash deduplication, OCR artifact removal, demographic filtering, and data augmentation via Generative AI (Flux.1), we constructed a highly robust training corpus of over 120,000 images.
 
