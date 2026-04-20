@@ -82,8 +82,13 @@
 - [X] teethUp.stl
 - [X] tongue.stl
 
-## Problems
+- [ ] base-frame.stl
+- [ ] base-main.stl
+- [X] neck-bottom_V3.stl
+- [X] neck-upper_V3.stl
 
+
+## Problems
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
 * Encountered a failure printing "sMountRight" 3D part. The part will be reprinted in a later batch with modified supports.
 * Encountered a failure printing "readPlate" 3D part due to support failure. G-Code modified with new tree supports.
@@ -99,4 +104,4 @@
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
 
 ---
-*Last Update: 25-03-2026
+*Last Update: 21-04-2026
