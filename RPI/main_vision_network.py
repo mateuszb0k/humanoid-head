@@ -9,7 +9,7 @@ import threading
 import sys
 import requests
 from collections import deque, Counter
-from flask import Flask, Response, render_template_string
+from flask import Flask, Response, render_template_string, request, jsonify
 from picamera2 import Picamera2
 from keras.models import load_model
 
@@ -186,7 +186,7 @@ class FaceSystem:
                 payload["identity"] = self.locked_identity
                 payload["emotion"] = self.locked_emotion
             try:
-                requests.post("http://192.168.0.XXX:5000/api/data", json=payload, timeout=0.02)
+                requests.post("http://192.168.0.143:5000/api/data", json=payload, timeout=0.02)
             except:
                 pass
             self.f_count += 1
@@ -221,6 +221,17 @@ def index():
 @app.route('/video_feed')
 def video_feed():
     return Response(vision_sys.generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/api/save_name',methods=['POST'])
+def save_name():
+    data = request.json
+    new_name = data.get('identity',"Unknown")
+    if vision_sys.last_feat is not None:
+        cur = vision_sys.db.cursor()
+        vision_sys._cleanup_db()
+        cur.execute("INSERT INTO users (name, encoding) VALUES (?, ?)", (new_name, pickle.dumps(vision_sys.last_feat)))
+        vision_sys.db.commit()
+        vision_sys.db_names,vision_sys.db_vecs = vision_sys._load_users()
+    return jsonify({"status":"ok"}),200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
