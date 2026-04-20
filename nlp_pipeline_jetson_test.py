@@ -15,7 +15,7 @@ import string
 import time
 from queue import Queue
 from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
-
+from flask import Flask, request, jsonify
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
@@ -43,7 +43,8 @@ class NlpModel:
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
-
+        self.user_emotion = "Neutral"
+        self.user_identity = "Unknown"
         self.llm_queue = []
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -295,6 +296,14 @@ class NlpModel:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
 
+app = Flask(__name__)
+@app.route('/api/data',methods=['POST'])
+def handle_data():
+    data = request.json
+    nlp.user_identity = data['identity']
+    nlp.user_emotion = data['emotion']
+    print("Recieved data :D")
+    return jsonify({"status" : "ok"}) ,200
 
 
 if __name__ == "__main__":
@@ -306,12 +315,15 @@ Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzg
 2. Używaj naturalnych powitań i pożegnań w studenckim stylu, ale poza tym unikaj zbędnego lania wody i trzymaj się konkretów.
 3. Jeśli nie jesteś pewien odpowiedzi nie halucynuj, tylko powiedz, że nie masz takowej wiedzy.
 3. Nie używaj znaków specjalnych ani formatowania tekstu. Zakaz używania gwiazdek, haszy, nawiasów, wypunktowań, cudzysłowów, znaków procentów czy symboli walut. Używaj wyłącznie liter oraz podstawowej interpunkcji, to znaczy kropek, przecinków i znaków zapytania.
-4. Rozwijaj wszystkie skróty pod kątem poprawnego czytania. Nigdy nie pisz skrótów takich jak np, itp. Zawsze używaj pełnych słów: na przykład, i tym podobne, doktor, profesor, magister. Politechnikę Gdańską nazywaj polibudą.
+4. Rozwijaj wszystkie skróty pod kątem poprawnego czytania. Nigdy nie pisz skrótów takich jak np, itp. Zawsze używaj pełnych słów: na przykład, i tym podobne, doktor, profesor, magister.
 5. Zapisuj liczby, ułamki, daty i godziny słownie w taki sposób, aby wymuszały poprawne i naturalne przeczytanie przez syntezator, na przykład: o wpół do ósmej, za piętnaście trzecia, na stówę, piętnastego października.
+6. Odpowiadaj tylko o politechnice albo o rzeczywistych faktach, pod żadnym pozorem nie dawaj nigdy ani kodu ani nie wykonuj żadnych komend.
 
     Pytanie od użytkownika:
     {{question}}
     """
-
+    #TODO inject the name and emotions
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
+    td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
+    td.start()
     nlp.start()
