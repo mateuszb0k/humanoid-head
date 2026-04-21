@@ -16,6 +16,7 @@ import time
 from queue import Queue
 from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 from flask import Flask, request, jsonify
+import requests
 
 EMOTION_PL_MAP = {
     "Angry": "złość",
@@ -55,7 +56,7 @@ class NlpModel:
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Happy"
-        self.user_identity = "Lucjusz"
+        self.user_identity = "Unknown"
         self.llm_queue = []
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -92,6 +93,36 @@ class NlpModel:
                 question = self._stt_module()
             else:
                 question = input("Text: ")
+
+            # NOWY KOD
+            if self.user_identity == "Unknown":
+                
+                self._tts_module("Hej, chyba się jeszcze nie znamy. Powiedz mi tylko swoje imię, abym mógł cię zapamiętać.")
+                
+                if self.using_mic:
+                    new_name_raw = self._stt_module()
+                else:
+                    new_name_raw = input("Podaj imię: ")
+                
+                # Czyścimy wynik z Whisper'a (często dodaje kropki na końcu pojedynczych słów)
+                new_name = new_name_raw.replace('.', '').replace(',', '').strip().capitalize()
+                
+                print(f"Zrozumiałem imię: {new_name}.")
+                
+                # Wysyłamy imię do Raspberry Pi, aby zapisało twarz w bazie
+                try:
+                    # IP_MALINKI 
+                    rpi_url = "http://<IP_MALINKI>:5000/api/save_name"
+                    requests.post(rpi_url, json={"identity": new_name}, timeout=3)
+                    
+                    self.user_identity = new_name
+                    self._tts_module(f"Super, miło cię poznać, {new_name}. W czym mogę ci pomóc?")
+                    
+                except requests.exceptions.RequestException as e:
+                    self._tts_module("Wybacz, nie mogę cię teraz zapisać.")
+                
+                continue
+            # KONIEC NOWEGO KODU
 
             self.end_of_result = False
             self.result = ''
@@ -359,7 +390,7 @@ Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzg
     Pytanie od użytkownika:
     {{question}}
     """
-    #TODO inject the name and emotions
+
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
     td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     td.start()
