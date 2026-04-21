@@ -18,7 +18,7 @@ from queue import Queue
 from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 from flask import Flask, request, jsonify
 import requests
-
+from rapidfuzz import process,fuzz
 EMOTION_PL_MAP = {
     "Angry": "złość",
     "Disgust": "obrzydzenie",
@@ -106,35 +106,7 @@ class NlpModel:
                 question = input("Text: ")
 
             # NOWY KOD
-            if self.user_identity == "Unknown":
-                
-                self._tts_module("Hej, chyba się jeszcze nie znamy. Powiedz mi tylko swoje imię, abym mógł cię zapamiętać.")
-                
-                if self.using_mic:
-                    new_name_raw = self._stt_module()
-                else:
-                    new_name_raw = input("Podaj imię: ")
-                
-                # Czyścimy wynik z Whisper'a (często dodaje kropki na końcu pojedynczych słów)
-                new_name = new_name_raw.replace('.', '').replace(',', '').strip().capitalize()
-                
-                print(f"Zrozumiałem imię: {new_name}.")
-                
-                # Wysyłamy imię do Raspberry Pi, aby zapisało twarz w bazie
-                try:
-                    # IP_MALINKI 
-                    rpi_url = "http://<IP_MALINKI>:5000/api/save_name"
-                    requests.post(rpi_url, json={"identity": new_name}, timeout=3)
-                    
-                    self.user_identity = new_name
-                    self._tts_module(f"Super, miło cię poznać, {new_name}. W czym mogę ci pomóc?")
-                    
-                except requests.exceptions.RequestException as e:
-                    self._tts_module("Wybacz, nie mogę cię teraz zapisać.")
-                
-                continue
-            # KONIEC NOWEGO KODU
-
+            self.get_new_user_name()
             self.end_of_result = False
             self.result = ''
             self.tts_queue = Queue()
@@ -377,20 +349,54 @@ class NlpModel:
         else:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
+    def get_new_user_name(self):
+        name_file = "imiona_polskie.txt"
+        names = []
+        with open(name_file) as f:
+            f.readline()
+            for line in f:
+                names.append(line.strip())
+        if self.user_identity == "Unknown":
 
+            self._tts_module("Hej, chyba się jeszcze nie znamy.")
+            self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
+
+            if self.using_mic:
+                new_name_raw = self._stt_module()
+            else:
+                new_name_raw = input("Podaj imię: ")
+
+            new_name_phrase = new_name_raw.replace('.', '').replace(',', '').strip()
+            new_name = None
+            new_name_score = 0
+            for w in new_name_phrase.split():
+               l = process.extractOne(w, names, scorer=fuzz.WRatio)
+               if l[1]>new_name_score:
+                   new_name_score = l[1]
+                   new_name = l[0]
+            self.user_identity = new_name
+            self._tts_module(f"Miło cię poznać {self.user_identity}")
+            td = Thread(target = self._save_name_to_pi,daemon=True)
+            td.start()
+    def _save_name_to_pi(self):
+        try:
+            rpi_url = 'http://raspberrypi.local:5000/api/save_name'
+            request.post(rpi_url,json = {"identity" : self.user_identity})
+        except Exception as e:
+            print(e)
 app = Flask(__name__)
 @app.route('/api/data',methods=['POST'])
 def handle_data():
     data = request.json
     nlp.user_identity = data['identity']
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
-    print("Recieved data :D")
+    # print("Recieved data :D")
     return jsonify({"status" : "ok"}) ,200
 
 if __name__ == "__main__":
     template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Używasz codziennego, studenckiego języka, jesteś bezpośredni, ale przy tym konkretny i pomocny w sprawach uczelnianych.
 
-    Właśnie rozmawiasz z użytkownikiem. Jego imię to: {{name}}, a jego obecna emocja to: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
+    Właśnie rozmawiasz z użytkownikiem. Jego imię to: {{name}} jeżeli imie to unknown to nie mow do uzytkownika po imieniu, a jego obecna emocja to: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
     
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
 
