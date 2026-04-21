@@ -4,9 +4,7 @@ from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
 import speech_recognition as sr
-import pyttsx3
 from piper.voice import PiperVoice
-
 from utils.weather import weather_prompt
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
@@ -64,7 +62,9 @@ class NlpModel:
         self.end_of_result = False
 
         # Config for tts module
-        MODEL_PATH = "PiperTTS/pl_PL-bass-high.onnx"
+        # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
+        # Create folder PiperTTS, and paste .onnx and .json files there
+        MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(
@@ -92,13 +92,11 @@ class NlpModel:
         STT -> LLM -> TTS
         The process runs indefinetely unless it is interrupted.
         """
-
         status = self._llm_init()
         print(f"LLM status: {status}")
 
         if not status:
             return
-
         while True:
             # STT phase
             if self.using_mic:
@@ -112,13 +110,11 @@ class NlpModel:
             start_llm = 0
             end_llm = 0
 
-            start_intent = time.time()
             print("Analyzing...")
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
             print(question)
-            end_intent = time.time()
 
             # Creating thread for streaming TTS
             tts_thread = Thread(target = self._tts_stream)
@@ -238,20 +234,17 @@ class NlpModel:
                     self.result += text
                     chunks.append(text)
 
-
-
-
                 self.end_of_result = True
 
-                # print("".join(chunks))
-
-            # tts_thread.join() # Waiting for tts thread to end
+            #  # Waiting for tts thread to end
             while True:
                 el = self.tts_queue.get()
                 if el is None:
                     break
                 else:
                     self._tts_module(el)
+            tts_thread.join()
+
             print(f"TTFT: {end_llm-start_llm}")
 
     def _tts_stream(self):
@@ -338,11 +331,6 @@ class NlpModel:
         """
         Converts generated text into synthesized speech.
         """
-        # model_tts = pyttsx3.init()
-        # model_tts.say(text)
-        # model_tts.runAndWait()
-        # model_tts.stop()
-        # del model_tts
         phonemes = self.voice.phonemize(text)
         ids = list(self.voice.phonemes_to_ids(phonemes[0]))
         audio = self.voice.phoneme_ids_to_audio(ids)
@@ -367,7 +355,6 @@ def handle_data():
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
     print("Recieved data :D")
     return jsonify({"status" : "ok"}) ,200
-
 
 if __name__ == "__main__":
     template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Używasz codziennego, studenckiego języka, jesteś bezpośredni, ale przy tym konkretny i pomocny w sprawach uczelnianych.

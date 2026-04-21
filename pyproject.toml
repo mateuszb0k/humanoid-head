@@ -11,7 +11,6 @@ dependencies = [
     "openai-whisper>=20250625",
     "pyaudio>=0.2.14",
     "python-weather>=2.1.2",
-    "pyttsx3>=2.99",
     "requests>=2.32.5",
     "spacy>=3.8.0",
     "speechrecognition>=3.14.5",
