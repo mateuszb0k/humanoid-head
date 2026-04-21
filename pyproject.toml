@@ -19,5 +19,6 @@ dependencies = [
     "gliner>=0.2.25",
     "rapidfuzz>=3.14.3",
     "airllm>=2.11.0",
+    "piper-tts>=1.4.2",
     "flask>=3.1.3",
 ]

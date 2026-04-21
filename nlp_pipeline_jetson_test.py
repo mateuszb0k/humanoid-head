@@ -1,9 +1,12 @@
 import numpy as np
+import pyaudio
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
 import speech_recognition as sr
 import pyttsx3
+from piper.voice import PiperVoice
+
 from utils.weather import weather_prompt
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
@@ -14,7 +17,7 @@ import re
 import string
 import time
 from queue import Queue
-from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
+from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 from flask import Flask, request, jsonify
 
 EMOTION_PL_MAP = {
@@ -48,7 +51,6 @@ class NlpModel:
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
-        # self.model_tts = pyttsx3.init()
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
@@ -60,6 +62,17 @@ class NlpModel:
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
         self.end_of_result = False
+
+        # Config for tts module
+        MODEL_PATH = "PiperTTS/pl_PL-bass-high.onnx"
+        self.voice = PiperVoice.load(MODEL_PATH)
+        self.p = pyaudio.PyAudio()
+        self.stream = self.p.open(
+            format=pyaudio.paInt16,
+            channels=1,
+            rate=self.voice.config.sample_rate,
+            output=True
+        )
 
         # Setting global flags
         self.using_mic = using_mic
@@ -158,10 +171,13 @@ class NlpModel:
                                 number = MAP_NUMBERS[str(n)]
                                 temp_result += f"Jeżeli chodzi ci o {k} powiedz {number}..."
                             print(temp_result) #debug only
-                            # self._tts_module(temp_result)
+                            if self.using_speaker:
+                                self._tts_module(temp_result)
                             while not user_done:
-                                # user_input = self._stt_module()
-                                user_input = input("podaj numer") #debug only
+                                if self.using_mic:
+                                    user_input = self._stt_module()
+                                else:
+                                    user_input = input("podaj numer") #debug only
                                 if user_input is not None:
                                     '''
                                     Only top 3 needs to be modified to be more usable not just in this case
@@ -169,23 +185,29 @@ class NlpModel:
                                     '''
                                     Think about fuzzy matching the text if simple or is not enough
                                     '''
-                                    if user_input == "zero" or user_input == "0":
+                                    print(user_input)
+                                    user_input = user_input.lower()
+                                    if "zero" in user_input or user_input == "0":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[0]))
                                         user_done = True
-                                    elif user_input == "jeden" or user_input== "1":
+                                    elif "jeden" in user_input or user_input== "1":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[1]))
                                         user_done = True
-                                    elif user_input == "dwa" or user_input ==  "2":
+                                    elif "dwa" in user_input or user_input ==  "2":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[2]))
                                         user_done = True
                                     else:
                                         if iter_counter<2:
-                                            print("Nie rozumiem powiedz jeszcze raz")
-                                            # self._tts_module("Nie rozumiem powiedz jeszcze raz")
+                                            if self.using_speaker:
+                                                self._tts_module("Nie rozumiem powiedz jeszcze raz")
+                                            else:
+                                                print("Nie rozumiem powiedz jeszcze raz")
                                             iter_counter +=1
                                         else:
-                                            print("Przepraszam nie jestem w stanie pomóc")
-                                            # self._tts_module("Przepraszam nie jestem w stanie pomóc")
+                                            if self.using_speaker:
+                                                self._tts_module("Przepraszam nie jestem w stanie pomóc")
+                                            else:
+                                                print("Przepraszam nie jestem w stanie pomóc")
                                             break
                         else:
                             self.result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
@@ -316,11 +338,17 @@ class NlpModel:
         """
         Converts generated text into synthesized speech.
         """
-        model_tts = pyttsx3.init()
-        model_tts.say(text)
-        model_tts.runAndWait()
-        model_tts.stop()
-        del model_tts
+        # model_tts = pyttsx3.init()
+        # model_tts.say(text)
+        # model_tts.runAndWait()
+        # model_tts.stop()
+        # del model_tts
+        phonemes = self.voice.phonemize(text)
+        ids = list(self.voice.phonemes_to_ids(phonemes[0]))
+        audio = self.voice.phoneme_ids_to_audio(ids)
+        audio_bytes = (audio * 32767).astype(np.int16).tobytes()
+        self.stream.write(audio_bytes)
+
     def handle_teachers(self,teacher_data):
         if teacher_data['room'] is not None and teacher_data['building'] is not None:
             room = teacher_data['room']
@@ -361,6 +389,6 @@ Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzg
     """
     #TODO inject the name and emotions
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
-    td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
-    td.start()
+    # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
+    # td.start()
     nlp.start()
