@@ -16,6 +16,17 @@ import time
 from queue import Queue
 from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, REVERSE_MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
 from flask import Flask, request, jsonify
+
+EMOTION_PL_MAP = {
+    "Angry": "złość",
+    "Disgust": "obrzydzenie",
+    "Fear": "strach",
+    "Happy": "radość",
+    "Sad": "smutek",
+    "Surprise": "zaskoczenie",
+    "Neutral": "neutralność"
+}
+
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)',r'ne\1',text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)',r'ea\1',text)
@@ -43,8 +54,8 @@ class NlpModel:
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
-        self.user_emotion = "Neutral"
-        self.user_identity = "Unknown"
+        self.user_emotion = "Happy"
+        self.user_identity = "Lucjusz"
         self.llm_queue = []
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -187,12 +198,26 @@ class NlpModel:
                 chunks = []
                 start_llm = time.time()
                 end_llm = 0
-                for chunk in self.chain.stream({"question": question}):
+                # for chunk in self.chain.stream({"question": question}):
+                #     if not end_llm:
+                #         end_llm = time.time()
+                #     text = chunk if isinstance(chunk, str) else str(chunk)
+                #     self.result += text
+                #     chunks.append(text)
+
+                for chunk in self.chain.stream({
+                    "question": question,
+                    "name": self.user_identity,
+                    "emotion": self.user_emotion
+                }):
                     if not end_llm:
                         end_llm = time.time()
                     text = chunk if isinstance(chunk, str) else str(chunk)
                     self.result += text
                     chunks.append(text)
+
+
+
 
                 self.end_of_result = True
 
@@ -250,8 +275,18 @@ class NlpModel:
         """
         Initializes LLM module, because first response is always the longest.
         """
+        # try:
+        #     _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
+        #     return True
+        # except Exception as e:
+        #     print(e)
+        #     return False
         try:
-            _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
+            _ = self.chain.invoke({
+                "question": "Odpowiedz jednym słowem: OK",
+                "name": "Unknown",
+                "emotion": "Neutralość"
+            })
             return True
         except Exception as e:
             print(e)
@@ -301,7 +336,7 @@ app = Flask(__name__)
 def handle_data():
     data = request.json
     nlp.user_identity = data['identity']
-    nlp.user_emotion = data['emotion']
+    nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
     print("Recieved data :D")
     return jsonify({"status" : "ok"}) ,200
 
@@ -309,6 +344,8 @@ def handle_data():
 if __name__ == "__main__":
     template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Używasz codziennego, studenckiego języka, jesteś bezpośredni, ale przy tym konkretny i pomocny w sprawach uczelnianych.
 
+    Właśnie rozmawiasz z użytkownikiem. Jego imię to: {{name}}, a jego obecna emocja to: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
+    
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
 
 1. Gadasz krótko, zwięźle i w naturalnym tonie, jakbyś rozmawiał ze znajomym na wydziale.
