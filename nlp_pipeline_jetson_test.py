@@ -237,12 +237,12 @@ class NlpModel:
                 self.end_of_result = True
 
             #  # Waiting for tts thread to end
-            while True:
-                el = self.tts_queue.get()
-                if el is None:
-                    break
-                else:
-                    self._tts_module(el)
+            # while True:
+            #     el = self.tts_queue.get()
+            #     if el is None:
+            #         break
+            #     else:
+            #         self._tts_module(el)
             tts_thread.join()
 
             print(f"TTFT: {end_llm-start_llm}")
@@ -274,8 +274,8 @@ class NlpModel:
 
                 # Uncomment if speaker is available
                 if self.using_speaker:
-                    # self._tts_module(text2say)
-                    self.tts_queue.put(text2say)
+                    self._tts_module(text2say)
+                    # self.tts_queue.put(text2say)
                     # print(f"QUEUE PUT {self.tts_queue} ")
 
                 print(text2say, end="", flush=True)
@@ -375,7 +375,7 @@ Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzg
     {{question}}
     """
     #TODO inject the name and emotions
-    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()
     nlp.start()
