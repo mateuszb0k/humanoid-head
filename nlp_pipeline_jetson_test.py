@@ -59,7 +59,7 @@ class NlpModel:
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Happy"
-        self.user_identity = "Waiting"
+        self.user_identity = "Unknown"
         self.llm_queue = deque()
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -104,19 +104,12 @@ class NlpModel:
             return
         while True:
             # STT phase
-            while self.user_identity =="Waiting" or self.user_identity == "None":
-                print("Waiting for user identity")
-                time.sleep(1)
-            if self.user_identity == "Unknown":
-                self.get_new_user_name()
             if self.using_mic:
                 question = self._stt_module()
                 print(question)
             else:
                 question = input("Text: ")
-
-            # NOWY KOD
-
+            self.get_new_user_name()
             self.end_of_result = False
             self.result = ''
             self.tts_queue = Queue()
