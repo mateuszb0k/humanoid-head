@@ -335,10 +335,11 @@ class NlpModel:
         Converts generated text into synthesized speech.
         """
         phonemes = self.voice.phonemize(text)
-        ids = list(self.voice.phonemes_to_ids(phonemes[0]))
-        audio = self.voice.phoneme_ids_to_audio(ids)
-        audio_bytes = (audio * 32767).astype(np.int16).tobytes()
-        self.stream.write(audio_bytes)
+        if len(phonemes):
+            ids = list(self.voice.phonemes_to_ids(phonemes[0]))
+            audio = self.voice.phoneme_ids_to_audio(ids)
+            audio_bytes = (audio * 32767).astype(np.int16).tobytes()
+            self.stream.write(audio_bytes)
 
     def handle_teachers(self,teacher_data):
         if teacher_data['room'] is not None and teacher_data['building'] is not None:
@@ -350,13 +351,13 @@ class NlpModel:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
     def get_new_user_name(self):
-        name_file = "imiona_polskie.txt"
-        names = []
-        with open(name_file) as f:
-            f.readline()
-            for line in f:
-                names.append(line.strip())
         if self.user_identity == "Unknown":
+            name_file = "imiona_polskie.txt"
+            names = []
+            with open(name_file, encoding = "utf-8") as f:
+                f.readline()
+                for line in f:
+                    names.append(line.strip())
 
             self._tts_module("Hej, chyba się jeszcze nie znamy.")
             self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")

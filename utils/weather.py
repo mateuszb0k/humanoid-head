@@ -66,7 +66,7 @@ def weather_prompt(city: str = 'Gdansk'):
     if weather:
         return f"W {city} aktualnie jest {weather['kind']} i temperatura {weather['temperature']} stopni Celsjusza, temperatura odczuwalna {weather['feels_like']} stopni Celsjusza."
     else:
-        return f"Nie udało uzyskać się danych o pogodzie w {city}"
+        return f"Nie udało uzyskać się danych o pogodzie w {city}."
 if __name__ == '__main__':
     print("Getting weather...")
     weather = weather_prompt('Gdansk')
