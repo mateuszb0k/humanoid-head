@@ -51,7 +51,7 @@ class NlpModel:
     """
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
-        self.model_stt = whisper.load_model("small")
+        self.model_stt = whisper.load_model("tiny")
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
@@ -451,7 +451,7 @@ ZASADY ODPOWIEDZI:
     """
 
     #TODO inject the name and emotions
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()
     nlp.start()
