@@ -54,7 +54,6 @@ class NlpModel:
         self.model_stt = whisper.load_model("small")
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
-        self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
@@ -77,6 +76,8 @@ class NlpModel:
             rate=self.voice.config.sample_rate,
             output=True
         )
+
+        self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
 
         # Setting global flags
         self.using_mic = using_mic
@@ -450,7 +451,7 @@ ZASADY ODPOWIEDZI:
     """
 
     #TODO inject the name and emotions
-    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
-    td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
-    td.start()
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
+    # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
+    # td.start()
     nlp.start()
