@@ -52,6 +52,8 @@ class NlpModel:
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
         self.model_stt = whisper.load_model("small")
+        MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
+        self.voice = PiperVoice.load(MODEL_PATH)
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
@@ -67,8 +69,7 @@ class NlpModel:
         # Config for tts module
         # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
         # Create folder PiperTTS, and paste .onnx and .json files there
-        MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
-        self.voice = PiperVoice.load(MODEL_PATH)
+
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(
             format=pyaudio.paInt16,
