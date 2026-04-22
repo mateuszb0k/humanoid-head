@@ -105,6 +105,7 @@ class NlpModel:
         while True:
             # STT phase
             while self.user_identity =="Waiting" or self.user_identity == "None":
+                print("Waiting for user identity")
                 time.sleep(1)
             if self.user_identity == "Unknown":
                 self.get_new_user_name()
