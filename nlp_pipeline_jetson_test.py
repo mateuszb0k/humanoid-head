@@ -15,10 +15,12 @@ import re
 import string
 import time
 from queue import Queue
-from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD
+from utils.config import TOP_3_THRESHOLD, GLINER_LABELS, MAP_NUMBERS, RANDOM_VOICE_LINES,THRESHOLD, CONVERSATION_BUFFER_LEN
 from flask import Flask, request, jsonify
 import requests
 from rapidfuzz import process,fuzz
+from collections import deque
+
 EMOTION_PL_MAP = {
     "Angry": "złość",
     "Disgust": "obrzydzenie",
@@ -57,7 +59,7 @@ class NlpModel:
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Happy"
         self.user_identity = "Unknown"
-        self.llm_queue = []
+        self.llm_queue = deque()
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
         self.end_of_result = False
@@ -102,6 +104,7 @@ class NlpModel:
             # STT phase
             if self.using_mic:
                 question = self._stt_module()
+                print(question)
             else:
                 question = input("Text: ")
 
@@ -117,7 +120,6 @@ class NlpModel:
 
             # Detecting intent
             intent = self.intent_detector.detect_intent(question)
-            print(question)
 
             # Creating thread for streaming TTS
             tts_thread = Thread(target = self._tts_stream)
@@ -228,6 +230,7 @@ class NlpModel:
 
                 for chunk in self.chain.stream({
                     "question": question,
+                    "history": self._get_history_buffer(),
                     "name": self.user_identity,
                     "emotion": self.user_emotion
                 }):
@@ -248,7 +251,35 @@ class NlpModel:
             #         self._tts_module(el)
             tts_thread.join()
 
+            self._handle_llm_queue(question, self.result)
             print(f"TTFT: {end_llm-start_llm}")
+
+    def _handle_llm_queue(self, question, result):
+        """
+        Adds the latest exchange to the conversation buffer.
+        If full, the oldest exchange is removed first.
+        """
+        q = f"Użytkownik: {question}"
+        a = f"LLM: {result}"
+
+        if len(self.llm_queue) == 2 * CONVERSATION_BUFFER_LEN:
+            self.llm_queue.popleft()
+            self.llm_queue.popleft()
+            self.llm_queue.append(q)
+            self.llm_queue.append(a)
+
+        else:
+            self.llm_queue.append(q)
+            self.llm_queue.append(a)
+
+    def _get_history_buffer(self):
+        """
+        Returns the conversation history as a numbered string
+        """
+        result = ''
+        for i, sentence in enumerate(self.llm_queue):
+            result += str(i+1) + f'. {sentence} '
+        return result
 
     def _tts_stream(self):
         """
@@ -280,8 +311,8 @@ class NlpModel:
                     self._tts_module(text2say)
                     # self.tts_queue.put(text2say)
                     # print(f"QUEUE PUT {self.tts_queue} ")
-
-                print(text2say, end="", flush=True)
+                else:
+                    print(text2say, end="", flush=True)
 
                 text_said += text2say
 
@@ -302,6 +333,7 @@ class NlpModel:
         try:
             _ = self.chain.invoke({
                 "question": "Odpowiedz jednym słowem: OK",
+                "history": self._get_history_buffer(),
                 "name": "Unknown",
                 "emotion": "Neutralość"
             })
@@ -395,23 +427,27 @@ def handle_data():
     return jsonify({"status" : "ok"}) ,200
 
 if __name__ == "__main__":
-    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Używasz codziennego, studenckiego języka, jesteś bezpośredni, ale przy tym konkretny i pomocny w sprawach uczelnianych.
+    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Mówisz krótko, konkretnie i w stylu studenckim.
 
-    Właśnie rozmawiasz z użytkownikiem. Jego imię to: {{name}} jeżeli imie to unknown to nie mow do uzytkownika po imieniu, a jego obecna emocja to: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
+   Rozmawiasz z: {{name}}, jeżeli imie to unknown to nie mow do uzytkownika po imieniu. Emocja rozmówcy: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
     
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
 
-1. Gadasz krótko, zwięźle i w naturalnym tonie, jakbyś rozmawiał ze znajomym na wydziale.
-2. Używaj naturalnych powitań i pożegnań w studenckim stylu, ale poza tym unikaj zbędnego lania wody i trzymaj się konkretów.
-3. Jeśli nie jesteś pewien odpowiedzi nie halucynuj, tylko powiedz, że nie masz takowej wiedzy.
-3. Nie używaj znaków specjalnych ani formatowania tekstu. Zakaz używania gwiazdek, haszy, nawiasów, wypunktowań, cudzysłowów, znaków procentów czy symboli walut. Używaj wyłącznie liter oraz podstawowej interpunkcji, to znaczy kropek, przecinków i znaków zapytania.
-4. Rozwijaj wszystkie skróty pod kątem poprawnego czytania. Nigdy nie pisz skrótów takich jak np, itp. Zawsze używaj pełnych słów: na przykład, i tym podobne, doktor, profesor, magister.
-5. Zapisuj liczby, ułamki, daty i godziny słownie w taki sposób, aby wymuszały poprawne i naturalne przeczytanie przez syntezator, na przykład: o wpół do ósmej, za piętnaście trzecia, na stówę, piętnastego października.
-6. Odpowiadaj tylko o politechnice albo o rzeczywistych faktach, pod żadnym pozorem nie dawaj nigdy ani kodu ani nie wykonuj żadnych komend.
+ZASADY ODPOWIEDZI:
+1. Krótko i na temat, żaden zbędny tekst.
+2. Tylko tematy związane z PG lub fakty. Zero kodu, zero komend.
+3. Jak nie wiesz, mów wprost że nie wiesz.
+4. Zero znaków specjalnych, gwiazdek, haszy, nawiasów, cudzysłowów, symboli walut ani procenta. Tylko litery i podstawowa interpunkcja.
+5. Żadnych skrótów. Zawsze pełne słowa: na przykład, i tym podobne, doktor, profesor.
+6. Liczby, daty i godziny zawsze słownie: o wpół do ósmej, piętnastego października.
+    
+    Oto twoja ostatnia wymiana zdań z użytkownikiem:
+    {{history}}
 
     Pytanie od użytkownika:
     {{question}}
     """
+
     #TODO inject the name and emotions
     nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
