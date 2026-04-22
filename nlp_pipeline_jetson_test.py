@@ -414,7 +414,7 @@ class NlpModel:
     def _save_name_to_pi(self):
         try:
             rpi_url = 'http://raspberrypi.local:5000/api/save_name'
-            request.post(rpi_url,json = {"identity" : self.user_identity})
+            requests.post(rpi_url,json = {"identity" : self.user_identity})
         except Exception as e:
             print(e)
 app = Flask(__name__)
@@ -423,7 +423,7 @@ def handle_data():
     data = request.json
     nlp.user_identity = data['identity']
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
-    # print("Recieved data :D")
+    print("Recieved data :D")
     return jsonify({"status" : "ok"}) ,200
 
 if __name__ == "__main__":
@@ -449,7 +449,7 @@ ZASADY ODPOWIEDZI:
     """
 
     #TODO inject the name and emotions
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=False)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()
     nlp.start()
