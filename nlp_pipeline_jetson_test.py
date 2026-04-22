@@ -59,7 +59,7 @@ class NlpModel:
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Happy"
-        self.user_identity = "Unknown"
+        self.user_identity = "Waiting"
         self.llm_queue = deque()
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -104,6 +104,10 @@ class NlpModel:
             return
         while True:
             # STT phase
+            while self.user_identity =="Waiting" or self.user_identity == "None":
+                time.sleep(1)
+            if self.user_identity == "Unknown":
+                self.get_new_user_name()
             if self.using_mic:
                 question = self._stt_module()
                 print(question)
@@ -111,7 +115,7 @@ class NlpModel:
                 question = input("Text: ")
 
             # NOWY KOD
-            self.get_new_user_name()
+
             self.end_of_result = False
             self.result = ''
             self.tts_queue = Queue()
@@ -423,9 +427,9 @@ app = Flask(__name__)
 @app.route('/api/data',methods=['POST'])
 def handle_data():
     data = request.json
+    print(data)
     nlp.user_identity = data['identity']
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
-    print("Recieved data :D")
     return jsonify({"status" : "ok"}) ,200
 
 if __name__ == "__main__":
@@ -449,9 +453,7 @@ ZASADY ODPOWIEDZI:
     Pytanie od użytkownika:
     {{question}}
     """
-
-    #TODO inject the name and emotions
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
-    # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
-    # td.start()
+    td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
+    td.start()
     nlp.start()
