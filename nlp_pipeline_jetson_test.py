@@ -413,7 +413,7 @@ class NlpModel:
             td.start()
     def _save_name_to_pi(self):
         try:
-            rpi_url = 'http://raspberrypi.local:5000/api/save_name'
+            rpi_url = 'http://uncanny-head.local:5000/api/save_name'
             requests.post(rpi_url,json = {"identity" : self.user_identity})
         except Exception as e:
             print(e)
