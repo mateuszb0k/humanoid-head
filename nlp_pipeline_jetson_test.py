@@ -51,7 +51,7 @@ class NlpModel:
     """
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
-        self.model_stt = whisper.load_model("tiny")
+        self.model_stt = whisper.load_model("base")
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
