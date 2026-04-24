@@ -83,7 +83,7 @@
 - [X] tongue.stl
 
 - [ ] base-frame.stl
-- [ ] base-main.stl
+- [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V3.stl
 
@@ -104,4 +104,4 @@
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
 
 ---
-*Last Update: 21-04-2026
+*Last Update: 24-04-2026
