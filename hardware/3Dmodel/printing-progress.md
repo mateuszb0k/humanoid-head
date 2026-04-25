@@ -102,6 +102,7 @@
 * Parts broke during assembly - centralServoHorn, EyeAdaptor3 and cheekBone. Parts will be reprinted with new g-code with different angles.
 * Parts broke during assembly - topLidHorn, link2a. Parts will be reprinted with new g-code with different angles.
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
+* Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
 
 ---
-*Last Update: 24-04-2026
+*Last Update: 25-04-2026
