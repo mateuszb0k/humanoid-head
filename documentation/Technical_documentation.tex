@@ -745,6 +745,31 @@ A major challenge was the gap between synthetic training data and real-world per
 The vision module was designed with privacy-first principles. The system does not store raw images or video feeds. Instead, all facial data is converted into 128-dimensional numerical embeddings. These vectors are stored in a local SQLite database, making it impossible to reconstruct the original face from the saved data. 
 
 To manage resources and comply with data retention best practices, the database includes an automated cleanup routine. Records are assigned a seven-day lifespan and the total user capacity is capped at 200 profiles. Once these limits are reached, the oldest entries are purged automatically to ensure the system remains efficient and secure.
+\section{Conception and tests new model}
+This part of the project focused on designing and evaluating a new approach for a Facial Emotion Recognition (FER) system. Rather than relying on a standard single network analyzing the entire frame, the new approach assumes the deployment of a multi-stage processing pipeline based on cascaded CNN networks.
+
+\subsection{Solution Architecture}
+The solution architecture consists of two main modules:
+
+\begin{itemize}
+    \item Feature Extraction Module: The first stage is a CNN model serving as a precise Region of Interest (ROI) detector. Its task is to extract the key facial components of the user, specifically: eyebrows, eyes, and mouth.
+    \item Final Classification Module: The segmented components are then passed to the target neural network. Its task is to analyze the spatial relationships and shape of only those isolated facial features in order to make a final prediction across one of 7 classes (6 basic emotions + neutral state).
+\end{itemize}
+
+\subsection{Benefits of This Approach}
+\begin{itemize}
+    \item Increased accuracy: Initial research indicates that the cascaded approach enables higher detection precision. The main classifier focuses exclusively on "clean" facial expression signals, rather than wasting computational resources on analyzing irrelevant details in the image.
+    \item Greater robustness to noise: The system becomes significantly less susceptible to variable environmental conditions (such as lighting, background, or the user's hairstyle), since the decision-making process relies strictly on isolated facial components.
+\end{itemize}
+
+\subsection{Training Data Strategy (Dataset)}
+To provide the model with optimal conditions for generalization and to avoid overfitting, a comprehensive dataset has been designed:
+
+\begin{itemize}
+    \item Volume: The dataset will consist of 49,000 images in total, ensuring perfect class balance (exactly 7,000 samples per each of the 7 emotions analyzed).
+    \item Demographic diversity: The dataset has been planned with careful attention to the absence of bias, and will therefore be diverse in terms of ethnicity and age.
+    \item Synthetic augmentation (Generative Augmentation): Due to the difficulty in acquiring such a large number of balanced, real-world, high-quality images, at least half of the dataset will be generated synthetically using the advanced diffusion model flux2.dev. This will allow for controlled creation of edge cases and precise management of the demographics of the generated faces.
+\end{itemize}
 
 \section{Conclusion}
 The development of the vision module for the robotic head successfully met its primary objectives. Through rigorous data preprocessing, including pHash deduplication, OCR artifact removal, demographic filtering, and data augmentation via Generative AI (Flux.1), we constructed a highly robust training corpus of over 120,000 images.
