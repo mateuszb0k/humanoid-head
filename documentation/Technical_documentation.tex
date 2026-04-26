@@ -722,14 +722,29 @@ To achieve the optimal balance between high framerates on the Raspberry Pi 5 and
 \textbf{Detection and Recognition Flow} \\
 The system continuously captures frames using Picamera2. YuNet efficiently isolates the largest face in the frame, which is then cropped and aligned. The SFace model extracts a 128-dimensional feature vector (embedding) from this crop. Recognition is performed by calculating the cosine similarity against known vectors stored in the local database, with a strict matching threshold set to 0.28.
 
-\textbf{Majority Voting Filter for Stability} \\
-A common issue in single-shot recognition systems is the flickering of identity predictions due to minor lighting changes or head movements. To solve this without adding heavy computational load, we implemented a majority voting mechanism. The system stores the raw recognition results from the last 7 frames in a fast rolling buffer. The final identity is determined by the most common result in this buffer. This ensures that the robot's tracking and JSON telemetry remain perfectly stable, ignoring split-second misclassifications.
+\textbf{Pipeline Stabilization and Logic} \\
+To ensure smooth operation and steady tracking, the pipeline integrates a rolling buffer (majority voting) for identity confirmation and triggers the heavy emotion classification model strictly on an event-driven basis (only when a new identity is confirmed or a session starts). 
 
-\textbf{Event-Driven Emotion Analysis} \\
-Running the deep Keras emotion classification model on every single frame caused severe thermal throttling and dropped the system to unplayable framerates. To fix this, the architecture was optimized to run the emotion network strictly on an event-driven basis. The heavy emotion model is only triggered when the majority voting filter confirms a new identity has entered the frame, or when a completely new session starts. Once the emotion is calculated, it is locked and broadcasted in the JSON payload alongside the live bounding box coordinates. This logic allows the system to easily maintain a smooth 14 FPS.
+\section{Inter-Module Communication}
+The vision system operates as a distributed component that communicates with the NLP module hosted on an NVIDIA Jetson through a REST API. This bidirectional interface ensures that visual telemetry and user identity management are perfectly synchronized across the robot's hardware.
 
-\textbf{Automated Database Management} \\
-To comply with privacy constraints and prevent memory bloat, the system features a self-cleaning SQLite database. It stores only numeric feature embeddings and names, ensuring no actual photographs are saved to the disk. An automated cleanup routine is triggered before any new user is saved, enforcing a strict 7-day Time-To-Live (TTL) for all records and a hard cap of 200 profiles. If the limit is exceeded, the oldest records are automatically purged.
+The Raspberry Pi serves as a primary sensor, pushing real-time data to the Jetson's API endpoint. Every processed frame where a face is present triggers a POST request to the data route. The transmitted JSON payload includes face visibility status, confirmed identity, detected emotion, and the spatial coordinates of the bounding box. This allows the NLP subsystem to adjust its conversational tone based on the user's current affective state.
+
+To synchronize new user registrations, a dedicated endpoint was implemented on the Raspberry Pi. When the NLP module identifies a new user name through voice interaction, it sends a request back to the vision module's save name route. This command triggers the local database to map the current facial embedding to the provided name, enabling seamless recognition in future sessions.
+
+\section{Technical Challenges and Optimization}
+Building a real-time vision system on embedded hardware introduced several constraints that required specific architectural solutions.
+
+The Raspberry Pi 5 provides significant computational power, but high-intensity neural network inference leads to rapid heat accumulation. During initial tests, the SoC temperature reached a critical threshold of 85 degrees Celsius, causing thermal throttling. The implementation of an active cooling solution was necessary to maintain a stable clock speed and prevent system degradation during prolonged operation.
+
+Initially, running the complex emotion classification model on every single frame proved to be a major bottleneck, resulting in poor performance of only 4-5 FPS. To address this, we transitioned to an event-driven architecture where the emotion network is triggered only upon a confirmed identity change or at the start of a new session. This optimization allowed the system to maintain a much smoother and more responsive performance of 14-15 FPS. To further improve reliability, we implemented a majority voting filter using a rolling buffer of seven frames to eliminate identity flickering caused by lighting shifts.
+
+A major challenge was the gap between synthetic training data and real-world performance. While Flux.1 generated visually perfect images, models trained exclusively on these samples failed to generalize to actual camera feeds. We resolved this by modifying the generation prompts to include realistic noise and varied lighting, which provided the necessary variance for practical deployment.
+
+\section{Data Privacy and Security}
+The vision module was designed with privacy-first principles. The system does not store raw images or video feeds. Instead, all facial data is converted into 128-dimensional numerical embeddings. These vectors are stored in a local SQLite database, making it impossible to reconstruct the original face from the saved data. 
+
+To manage resources and comply with data retention best practices, the database includes an automated cleanup routine. Records are assigned a seven-day lifespan and the total user capacity is capped at 200 profiles. Once these limits are reached, the oldest entries are purged automatically to ensure the system remains efficient and secure.
 
 \section{Conclusion}
 The development of the vision module for the robotic head successfully met its primary objectives. Through rigorous data preprocessing, including pHash deduplication, OCR artifact removal, demographic filtering, and data augmentation via Generative AI (Flux.1), we constructed a highly robust training corpus of over 120,000 images.
