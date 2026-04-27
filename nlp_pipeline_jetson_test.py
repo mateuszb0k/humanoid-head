@@ -443,8 +443,9 @@ app = Flask(__name__)
 @app.route('/api/data',methods=['POST'])
 def handle_data():
     data = request.json
-    print(data)
-    if nlp.user_identity != data['identity'] and data['identity'] != 'None':
+
+    if nlp.user_identity != data['identity'] and data['identity'] != 'None' and data['identity'] != 'Unknown':
+        print(data)
         nlp.user_identity = data['identity']
         nlp.new_data = True
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
