@@ -20,6 +20,7 @@ from flask import Flask, request, jsonify
 import requests
 from rapidfuzz import process,fuzz
 from collections import deque
+import logging
 
 EMOTION_PL_MAP = {
     "Angry": "złość",
@@ -361,6 +362,8 @@ class NlpModel:
             # STT phase
             while True: # The loop continues until the sound is recorded
                 print("Listening...")
+                if self.new_data:
+                    return None
                 try:
                     audio = self.recognizer.listen(source, phrase_time_limit=3,timeout = 1)
                     raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
@@ -368,10 +371,11 @@ class NlpModel:
                     audio_np = raw_data.astype(np.float32) / 32768.0
                     result = self.model_stt.transcribe(audio_np, fp16=False,language = "pl")
                     speech = result["text"].strip()
+                    if speech:
+                        return speech
                 except sr.WaitTimeoutError:
-                    return None
-                if speech:
-                    return speech
+                    continue
+
 
 
     def _tts_module(self, text):
@@ -409,6 +413,8 @@ class NlpModel:
             if self.using_mic:
                 new_name_raw = None
                 while not new_name_raw:
+                    if self.user_identity != "Unknown":
+                        return
                     new_name_raw = self._stt_module()
             else:
                 new_name_raw = input("Podaj imię: ")
@@ -431,6 +437,8 @@ class NlpModel:
             requests.post(rpi_url,json = {"identity" : self.user_identity})
         except Exception as e:
             print(e)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 app = Flask(__name__)
 @app.route('/api/data',methods=['POST'])
 def handle_data():
