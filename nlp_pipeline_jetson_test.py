@@ -436,7 +436,7 @@ app = Flask(__name__)
 def handle_data():
     data = request.json
     print(data)
-    if nlp.user_identity != data['identity']:
+    if nlp.user_identity != data['identity'] and data['identity'] != 'Unknown':
         nlp.user_identity = data['identity']
         nlp.new_data = True
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
