@@ -85,7 +85,7 @@
 - [X] base-frame.stl
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
-- [X] neck-upper_V3.stl
+- [ ] neck-upper_V4.stl
 
 
 ## Problems
