@@ -64,6 +64,7 @@ class NlpModel:
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
         self.end_of_result = False
+        self.new_data = False
 
         # Config for tts module
         # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
@@ -104,11 +105,19 @@ class NlpModel:
             return
         while True:
             # STT phase
+            if self.new_data:
+                random_phrase = np.random.choice([f'O, cześć {self.user_identity} tęskniłem za tobą',f'My już chyba się znamy? Cześć {self.user_identity}',f'Cześć {self.user_identity}'])
+                self._tts_module(random_phrase)
+                self.new_data = False
             if self.using_mic:
                 question = self._stt_module()
-                print(question)
+                if question:
+                    print(question)
+                else:
+                    continue
             else:
                 question = input("Text: ")
+
             self.get_new_user_name()
             self.end_of_result = False
             self.result = ''
@@ -352,12 +361,15 @@ class NlpModel:
             # STT phase
             while True: # The loop continues until the sound is recorded
                 print("Listening...")
-                audio = self.recognizer.listen(source, phrase_time_limit=3)
-                raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
-                raw_data = np.frombuffer(raw_data, dtype=np.int16)
-                audio_np = raw_data.astype(np.float32) / 32768.0
-                result = self.model_stt.transcribe(audio_np, fp16=False,language = "pl")
-                speech = result["text"].strip()
+                try:
+                    audio = self.recognizer.listen(source, phrase_time_limit=3,timeout = 1)
+                    raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
+                    raw_data = np.frombuffer(raw_data, dtype=np.int16)
+                    audio_np = raw_data.astype(np.float32) / 32768.0
+                    result = self.model_stt.transcribe(audio_np, fp16=False,language = "pl")
+                    speech = result["text"].strip()
+                except sr.WaitTimeoutError:
+                    return None
                 if speech:
                     return speech
 
@@ -395,7 +407,9 @@ class NlpModel:
             self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
 
             if self.using_mic:
-                new_name_raw = self._stt_module()
+                new_name_raw = None
+                while not new_name_raw:
+                    new_name_raw = self._stt_module()
             else:
                 new_name_raw = input("Podaj imię: ")
 
@@ -422,7 +436,9 @@ app = Flask(__name__)
 def handle_data():
     data = request.json
     print(data)
-    nlp.user_identity = data['identity']
+    if nlp.user_identity != data['identity']:
+        nlp.user_identity = data['identity']
+        nlp.new_data = True
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
     return jsonify({"status" : "ok"}) ,200
 

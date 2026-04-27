@@ -33,5 +33,4 @@ RANDOM_VOICE_LINES = [
     "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi.",
     "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego."
 ]
-
 CONVERSATION_BUFFER_LEN = 3
