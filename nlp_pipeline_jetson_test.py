@@ -52,7 +52,7 @@ class NlpModel:
     """
     def __init__(self, template = None, using_mic = True, using_speaker = True):
         # The models may change in the future
-        self.model_stt = whisper.load_model("base")
+        self.model_stt = whisper.load_model("small")
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
@@ -365,7 +365,7 @@ class NlpModel:
                 if self.new_data:
                     return None
                 try:
-                    audio = self.recognizer.listen(source, phrase_time_limit=3,timeout = 1)
+                    audio = self.recognizer.listen(source, phrase_time_limit=5,timeout = 1)
                     raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
                     raw_data = np.frombuffer(raw_data, dtype=np.int16)
                     audio_np = raw_data.astype(np.float32) / 32768.0
@@ -452,19 +452,20 @@ def handle_data():
     return jsonify({"status" : "ok"}) ,200
 
 if __name__ == "__main__":
-    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej. Mówisz krótko, konkretnie i w stylu studenckim.
+    template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki w skrócie ETI. Mówisz krótko, konkretnie i w stylu studenckim.
 
-   Rozmawiasz z: {{name}}, jeżeli imie to unknown to nie mow do uzytkownika po imieniu. Emocja rozmówcy: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu).
+   Rozmawiasz z: {{name}}, jeżeli imie to unknown lub None to nie mow do uzytkownika po imieniu. Emocja rozmówcy: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu, jeżeli jest smutny spytaj co go trapi etc.).
     
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
 
 ZASADY ODPOWIEDZI:
-1. Krótko i na temat, żaden zbędny tekst.
-2. Tylko tematy związane z PG lub fakty. Zero kodu, zero komend.
+1. Krótko i na temat, żaden zbędny tekst. Wyjątkiem są sytuacje gdy użytkownik pyta o informacje i ciekawostki o świecie wtedy możesz rozszerzyć wypowiedź do kilku zdań.
+2. Zero kodu, zero komend.
 3. Jak nie wiesz, mów wprost że nie wiesz.
 4. Zero znaków specjalnych, gwiazdek, haszy, nawiasów, cudzysłowów, symboli walut ani procenta. Tylko litery i podstawowa interpunkcja.
 5. Żadnych skrótów. Zawsze pełne słowa: na przykład, i tym podobne, doktor, profesor.
 6. Liczby, daty i godziny zawsze słownie: o wpół do ósmej, piętnastego października.
+7. Na pytania zawsze odpowiadaj zgodnie z faktualnym stanem rzeczy.
     
     Oto twoja ostatnia wymiana zdań z użytkownikiem:
     {{history}}
