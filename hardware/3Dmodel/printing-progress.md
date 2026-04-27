@@ -82,7 +82,7 @@
 - [X] teethUp.stl
 - [X] tongue.stl
 
-- [ ] base-frame.stl
+- [X] base-frame.stl
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V3.stl
@@ -105,4 +105,4 @@
 * Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
 
 ---
-*Last Update: 25-04-2026
+*Last Update: 27-04-2026
