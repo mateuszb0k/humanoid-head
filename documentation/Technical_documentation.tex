@@ -247,6 +247,9 @@ The extreme performance gap between the datasets highlights a critical issue in 
 
 In contrast, Dataset 2 was generated using more complex and noisy prompts, including various lighting conditions and subtle expression changes. Although the accuracy is lower at 76.90\%, this model proved to be the only one with genuine generalization capabilities. It successfully recognizes emotions in live interactions, confirming that a lower validation score on synthetic data can often indicate a more robust model for practical deployment.
 
+\subsection{Alternative Attempt with Hunyuan Image 3}
+After successfully generating images with the Flux model we decided to test other available generative architectures. We attempted to use the quantized Hunyuan Image 3 model in the NF4 format. The experiments were conducted on the departmental server which is equipped with two NVIDIA graphics cards each possessing 48 GB of VRAM. Despite having 96 GB of total video memory the generation process encountered critical architectural limitations. The primary issue was the inability of the PyTorch environment to properly distribute the model weights across both GPUs. Using automatic memory balancing resulted in CUDA out of bounds errors during the attention mechanism calculations. Attempting to manually assign the neural network layers to specific cards caused communication failures between the tokenizer and the main model. The system failed to generate even a single image returning only execution errors. Due to these numerous and persistent hardware communication problems we completely abandoned the use of this model.
+
 \section{Final training dataset}
 After combining the rigorously cleaned baseline dataset (104,197 images) with the processed Exp-W samples (16,944 images), the final unified dataset ready for model training reached a total volume of 121,133 normalized images.
 
