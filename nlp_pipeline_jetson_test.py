@@ -474,6 +474,6 @@ ZASADY ODPOWIEDZI:
     {{question}}
     """
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
-    td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
-    td.start()
+    # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
+    # td.start()
     nlp.start()
