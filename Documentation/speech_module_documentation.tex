@@ -192,13 +192,25 @@
 		\item \textbf{\texttt{teachers\_info.py}:} A web scraping script designed to systematically extract faculty data from the official Gdańsk University of Technology department websites. It parses HTML documents to capture names, titles, and room numbers. However, due to inconsistencies in how information is formatted across different profile pages, the automated scraping was not entirely sufficient. Consequently, a manual verification phase was mandatory to review and correct the scraped data, ensuring the highest accuracy of the database.
 		\item \textbf{\texttt{teachers\_info.json}:} The compiled database resulting from the scraping and manual review. It stores structured profiles for each staff member, mapping their full name to their academic title, assigned building, room number, and department. In cases where specific information (such as an office assignment) is unavailable or unlisted, the corresponding field is explicitly set to \texttt{"Brak"}. This specific flag prevents the system from generating false or hallucinated locations.
 		\item \textbf{\texttt{find\_teacher.py}:} A retrieval algorithm conceptually similar to \texttt{find\_room.py}, but tailored specifically for querying the staff database. This allows the assistant to successfully identify the correct staff member even if the recognized name is slightly distorted.
+		\subsubsection*{Interactive Fallback for Ambiguous Queries}
+		To further improve the reliability of the staff retrieval algorithm, an interactive fallback mechanism was introduced. When the fuzzy matching algorithm identifies multiple potential candidates with a confidence score falling between the strict top threshold and the baseline threshold, the system actively engages the user. It presents the top three most probable faculty members and asks the user to select the correct one by speaking a corresponding number (0, 1, or 2). This interactive disambiguation ensures accurate guidance even when the user's initial query is vague or the STT transcription is imprecise.
 	\end{itemize}
 	
+	\subsection{Text-to-Speech and Asynchronous Streaming}
+	To improve the naturalness and responsiveness of the conversation, the system transitioned from the traditional \texttt{pyttsx3} library to \textbf{PiperTTS}, utilizing a high-quality Polish acoustic model in \texttt{.onnx} format. This upgrade significantly enhances the voice quality and makes the humanoid sound much more lifelike.
+	
+	Furthermore, to minimize the perceived latency, the TTS module implements asynchronous streaming. Instead of waiting for the Large Language Model to generate the entire response, the system utilizes Python threading and queues. A dedicated background thread monitors the LLM's output character by character. Upon detecting punctuation marks (indicating the end of a phrase or sentence), it immediately chunks the text and sends it to the PiperTTS engine. This architecture allows the humanoid head to begin speaking almost instantly while the LLM continues generating the rest of the response in parallel.
+	
+	\subsection{Identity and Emotion Management}
+	A key advancement in creating a compelling human-robot interaction is the ability to recognize the user's identity and emotional state. The system features a dedicated \texttt{get\_new\_user\_name} routine, where the assistant introduces itself and asks for the user's name if they are unrecognized. The transcribed spoken name is then matched against a local database of Polish names (\texttt{imiona\_polskie.txt}) using fuzzy matching via the \texttt{rapidfuzz} library. This ensures robust name recognition even if the Speech-to-Text model slightly misinterprets the pronunciation.
+	
+	In addition to voice interactions, the speech module integrates a local API server built with the \textbf{Flask} framework (exposing the \texttt{/api/data} endpoint). This endpoint allows external systems (such as a vision or facial recognition module) to continuously update the current user's identity and detected emotion. The emotions are mapped through an \texttt{EMOTION\_PL\_MAP} to Polish equivalents (e.g., mapping "Happy" to "radość"). This state is subsequently synchronized with the main Raspberry Pi controller via HTTP requests to maintain a coherent behavioral state across all of the robot's subsystems.
+	
 	\section{Prompt Engineering}
-\subsection{System Prompt}
-The system prompt establishes the assistant as a helpful guide for students of the Gdańsk University of Technology. 
-
-If the intent module detects a general conversational intent rather than a specific command, the system uses this prompt to guide the Large Language Model. The user's transcribed query is simply injected into the \texttt{\{question\}} placeholder, allowing the AI to generate a natural, contextual response.
+	\subsection{System Prompt}
+	The system prompt establishes the assistant as a helpful guide for students of the Gdańsk University of Technology. 
+	
+	If the intent module detects a general conversational intent rather than a specific command, the system uses this prompt to guide the Large Language Model. The user's transcribed query is simply injected into the \texttt{\{question\}} placeholder, allowing the AI to generate a natural, contextual response.
 	\subsection{Deterministic Retrieval and Tool Calling}
 	During the initial development phases, the implementation of a Retrieval-Augmented Generation (RAG) architecture was considered. Ultimately, the RAG approach was abandoned in favor of a deterministic "Tool Calling" architecture. 
 	
@@ -212,5 +224,9 @@ If the intent module detects a general conversational intent rather than a speci
 	
 	By employing these retrieval scripts as external tools, the system guarantees factual accuracy in its navigational responses and significantly reduces latency, completely mitigating the risk of LLM hallucinations.
 	
+	\subsection{Conversation History and Context Buffer}
+	To support multi-turn conversations and maintain context over time, a conversation history buffer was introduced. Implemented using a double-ended queue (\texttt{collections.deque}), it retains a fixed number of recent interactions, defined by the \texttt{CONVERSATION\_BUFFER\_LEN} constant. When the buffer reaches its capacity, the oldest exchanges are automatically discarded to keep the LLM's context window optimized and prevent memory overflow.
+	
+	The system prompt has been enhanced to inject dynamic variables directly into the template before invoking the LLM. The pipeline provides the structured \texttt{\{history\}} of the conversation, the current user's \texttt{\{name\}}, and their detected \texttt{\{emotion\}}. This context injection allows the Gemma model to highly personalize its responses—for instance, by addressing the user by their name or adjusting its conversational tone based on whether the user is currently happy, sad, or neutral.
 	
 \end{document}
