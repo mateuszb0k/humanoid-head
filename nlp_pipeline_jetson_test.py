@@ -316,13 +316,16 @@ class NlpModel:
                 res = res.start()
                 text2say = current_text[len(text_said) : len(text_said) + res+1]
 
-                # Uncomment if speaker is available
+                td = Thread(target=self._send_mouth_status_to_pi, args=(1,))
+                td.start()
                 if self.using_speaker:
                     self._tts_module(text2say)
                     # self.tts_queue.put(text2say)
                     # print(f"QUEUE PUT {self.tts_queue} ")
                 else:
                     print(text2say, end="", flush=True)
+                td = Thread(target=self._send_mouth_status_to_pi, args=(0,))
+                td.start()
 
                 text_said += text2say
 
@@ -437,6 +440,16 @@ class NlpModel:
             requests.post(rpi_url,json = {"identity" : self.user_identity})
         except Exception as e:
             print(e)
+    def _send_mouth_status_to_pi(self, status):
+        """
+        0 -> mouth closed, 1 -> mouth opened
+        """
+        try:
+            rpi_url = 'http://uncanny-head.local:5000/api/mouth_status'
+            requests.post(rpi_url, json = {"mouth_status" : status})
+        except Exception as e:
+            print(e)
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 app = Flask(__name__)
@@ -473,7 +486,7 @@ ZASADY ODPOWIEDZI:
     Pytanie od użytkownika:
     {{question}}
     """
-    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()
     nlp.start()
