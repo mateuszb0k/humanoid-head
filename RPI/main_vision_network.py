@@ -64,6 +64,7 @@ def track_face(x, y):
 
     target_y = map_servo_value(y, 0, CAM_HEIGHT, servos_config[13]['max'], servos_config[13]['min'])
     set_servo_angle(13, target_y)
+
 class FaceSystem:
     def __init__(self):
         self.detector = cv2.FaceDetectorYN.create(DETECTOR_MODEL, "", (CAM_WIDTH, CAM_HEIGHT), 0.6, 0.3, 5000)
@@ -90,9 +91,11 @@ class FaceSystem:
         self.id_buffer = deque(maxlen=7)
         self.face_visible = False
         self.bbox_cent = None
-        td = threading.Thread(target=self.move_eyes, daemon=True)
-        td.start()
-
+        self.mouth_angle = 0
+        td_eyes = threading.Thread(target=self.move_eyes, daemon=True)
+        td_eyes.start()
+        td_mouth = threading.Thread(target=self.move_mouth, daemon=True)
+        td_mouth.start()
     def _init_db(self):
         cur = self.db.cursor()
         cur.execute("""
@@ -116,6 +119,23 @@ class FaceSystem:
                 print("Brak twarzy - powrót do centrum.")
 
             time.sleep(0.7)
+
+    def move_mouth(self):
+        # l is a lower limit, u is an upper limit
+        last_angle = -1
+        while True:
+            angle = l + (u-l) * self.mouth_angle #TODO change the limits
+
+            if angle != last_angle:
+                set_servo_angle(-, -) #TODO set the values for first servo
+
+                #TODO calculate the angle for second servo
+
+                set_servo_angle(-, -) #TODO set the values for second servo
+
+                last_angle = angle
+
+            time.sleep(0.05)
 
     def _cleanup_db(self):
         cur = self.db.cursor()
@@ -297,17 +317,8 @@ def save_name():
 @app.route('/api/mouth_status', methods = ['POST'])
 def change_mouth_status():
     data = request.json
-    status = data.get("mouth_status")
+    vision_sys.mouth_angle = data.get("mouth_status")
     return jsonify({"status": "ok"}), 200
 
-def mouth_handle():
-    while True:
-        set_servo_angle(10, servos_config[10]['max'])
-        time.sleep(1)
-        set_servo_angle(10, servos_config[10]['min'])
-        time.sleep(1)
-
 if __name__ == '__main__':
-    td = threading.Thread(target = mouth_handle, daemon = True)
-    td.start()
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
