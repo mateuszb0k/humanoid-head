@@ -401,9 +401,8 @@ class NlpModel:
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
             config = SynthesisConfig(length_scale=1.3)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
-            audio /= 0.25
 
-            chunk_size = 4096
+            chunk_size = 8192
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i:i + chunk_size]
@@ -421,10 +420,11 @@ class NlpModel:
                 break
 
             audio_bytes, rms_volume = item
+            rms_volume /= 0.045
 
             td = threading.Thread(target=self._send_mouth_status_to_pi, args=(rms_volume,), daemon=True)
             td.start()
-            print(rms_volume)
+            # print(rms_volume)
 
             self.stream.write(audio_bytes)
             self.audio_queue.task_done()
