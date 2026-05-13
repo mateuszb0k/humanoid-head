@@ -28,6 +28,7 @@ EMOTION_SKIP_FRAMES = 2
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
 servos_config = {
+    10: {'driver': 0, 'pin': 10, 'min': 50, 'max': 70, 'wlaczone': True},   # usta
     13: {'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},  # oczy góra-dół
     14: {'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
 }
@@ -291,5 +292,20 @@ def save_name():
         vision_sys.db_names,vision_sys.db_vecs = vision_sys._load_users()
     return jsonify({"status":"ok"}),200
 
+@app.route('/api/mouth_status', methods = ['POST'])
+def change_mouth_status():
+    data = request.json
+    status = data.get("mouth_status")
+    return jsonify({"status": "ok"}), 200
+
+def mouth_handle():
+    while True:
+        set_servo_angle(10, servos_config[10]['max'])
+        time.sleep(1)
+        set_servo_angle(10, servos_config[10]['min'])
+        time.sleep(1)
+
 if __name__ == '__main__':
+    td = threading.Thread(target = mouth_handle, daemon = True)
+    td.start()
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
