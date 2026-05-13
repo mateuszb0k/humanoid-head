@@ -1,9 +1,13 @@
+import queue
+import threading
+
 import numpy as np
 import pyaudio
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
 import speech_recognition as sr
+from piper import SynthesisConfig
 from piper.voice import PiperVoice
 from utils.weather import weather_prompt
 from utils.intent_module import IntentDetector
@@ -70,6 +74,9 @@ class NlpModel:
         # Config for tts module
         # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
         # Create folder PiperTTS, and paste .onnx and .json files there
+        self.audio_queue = queue.Queue(maxsize=3)
+        self.playback_thread = threading.Thread(target = self.playback_handle, daemon=True)
+        self.playback_thread.start()
 
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(
@@ -388,9 +395,35 @@ class NlpModel:
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
-            audio = self.voice.phoneme_ids_to_audio(ids)
-            audio_bytes = (audio * 32767).astype(np.int16).tobytes()
+            config = SynthesisConfig(length_scale=1.67)
+            audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
+            audio /= 0.25
+
+            chunk_size = 8192
+
+            for i in range(0, len(audio), chunk_size):
+                chunk = audio[i:i + chunk_size]
+                if len(chunk) > 0:
+                    rms = np.sqrt(np.mean(chunk ** 2))
+                else:
+                    rms = 0.0
+                chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
+                self.audio_queue.put((chunk_bytes, rms))
+
+    def playback_handle(self):
+        while True:
+            item = self.audio_queue.get()
+            if item is None:
+                break
+
+            audio_bytes, rms_volume = item
+
+            td = threading.Thread(target=self._send_mouth_status_to_pi, args=(rms_volume, ), daemon=True)
+            td.start()
+            print(rms_volume)
+
             self.stream.write(audio_bytes)
+            self.audio_queue.task_done()
 
     def handle_teachers(self,teacher_data):
         if teacher_data['room'] is not None and teacher_data['building'] is not None:
@@ -469,6 +502,7 @@ if __name__ == "__main__":
 
    Rozmawiasz z: {{name}}, jeżeli imie to unknown lub None to nie mow do uzytkownika po imieniu. Emocja rozmówcy: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu, jeżeli jest smutny spytaj co go trapi etc.).
     
+    Masz wiedzę o lokalizacji sal i pokojach danych nauczycieli akademickich. Nie posiadasz informacji o aktualnym planie zajęć.
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
 
 ZASADY ODPOWIEDZI:
