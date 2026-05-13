@@ -12,6 +12,11 @@ from collections import deque, Counter
 from flask import Flask, Response, render_template_string, request, jsonify
 from picamera2 import Picamera2
 from keras.models import load_model
+import board
+import busio
+from adafruit_pca9685 import PCA9685
+from adafruit_motor import servo
+from face_tracker import move
 
 DB_FILE = 'faces.db'
 DETECTOR_MODEL = 'face_detection_yunet_2023mar.onnx'
@@ -20,19 +25,54 @@ EMOTION_MODEL = 'model.keras'
 MATCH_THRESHOLD = 0.28
 EMOTIONS = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 EMOTION_SKIP_FRAMES = 2
-
+CAM_WIDTH = 640
+CAM_HEIGHT = 480
+servos_config = {
+    13: {'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},  # oczy góra-dół
+    14: {'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
+}
+try:
+    i2c = busio.I2C(board.SCL, board.SDA)
+    driverR = PCA9685(i2c, address=0x41)
+    driverR.frequency = 50
+except Exception as e:
+    print(f"Błąd inicjalizacji I2C (czy testujesz bez sprzętu?): {e}")
+    driverR = None
+servo_objects = {}
+if driverR:
+    for servo_id, cfg in servos_config.items():
+        servo_objects[servo_id] = servo.Servo(driverR.channels[cfg['pin']], min_pulse=730, max_pulse=2930)
 app = Flask(__name__)
+def map_servo_value(value, in_min, in_max, out_min, out_max):
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+def set_servo_angle(servo_id, angle):
+    cfg = servos_config.get(servo_id)
+    if not cfg or not cfg['wlaczone']:
+        return
+
+    limit_min = min(cfg['min'], cfg['max'])
+    limit_max = max(cfg['min'], cfg['max'])
+    safe_angle = max(limit_min, min(angle, limit_max))
+    if driverR:
+        servo_objects[servo_id].angle = safe_angle
+def track_face(x, y):
+
+    target_x = map_servo_value(x, 0, CAM_WIDTH, servos_config[14]['max'], servos_config[14]['min'])
+    set_servo_angle(14, target_x)
+
+    target_y = map_servo_value(y, 0, CAM_HEIGHT, servos_config[13]['max'], servos_config[13]['min'])
+    set_servo_angle(13, target_y)
 class FaceSystem:
     def __init__(self):
-        self.detector = cv2.FaceDetectorYN.create(DETECTOR_MODEL, "", (640, 480), 0.6, 0.3, 5000)
+        self.detector = cv2.FaceDetectorYN.create(DETECTOR_MODEL, "", (CAM_WIDTH, CAM_HEIGHT), 0.6, 0.3, 5000)
         self.recognizer = cv2.FaceRecognizerSF.create(RECOGNIZER_MODEL, "")
         self.emotion_net = load_model(EMOTION_MODEL)
         self.db = sqlite3.connect(DB_FILE, check_same_thread=False)
         self._init_db()
         self.db_names, self.db_vecs = self._load_users()
         self.picam2 = Picamera2()
-        config = self.picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)})
+        config = self.picam2.create_preview_configuration(main={"format": "RGB888", "size": (CAM_WIDTH, CAM_HEIGHT)})
         self.picam2.configure(config)
         self.picam2.start()
         self.last_feat = None
@@ -45,6 +85,10 @@ class FaceSystem:
         self.is_session_active = False
         self.face_lost_time = None
         self.id_buffer = deque(maxlen=7)
+        self.face_visible = False
+        self.bbox_cent = None
+        td = threading.Thread(target=self.move_eyes, daemon=True)
+        td.start()
 
     def _init_db(self):
         cur = self.db.cursor()
@@ -57,6 +101,18 @@ class FaceSystem:
             )
         """)
         self.db.commit()
+    def move_eyes(self):
+        while True:
+            if self.face_visible:
+                bbox = self.bbox_cent
+                track_face(bbox[0], bbox[1])
+                print(f"Śledzę twarz: x={bbox[0]}, y={bbox[1]}")
+            else:
+                set_servo_angle(14, servos_config[14]['center'])
+                set_servo_angle(13, servos_config[13]['center'])
+                print("Brak twarzy - powrót do centrum.")
+
+            time.sleep(0.7)
 
     def _cleanup_db(self):
         cur = self.db.cursor()
@@ -109,6 +165,7 @@ class FaceSystem:
     def generate_frames(self):
         last_tick = time.time()
         while True:
+
             frame = self.picam2.capture_array()
             # FPS calculation
             now = time.time()
@@ -128,7 +185,8 @@ class FaceSystem:
                 main_face = max(faces, key=lambda f: f[2] * f[3])
                 coords = main_face[:4].astype(int)
                 bbox_center = [int(coords[0] + coords[2]/2), int(coords[1] + coords[3]/2)]
-                
+                self.bbox_cent = bbox_center
+                self.face_visible = True
                 # recognition check on every frame for dynamic switching
                 aligned = self.recognizer.alignCrop(frame, main_face)
                 feat = self.recognizer.feature(aligned)
