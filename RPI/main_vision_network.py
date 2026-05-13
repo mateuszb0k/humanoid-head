@@ -74,6 +74,8 @@ class FaceSystem:
         self.db_names, self.db_vecs = self._load_users()
         self.picam2 = Picamera2()
         config = self.picam2.create_preview_configuration(main={"format": "RGB888", "size": (CAM_WIDTH, CAM_HEIGHT)})
+        config.transform.hflip = True
+        config.transform.vflip = True
         self.picam2.configure(config)
         self.picam2.start()
         self.last_feat = None
