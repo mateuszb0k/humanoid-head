@@ -28,21 +28,25 @@ EMOTION_SKIP_FRAMES = 2
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
 servos_config = {
+    1: {'driver': 0, 'pin': 1, 'min': 100, 'max': 135, 'wlaczone': True},
     10: {'driver': 0, 'pin': 10, 'min': 50, 'max': 70, 'wlaczone': True},   # usta
-    13: {'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},  # oczy góra-dół
-    14: {'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
+    13: {'driver': 1,'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},  # oczy góra-dół
+    14: {'driver': 1,'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
 }
 try:
     i2c = busio.I2C(board.SCL, board.SDA)
-    driverR = PCA9685(i2c, address=0x41)
-    driverR.frequency = 50
+    driverSO = PCA9685(i2c, address=0x40)  # serwa 1 i 10
+    driverR  = PCA9685(i2c, address=0x41)  # serwa 13 i 14
+    driverSO.frequency = 50
+    driverR.frequency  = 50
 except Exception as e:
     print(f"Błąd inicjalizacji I2C (czy testujesz bez sprzętu?): {e}")
     driverR = None
 servo_objects = {}
 if driverR:
     for servo_id, cfg in servos_config.items():
-        servo_objects[servo_id] = servo.Servo(driverR.channels[cfg['pin']], min_pulse=730, max_pulse=2930)
+        drv = driverSO if cfg['driver'] == 0 else driverR
+        servo_objects[servo_id] = servo.Servo(drv.channels[cfg['pin']], min_pulse=730, max_pulse=2930)
 app = Flask(__name__)
 def map_servo_value(value, in_min, in_max, out_min, out_max):
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -75,8 +79,8 @@ class FaceSystem:
         self.db_names, self.db_vecs = self._load_users()
         self.picam2 = Picamera2()
         config = self.picam2.create_preview_configuration(main={"format": "RGB888", "size": (CAM_WIDTH, CAM_HEIGHT)})
-        config.transform.hflip = True
-        config.transform.vflip = True
+        # config.transform.hflip = True
+        # config.transform.vflip = True
         self.picam2.configure(config)
         self.picam2.start()
         self.last_feat = None
@@ -92,8 +96,8 @@ class FaceSystem:
         self.face_visible = False
         self.bbox_cent = None
         self.mouth_angle = 0
-        td_eyes = threading.Thread(target=self.move_eyes, daemon=True)
-        td_eyes.start()
+        # td_eyes = threading.Thread(target=self.move_eyes, daemon=True)
+        # td_eyes.start()
         td_mouth = threading.Thread(target=self.move_mouth, daemon=True)
         td_mouth.start()
     def _init_db(self):
@@ -123,15 +127,31 @@ class FaceSystem:
     def move_mouth(self):
         # l is a lower limit, u is an upper limit
         last_angle = -1
+        l10 = 45
+        u10 = 80
+        l1 = 100
+        u1 = 135
         while True:
-            angle = l + (u-l) * self.mouth_angle #TODO change the limits
+            angle = self.mouth_angle
+            angle = l10 + (u10-l10) * angle #TODO change the limits
+
 
             if angle != last_angle:
-                set_servo_angle(-, -) #TODO set the values for first servo
+                print(angle)
 
-                #TODO calculate the angle for second servo
+                set_servo_angle(10, angle) #TODO set the values for first servo
+                #
+                # #TODO calculate the angle for second servo
+                #
 
-                set_servo_angle(-, -) #TODO set the values for second servo
+                ratio = (angle - l10) / (u10 - l10)
+
+                # Zastosuj odwrotną proporcję na zakresie drugiego serwa (odbicie lustrzane)
+                mirror_angle = round(u1 - ratio * (u1 - l1))
+                mirror_angle = max(l1, min(mirror_angle, u1))
+
+
+                set_servo_angle(1, mirror_angle) #TODO set the values for second servo
 
                 last_angle = angle
 
