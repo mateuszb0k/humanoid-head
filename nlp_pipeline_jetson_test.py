@@ -3,7 +3,6 @@ import threading
 
 import numpy as np
 import pyaudio
-from accelerate.test_utils.scripts.external_deps.test_ds_alst_ulysses_sp import outputs
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
