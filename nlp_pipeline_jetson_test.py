@@ -3,6 +3,7 @@ import threading
 
 import numpy as np
 import pyaudio
+from accelerate.test_utils.scripts.external_deps.test_ds_alst_ulysses_sp import outputs
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
@@ -89,7 +90,8 @@ class NlpModel:
             format=pyaudio.paInt16,
             channels=1,
             rate=self.voice.config.sample_rate,
-            output_device_index = 1, # only for jetson
+            output = True,
+            output_device_index = 0, # only for jetson
         )
 
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
