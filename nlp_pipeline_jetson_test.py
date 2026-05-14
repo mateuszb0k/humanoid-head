@@ -486,7 +486,7 @@ class NlpModel:
         """
         try:
             rpi_url = 'http://uncanny-head.local:5000/api/mouth_status'
-            requests.post(rpi_url, json={"mouth_status": status})
+            requests.post(rpi_url, json={"mouth_status": str(status)})
         except Exception as e:
             print(e)
 
@@ -531,7 +531,7 @@ ZASADY ODPOWIEDZI:
     Pytanie od użytkownika:
     {{question}}
     """
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=False, using_speaker=False)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()
     nlp.start()
