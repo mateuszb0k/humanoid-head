@@ -420,7 +420,7 @@ class NlpModel:
                 break
 
             audio_bytes, rms_volume = item
-            rms_volume /= 0.045
+            rms_volume /= 0.095
 
             td = threading.Thread(target=self._send_mouth_status_to_pi, args=(rms_volume,), daemon=True)
             td.start()
