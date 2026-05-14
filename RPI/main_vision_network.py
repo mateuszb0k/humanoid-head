@@ -127,31 +127,31 @@ class FaceSystem:
     def move_mouth(self):
         # l is a lower limit, u is an upper limit
         last_angle = -1
-        l10 = 45
-        u10 = 80
-        l1 = 100
-        u1 = 135
+        l10 = 45.0
+        u10 = 80.0
+        l1 = 100.0
+        u1 = 135.0
         while True:
-            angle = self.mouth_angle
-            angle = l10 + (u10-l10) * angle #TODO change the limits
+            angle = float(self.mouth_angle)
+            angle = l10 + (u10-l10) * angle
 
 
             if angle != last_angle:
                 print(angle)
 
-                set_servo_angle(10, angle) #TODO set the values for first servo
+                set_servo_angle(10, angle)
                 #
-                # #TODO calculate the angle for second servo
+
                 #
 
                 ratio = (angle - l10) / (u10 - l10)
 
                 # Zastosuj odwrotną proporcję na zakresie drugiego serwa (odbicie lustrzane)
                 mirror_angle = round(u1 - ratio * (u1 - l1))
-                mirror_angle = max(l1, min(mirror_angle, u1))
+                mirror_angle = max(l1, min(mirror_angle, int(u1)))
 
 
-                set_servo_angle(1, mirror_angle) #TODO set the values for second servo
+                set_servo_angle(1, mirror_angle)
 
                 last_angle = angle
 
