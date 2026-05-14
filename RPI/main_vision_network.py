@@ -17,6 +17,7 @@ import busio
 from adafruit_pca9685 import PCA9685
 from adafruit_motor import servo
 from face_tracker import move
+from adafruit_extended_bus import ExtendedI2C as I2C
 
 DB_FILE = 'faces.db'
 DETECTOR_MODEL = 'face_detection_yunet_2023mar.onnx'
@@ -34,7 +35,7 @@ servos_config = {
     14: {'driver': 1,'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
 }
 try:
-    i2c = busio.I2C(board.SCL, board.SDA)
+    i2c = I2C(4)
     driverSO = PCA9685(i2c, address=0x40)  # serwa 1 i 10
     driverR  = PCA9685(i2c, address=0x41)  # serwa 13 i 14
     driverSO.frequency = 50
@@ -42,11 +43,14 @@ try:
 except Exception as e:
     print(f"Błąd inicjalizacji I2C (czy testujesz bez sprzętu?): {e}")
     driverR = None
+    driverSO = None
+
 servo_objects = {}
-if driverR:
+if driverSO and driverR:
     for servo_id, cfg in servos_config.items():
         drv = driverSO if cfg['driver'] == 0 else driverR
         servo_objects[servo_id] = servo.Servo(drv.channels[cfg['pin']], min_pulse=730, max_pulse=2930)
+
 app = Flask(__name__)
 def map_servo_value(value, in_min, in_max, out_min, out_max):
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -54,13 +58,19 @@ def map_servo_value(value, in_min, in_max, out_min, out_max):
 def set_servo_angle(servo_id, angle):
     cfg = servos_config.get(servo_id)
     if not cfg or not cfg['wlaczone']:
+        print("wylaczone")
+        return
+
+    if servo_id not in servo_objects:
+        print("nie ma serwa")
         return
 
     limit_min = min(cfg['min'], cfg['max'])
     limit_max = max(cfg['min'], cfg['max'])
     safe_angle = max(limit_min, min(angle, limit_max))
-    if driverR:
-        servo_objects[servo_id].angle = safe_angle
+    servo_objects[servo_id].angle = safe_angle
+
+
 def track_face(x, y):
 
     target_x = map_servo_value(x, 0, CAM_WIDTH, servos_config[14]['max'], servos_config[14]['min'])
@@ -137,11 +147,9 @@ class FaceSystem:
 
 
             if angle != last_angle:
-                print(angle)
+                print(f"Angle: {angle}")
 
                 set_servo_angle(10, angle)
-                #
-
                 #
 
                 ratio = (angle - l10) / (u10 - l10)
@@ -154,7 +162,8 @@ class FaceSystem:
                 set_servo_angle(1, mirror_angle)
 
                 last_angle = angle
-
+                print("koniec ruchu")
+                time.sleep(0.3)
             time.sleep(0.05)
 
     def _cleanup_db(self):
