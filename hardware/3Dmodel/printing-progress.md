@@ -86,7 +86,12 @@
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
-
+## To reprint in PETG: 
+- [ ] cam_holder_V2.stl
+- [ ] Base.stl
+- [ ] CentralServoHorn
+- [ ] 38.stl
+- [ ] 3.stl
 
 ## Problems
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
@@ -103,6 +108,7 @@
 * Parts broke during assembly - topLidHorn, link2a. Parts will be reprinted with new g-code with different angles.
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
 * Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
+* cam-holder needs to be thicker and printed in different orientation - screw broke it
 
 ---
-*Last Update: 27-04-2026
+*Last Update: 15-05-2026
