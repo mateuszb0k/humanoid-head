@@ -87,11 +87,10 @@
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
 ## To reprint in PETG: 
-- [ ] cam_holder_V2.stl
-- [ ] Base.stl
-- [ ] CentralServoHorn
-- [ ] 38.stl
-- [ ] 3.stl
+- [X] cam_holder_V2.stl
+- [X] CentralServoHorn
+- [x] 38.stl
+- [x] 3.stl
 
 ## Problems
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
