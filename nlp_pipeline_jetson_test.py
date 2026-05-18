@@ -68,6 +68,9 @@ class NlpModel:
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
+        with self.mic as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Neutral"
@@ -81,7 +84,7 @@ class NlpModel:
         # Config for tts module
         # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
         # Create folder PiperTTS, and paste .onnx and .json files there
-        self.audio_queue = queue.Queue(maxsize=3)
+        self.audio_queue = queue.Queue()
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
         self.playback_thread.start()
 
@@ -91,7 +94,6 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output = True,
-            output_device_index = 0, # only for jetson
         )
 
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
@@ -337,21 +339,21 @@ class NlpModel:
                 res = res.start()
                 text2say = current_text[len(text_said): len(text_said) + res + 1]
 
-                td = Thread(target=self._send_mouth_status_to_pi, args=(1,))
-                td.start()
+                # td = Thread(target=self._send_mouth_status_to_pi, args=(1,))
+                # td.start()
                 if self.using_speaker:
                     self._tts_module(text2say)
                     # self.tts_queue.put(text2say)
                     # print(f"QUEUE PUT {self.tts_queue} ")
                 else:
                     print(text2say, end="", flush=True)
-                td = Thread(target=self._send_mouth_status_to_pi, args=(0,))
-                td.start()
+                # td = Thread(target=self._send_mouth_status_to_pi, args=(0,))
+                # td.start()
 
                 text_said += text2say
 
-            time.sleep(0.1)
-        self.tts_queue.put(None)
+            time.sleep(0.05)
+        # self.tts_queue.put(None)
         # print(f"QUEUE PUT NONE {self.tts_queue}")
 
     def _llm_init(self):
@@ -381,7 +383,7 @@ class NlpModel:
         Converts input speech into text. This function runs indefinetely unless speech is detected.
         """
         with self.mic as source:
-            self.recognizer.adjust_for_ambient_noise(source)
+            # self.recognizer.adjust_for_ambient_noise(source)
             # STT phase
             while True:  # The loop continues until the sound is recorded
                 print("Listening...")
@@ -423,8 +425,9 @@ class NlpModel:
     def playback_handle(self):
         while True:
             item = self.audio_queue.get()
-            if item is None:
-                break
+            #
+            # if item is None:
+            #     break
 
             audio_bytes, rms_volume = item
             rms_volume /= 0.095
@@ -537,7 +540,7 @@ class NlpModel:
         """
         try:
             rpi_url = 'http://uncanny-head.local:5000/api/mouth_status'
-            requests.post(rpi_url, json={"mouth_status": str(status)})
+            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout = 0.2)
         except Exception as e:
             print(e)
 
