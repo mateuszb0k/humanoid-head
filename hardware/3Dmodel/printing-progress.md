@@ -87,6 +87,9 @@
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
 - [ ] microphone-wall.stl
+- [ ] normall-wall.stl
+- [ ] normall-wall.stl
+- [ ] normall-wall.stl
 ## To reprint in PETG: 
 - [X] cam_holder_V2.stl
 - [X] CentralServoHorn
@@ -109,6 +112,7 @@
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
 * Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
 * cam-holder needs to be thicker and printed in different orientation - screw broke it
+
 
 ---
 *Last Update: 18-05-2026
