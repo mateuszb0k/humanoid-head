@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import sqlite3
 import pickle
+import random
 import time
 import threading
 import sys
@@ -28,11 +29,70 @@ EMOTIONS = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 EMOTION_SKIP_FRAMES = 2
 CAM_WIDTH = 640
 CAM_HEIGHT = 480
+
+
+#new 
+face_emo = {
+    "happy":[
+        [(14, 100), (13, 60)],
+        [(11, 50), (12, 95), (15, 40), (16, 55)],
+        [(10, 45)],
+        [(19, 110), (18, 130)],
+        [(20, 50), (17, 110)],
+        [(3, 65), (8, 35), (5, 50), (6, 75)],
+        [(2, 100), (4, 30), (7, 110), (9, 10)]],
+    "sad":[
+        [(14, 100), (13, 60)],
+        [(11, 25), (12, 95), (15, 40), (16, 70)],
+        [(10, 45)],
+        [(19, 110), (18, 130)],
+        [(20, 100), (17, 70)],
+        [(3, 20), (8, 85), (5, 40), (6, 100)],
+        [(2, 40), (4, 50), (7, 30), (9, 60)]
+    ],
+    "surprise": [
+        [(14, 100), (13, 60)],
+        [(11, 0), (12, 115), (15, 20), (16, 90)],
+        [(10, 80)],
+        [(19, 170), (18, 70)],
+        [(20, 20), (17, 150)],
+        [(3, 20), (8, 85), (5, 90), (6, 45)],
+        [(2, 65), (4, 60), (7, 50), (9, 40)]
+    ],
+    "neutral": [
+        [(14, 100), (13, 60)],
+        [(11, 25), (12, 95), (15, 40), (16, 70)],
+        [(10, 45)],
+        [(19, 110), (18, 130)],
+        [(20, 50), (17, 110)],
+        [(3, 20), (8, 85), (5, 90), (6, 45)],
+        [(2, 65), (4, 60), (7, 50), (9, 40)]
+    ]
+}
+
+
+# TODO sprawdzić zakresy czy są poprawne
 servos_config = {
     1: {'driver': 0, 'pin': 1, 'min': 100, 'max': 135, 'wlaczone': True},
+    2:  {'driver': 0, 'pin': 2,  'min': 50, 'max': 65,  'wlaczone': True},  # prawy korner gorne 
+    3:  {'driver': 0, 'pin': 3,  'min': 20, 'max': 80,  'wlaczone': True},  # prawa warga gorna
+    4:  {'driver': 0, 'pin': 4,  'min': 50, 'max': 70,  'wlaczone': True},  # prawy korner dolne
+    5:  {'driver': 0, 'pin': 5,  'min': 25, 'max': 92,  'wlaczone': True},  # prawa warga dolna
+    6:  {'driver': 0, 'pin': 6,  'min': 45, 'max': 110, 'wlaczone': True},  # lewa warga dolna
+    7:  {'driver': 0, 'pin': 7,  'min': 40, 'max': 60,  'wlaczone': True},  # lewy korner dolne
+    8:  {'driver': 0, 'pin': 8,  'min': 35, 'max': 85,  'wlaczone': True},  # lewa gorna warga
+    9:  {'driver': 0, 'pin': 9,  'min': 10, 'max': 40,  'wlaczone': True},  # lewy korner gorne
     10: {'driver': 0, 'pin': 10, 'min': 50, 'max': 70, 'wlaczone': True},   # usta
+    11: {'driver': 1, 'pin': 0,  'min': 0,  'max': 80,  'wlaczone': True},  # prawe oko dolna powieka
+    12: {'driver': 1, 'pin': 1,  'min': 30, 'max': 115, 'wlaczone': True},  # gorna powieka
     13: {'driver': 1,'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},  # oczy góra-dół
-    14: {'driver': 1,'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100}  # oczy prawo-lewo
+    14: {'driver': 1,'pin': 3, 'min': 50, 'max': 150, 'wlaczone': True, 'center': 100},  # oczy prawo-lewo
+    15: {'driver': 1, 'pin': 4,  'min': 20, 'max': 90,  'wlaczone': True},  # lewe oko gorna powieka
+    16: {'driver': 1, 'pin': 5,  'min': 25, 'max': 90,  'wlaczone': True},  # lewe oko dolna powieka
+    17: {'driver': 1, 'pin': 6,  'min': 70, 'max': 150, 'wlaczone': True},  # prawa brew zewnatrz
+    18: {'driver': 1, 'pin': 7,  'min': 70, 'max': 160, 'wlaczone': True},  # prawa brew srodek
+    19: {'driver': 1, 'pin': 8,  'min': 80, 'max': 170, 'wlaczone': True},  # lewa brew srodek
+    20: {'driver': 1, 'pin': 9,  'min': 20, 'max': 100, 'wlaczone': True}   # lewa brew zewnatrz
 }
 try:
     i2c = I2C(4)
@@ -106,8 +166,21 @@ class FaceSystem:
         self.face_visible = False
         self.bbox_cent = None
         self.mouth_angle = 0
-        # td_eyes = threading.Thread(target=self.move_eyes, daemon=True)
-        # td_eyes.start()
+        #new
+        # Zmienne do mrugania 
+        self.last_blink_time = 0
+        self.blink_interval = 2.0
+        self.is_blinking = False
+        self.blink_start_time = 0
+        #new
+        self.emotion_to_animate = None
+        self.is_animating = False
+        self.emotion_thread_lock = threading.Lock()
+        td_blinking = threading.Thread(target=self.eye_blink(),daemon=True)
+        td_blinking.start()
+
+        td_eyes = threading.Thread(target=self.move_eyes, daemon=True)
+        td_eyes.start()
         td_mouth = threading.Thread(target=self.move_mouth, daemon=True)
         td_mouth.start()
     def _init_db(self):
@@ -121,16 +194,57 @@ class FaceSystem:
             )
         """)
         self.db.commit()
+    #new
+    def eye_blink(self):
+        current_time = time.time()
+        if not self.is_blinking and(current_time - self.last_blink_time) > self.blink_interval:
+            self.is_blinking = True
+            self.blink_start_time = current_time
+            set_servo_angle(12, 35)
+            set_servo_angle(11, 75)
+            set_servo_angle(15, 85)
+            set_servo_angle(16, 30)
+        if self.is_blinking and (current_time - self.blink_start_time) > 0.150:
+            set_servo_angle(12, 110)
+            set_servo_angle(11, 0)
+            set_servo_angle(15, 25)
+            set_servo_angle(16, 85)
+            
+            self.is_blinking = False
+            self.last_blink_time = current_time
+            self.blink_interval = random.uniform(1.5, 5.0)
+    #new
+
+    def map_emotions(self):
+        self.is_animating = True
+        if self.locked_emotion == 'fear':
+            self.emotion_to_animate = 'surprise'
+        elif self.locked_emotion in ('angry','disgust'):
+            self.emotion_to_animate = 'sad'
+        else:
+            self.emotion_to_animate = self.locked_emotion
+        self.animate_emotion()
+        self.is_animating = False
+        self.emotion_thread_lock.release()
+
+    def animate_emotion(self):
+        steps = face_emo.get(self.emotion_to_animate)
+        for step in steps:
+            for servo_id, angle in step:
+                set_servo_angle(servo_id, angle)
+        time.sleep(0.04)
+
     def move_eyes(self):
         while True:
-            if self.face_visible:
-                bbox = self.bbox_cent
-                track_face(bbox[0], bbox[1])
-                print(f"Śledzę twarz: x={bbox[0]}, y={bbox[1]}")
-            else:
-                set_servo_angle(14, servos_config[14]['center'])
-                set_servo_angle(13, servos_config[13]['center'])
-                print("Brak twarzy - powrót do centrum.")
+            if not self.is_animating:
+                if self.face_visible:
+                    bbox = self.bbox_cent
+                    track_face(bbox[0], bbox[1])
+                    print(f"Śledzę twarz: x={bbox[0]}, y={bbox[1]}")
+                else:
+                    set_servo_angle(14, servos_config[14]['center'])
+                    set_servo_angle(13, servos_config[13]['center'])
+                    print("Brak twarzy - powrót do centrum.")
 
             time.sleep(0.7)
 
@@ -142,28 +256,29 @@ class FaceSystem:
         l1 = 100.0
         u1 = 135.0
         while True:
-            angle = float(self.mouth_angle)
-            angle = l10 + (u10-l10) * angle
+            if not self.is_animating:
+                angle = float(self.mouth_angle)
+                angle = l10 + (u10-l10) * angle
 
 
-            if angle != last_angle:
-                print(f"Angle: {angle}")
+                if angle != last_angle:
+                    print(f"Angle: {angle}")
 
-                set_servo_angle(10, angle)
-                #
+                    set_servo_angle(10, angle)
+                    #
 
-                ratio = (angle - l10) / (u10 - l10)
+                    ratio = (angle - l10) / (u10 - l10)
 
-                # Zastosuj odwrotną proporcję na zakresie drugiego serwa (odbicie lustrzane)
-                mirror_angle = round(u1 - ratio * (u1 - l1))
-                mirror_angle = max(l1, min(mirror_angle, int(u1)))
+                    # Zastosuj odwrotną proporcję na zakresie drugiego serwa (odbicie lustrzane)
+                    mirror_angle = round(u1 - ratio * (u1 - l1))
+                    mirror_angle = max(l1, min(mirror_angle, int(u1)))
 
 
-                set_servo_angle(1, mirror_angle)
+                    set_servo_angle(1, mirror_angle)
 
-                last_angle = angle
-                print("koniec ruchu")
-                time.sleep(0.3)
+                    last_angle = angle
+                    print("koniec ruchu")
+                    time.sleep(0.3)
             time.sleep(0.05)
 
     def _cleanup_db(self):
@@ -255,8 +370,8 @@ class FaceSystem:
                 counts = Counter(self.id_buffer)
                 current_identity = counts.most_common(1)[0][0]
 
-                # update if identity changed OR session was inactive
-                if not self.is_session_active or current_identity != self.locked_identity:
+                # update if identity changed OR session was inactive or unkown user is away from camera for 2s or longer
+                if not self.is_session_active or current_identity != self.locked_identity or (current_identity == "Unknown" and self.f_count % 30 == 0):
                     self.last_feat = feat
                     
                     # run emotion model only on identity change or new session
@@ -283,6 +398,11 @@ class FaceSystem:
                 label = f"{self.locked_identity} - {self.locked_emotion}"
                 cv2.putText(frame, label, (coords[0], coords[1]-10), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+                if payload['identity'] == "Unknown" and payload["emotion"] not in (None,"None"):
+                    if self.emotion_thread_lock.acquire(blocking=False):
+                        td_emo = threading.Thread(target=self.map_emotions, daemon=True)
+                        td_emo.start()
+                
             else:
                 if self.is_session_active:
                     if self.face_lost_time is None:
