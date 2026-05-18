@@ -10,6 +10,7 @@ from utils.intent_module import IntentDetector
 from gliner import GLiNER
 from utils.find_teacher import get_teacher_room,search_teacher
 from utils.find_room import get_room_directions
+from utils.find_aud import get_aud_directions
 from threading import Thread
 import re
 import string
@@ -60,7 +61,7 @@ class NlpModel:
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
         self.user_emotion = "Happy"
-        self.user_identity = "Unknown"
+        self.user_identity = "Lucjan"
         self.llm_queue = deque()
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -140,6 +141,12 @@ class NlpModel:
                 Randomly selects a voiceline to use
                 '''
                 self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()#default gdansk
+                print(self.result)
+                self.end_of_result = True
+            # audytorium and other rooms
+            elif intent == "AUD":
+                print("Wykryto intencję: AUDYTORIUM")       # delete later
+                self.result = self.handle_specialrooms(question)
                 print(self.result)
                 self.end_of_result = True
             elif intent == "PG":
@@ -398,6 +405,51 @@ class NlpModel:
         else:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
+    
+    # special rooms
+    def handle_specialrooms(self, question: str):
+        # idk if we shoud that
+        q = question.lower().replace(".", "").replace(",", "") 
+        # q = question.lower()
+
+        building = "NE" 
+        if "ea" in q or "star" in q:
+            building = "EA"
+        
+        if "bibliotek" in q or "czytelni" in q:
+            target = "NE, BIBLIOTEKA"
+        elif "stołów" in q or "jedzen" in q or "bar" in q or "jadalni" in q:
+            target = "NE, STOŁÓWKA"
+        elif "szatni" in q:
+            if building == "EA":
+                target = "EA, SZATNIA"
+            else:
+                target = "NE, SZATNIA"
+        elif "2" in q or "dwa" in q or "drug" in q:
+            target = f"{building}, AUD2"
+        elif "lew" in q:
+            target = "NE, AUD1 LEWE"
+        elif "praw" in q:
+            target = "NE, AUD1 PRAWE"
+        elif "1" in q or "jeden" in q or "pierwsz" in q:
+            if building == "EA":
+                target = "EA, AUD1"
+            else:
+                return "W Nowym ETI audytorium pierwsze dzieli się na lewe i prawe. Sprecyzuj proszę, o które ci chodzi."
+        else:
+            return "O które audytorium lub miejsce dokładnie pytasz?"
+        
+        directions = get_aud_directions(target)
+        
+        if "Błąd" in directions or "Error" in directions:
+            return "Wybacz, nie potrafię odnaleźć drogi do tego miejsca."
+            
+        # Speaking
+        #place_name = target.split(',')[1].strip()
+        #place_name = place_name.replace("AUD1", "Audytorium pierwsze").replace("AUD2", "Audytorium drugie")
+        
+        return f"{directions}"
+
     def get_new_user_name(self):
         if self.user_identity == "Unknown":
             name_file = "imiona_polskie.txt"
@@ -473,6 +525,7 @@ ZASADY ODPOWIEDZI:
     Pytanie od użytkownika:
     {{question}}
     """
+
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()

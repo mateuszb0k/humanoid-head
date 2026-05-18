@@ -5,13 +5,12 @@ class IntentDetector:
         self.nlp = spacy.load("pl_core_news_sm")
 
         self.pg_keywords = {
-            "sala", "gabinet", "audytorium", "laboratorium", "budynek",
+            "sala", "gabinet", "laboratorium", "budynek",
             "wydział", "dziekanat", "piętro", "parter", "wejście", "pokój",
             "weti", "eti", "pg", "doktor", "profesor", "inżynier",
             "magister", "wykładowca", "prowadzący", "dziekan",
-            "dojść", "znaleźć", "szukać", "trafić", "zaprowadzić",
-            "pokierować", "mapa", "plan","sala ea","sala ne",
-            "wykładowa", "wykładowej", "wykładową", "wykładowe", "aula"
+            "dojść", "znaleźć", "szukać", "trafić", "zaprowadzić","pokierować", 
+            "mapa", "plan","sala ea","sala ne", "sali"
         }
 
         self.weather_keywords = {
@@ -22,6 +21,12 @@ class IntentDetector:
             "ciepły", "zimny", "słoneczny", "pochmurny", "deszczowy"
         }
 
+        self.aud_keywords = {
+            "audytorium", "wykładowa", "wykładowej", "wykładową", "wykładowe", "aula", "wykład",
+            "biblioteka", "szatnia", "jadalnia", "bar", "stołówka", "czytelnia", "auditium", "auditorium",
+            "lewe", "prawe" 
+        }
+
     def detect_intent(self, text: str) -> str:
         """
         This function takes in whole sentence, and returns the intent.
@@ -30,10 +35,12 @@ class IntentDetector:
 
         lemmas = {token.lemma_ for token in doc if (not token.is_punct and not token.is_stop)} # Creating set for fast searching
 
-        if lemmas & self.pg_keywords:
-            return "PG"
+        if lemmas & self.aud_keywords:
+            return "AUD"
         elif lemmas & self.weather_keywords:
             return "POGODA"
+        elif lemmas & self.pg_keywords:
+            return "PG"
         else:
             return "OGOLNA"
 
