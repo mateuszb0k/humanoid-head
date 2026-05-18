@@ -12,7 +12,7 @@ from piper.voice import PiperVoice
 from utils.new_weather import weather_prompt
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
-from utils.find_teacher import get_teacher_room, search_teacher
+from utils.find_teacher import get_teacher_room,search_teacher
 from utils.find_room import get_room_directions
 from utils.find_aud import get_aud_directions
 from threading import Thread
@@ -70,8 +70,8 @@ class NlpModel:
         self.mic = sr.Microphone()
         self.intent_detector = IntentDetector()
         self.gliner_model = GLiNER.from_pretrained("urchade/gliner_multi-v2.1")
-        self.user_emotion = "Happy"
-        self.user_identity = "Lucjan"
+        self.user_emotion = "Neutral"
+        self.user_identity = "Unknown"
         self.llm_queue = deque()
         self.regex = re.compile(f'[{string.punctuation}]')
         self.result = ''
@@ -158,8 +158,7 @@ class NlpModel:
                 self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()  # default gdansk
                 print(self.result)
                 self.end_of_result = True
-            # audytorium and other rooms
-            elif intent == "AUD":
+            elif intent == "AUD":   # audytorium and other rooms
                 print("Wykryto intencję: AUDYTORIUM")       # delete later
                 self.result = self.handle_specialrooms(question)
                 print(self.result)
@@ -446,8 +445,8 @@ class NlpModel:
         else:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
-    
-    # special rooms
+
+        # special rooms
     def handle_specialrooms(self, question: str):
         # idk if we shoud that
         q = question.lower().replace(".", "").replace(",", "") 
@@ -583,7 +582,6 @@ ZASADY ODPOWIEDZI:
     Pytanie od użytkownika:
     {{question}}
     """
-
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
     # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
     # td.start()

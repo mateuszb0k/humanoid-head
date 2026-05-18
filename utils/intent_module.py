@@ -37,10 +37,10 @@ class IntentDetector:
 
         if lemmas & self.aud_keywords:
             return "AUD"
-        elif lemmas & self.weather_keywords:
-            return "POGODA"
         elif lemmas & self.pg_keywords:
             return "PG"
+        elif lemmas & self.weather_keywords:
+            return "POGODA"
         else:
             return "OGOLNA"
 
