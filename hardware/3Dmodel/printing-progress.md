@@ -82,11 +82,13 @@
 - [X] teethUp.stl
 - [X] tongue.stl
 
-- [ ] base-frame.stl
+---
+
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
 - [ ] microphone-wall.stl
+- [ ] microphone-sensor-wall.stl
 - [ ] normall-wall.stl
 - [ ] normall-wall.stl
 - [ ] normall-wall.stl
