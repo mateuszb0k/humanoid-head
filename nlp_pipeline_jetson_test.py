@@ -63,7 +63,7 @@ class NlpModel:
 
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         # The models may change in the future
-        self.model_stt = whisper.load_model("small")
+        self.model_stt = whisper.load_model("small", device = 'cuda')
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
@@ -394,7 +394,7 @@ class NlpModel:
                     raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
                     raw_data = np.frombuffer(raw_data, dtype=np.int16)
                     audio_np = raw_data.astype(np.float32) / 32768.0
-                    result = self.model_stt.transcribe(audio_np, fp16=False, language="pl")
+                    result = self.model_stt.transcribe(audio_np, fp16=True, language="pl")
                     speech = result["text"].strip()
                     if speech:
                         return speech
