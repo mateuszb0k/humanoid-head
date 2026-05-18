@@ -51,7 +51,6 @@ def get_weather() -> dict:
 def weather_prompt() -> str:
     weather = get_weather()
     if weather:
-        return f"W Gdańsku aktualnie jest {weather['weather']} i {str(weather['temperature'])} stopni Celsjusza"
+        return f"W Gdańsku aktualnie jest {weather['weather']} i {str(weather['temperature'])} stopni Celsjusza."
     else:
         return "Niestety nie udało się uzyskać danych o pogodzie."
-print(weather_prompt())
