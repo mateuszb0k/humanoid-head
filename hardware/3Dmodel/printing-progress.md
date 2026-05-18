@@ -82,10 +82,11 @@
 - [X] teethUp.stl
 - [X] tongue.stl
 
-- [X] base-frame.stl
+- [ ] base-frame.stl
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
+- [ ] microphone-wall.stl
 ## To reprint in PETG: 
 - [X] cam_holder_V2.stl
 - [X] CentralServoHorn
@@ -110,4 +111,4 @@
 * cam-holder needs to be thicker and printed in different orientation - screw broke it
 
 ---
-*Last Update: 15-05-2026
+*Last Update: 18-05-2026
