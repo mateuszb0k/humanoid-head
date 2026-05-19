@@ -66,9 +66,9 @@ class NlpModel:
         # The models may change in the future
         self.model_stt = WhisperModel(
             "small",
-            device="cuda",
-            compute_type="int8_float16",  # kluczowe dla Jetsona
-            num_workers=2
+            device="cpu",
+            compute_type="int8",
+            num_workers=4
         )
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
