@@ -121,6 +121,7 @@ class NlpModel:
         STT -> LLM -> TTS
         The process runs indefinetely unless it is interrupted.
         """
+        self._stt_init()
         status = self._llm_init()
         print(f"LLM status: {status}")
 
@@ -295,6 +296,11 @@ class NlpModel:
 
             self._handle_llm_queue(question, self.result)
             print(f"TTFT: {end_llm - start_llm}")
+
+    def _stt_init(self):
+        zeros = np.zeros(16000, dtype=np.float32)
+        list(self.model_stt.transcribe(zeros, language="pl", beam_size=1))
+        print("STT warm-up done")
 
     def _handle_llm_queue(self, question, result):
         """
