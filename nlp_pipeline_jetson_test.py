@@ -434,8 +434,8 @@ class NlpModel:
             condition_on_previous_text=False,
             language="pl",
             beam_size=1,
-            vad_filter=True,
-            vad_parameters=dict(min_silence_duration_ms=400)
+            vad_filter=False,
+            # vad_parameters=dict(min_silence_duration_ms=400)
         )
 
         speech = " ".join(s.text for s in segments).strip()
