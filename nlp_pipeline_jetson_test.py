@@ -289,6 +289,8 @@ class NlpModel:
             #     else:
             #         self._tts_module(el)
             tts_thread.join()
+            self.audio_queue.join()
+            time.sleep(0.3)
 
             self._handle_llm_queue(question, self.result)
             print(f"TTFT: {end_llm - start_llm}")
@@ -516,6 +518,9 @@ class NlpModel:
 
             self._tts_module("Hej, chyba się jeszcze nie znamy.")
             self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
+            self.audio_queue.join()
+            time.sleep(0.3)
+            new_name_raw = self._stt_module()
 
             if self.using_mic:
                 new_name_raw = None
