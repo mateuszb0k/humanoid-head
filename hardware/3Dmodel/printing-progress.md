@@ -92,6 +92,7 @@
 - [X] normall-wall.stl
 - [X] normall-wall.stl
 - [X] normall-wall.stl
+- [ ] short-wall.stl
 ## To reprint in PETG: 
 - [X] cam_holder_V2.stl
 - [X] CentralServoHorn
