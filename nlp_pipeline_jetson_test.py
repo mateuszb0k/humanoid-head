@@ -65,7 +65,7 @@ class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         # The models may change in the future
         self.model_stt = WhisperModel(
-            "base",
+            "small",
             device="cpu",
             compute_type="int8",
             num_workers=4
@@ -387,33 +387,59 @@ class NlpModel:
             return False
 
     def _stt_module(self):
-        """
-        Converts input speech into text. This function runs indefinetely unless speech is detected.
-        """
-        with self.mic as source:
-            # self.recognizer.adjust_for_ambient_noise(source)
-            # STT phase
-            while True:  # The loop continues until the sound is recorded
-                print("Listening...")
-                if self.new_data:
-                    return None
-                try:
-                    audio = self.recognizer.listen(source, phrase_time_limit=5, timeout=1)
-                    raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
-                    raw_data = np.frombuffer(raw_data, dtype=np.int16)
-                    audio_np = raw_data.astype(np.float32) / 32768.0
-                    segments, info = self.model_stt.transcribe(
-                        audio_np,
-                        language="pl",
-                        beam_size=1,
-                        vad_filter=True,
-                        vad_parameters=dict(min_silence_duration_ms=500)
-                    )
-                    speech = " ".join(seg.text for seg in segments).strip()
-                    if speech:
-                        return speech
-                except sr.WaitTimeoutError:
-                    continue
+        CHUNK = 1024
+        RATE = 16000
+        SILENCE_THRESHOLD = 0.01
+        MAX_SILENCE_CHUNKS = 8
+
+        stream = self.p.open(format=pyaudio.paFloat32, channels=1,
+                             rate=RATE, input=True, frames_per_buffer=CHUNK)
+        frames = []
+        silent_chunks = 0
+        recording = False
+
+        print("Listening...")
+
+        while True:
+            if self.new_data:
+                stream.stop_stream()
+                stream.close()
+                return None
+
+            data = stream.read(CHUNK, exception_on_overflow=False)
+
+            chunk = np.frombuffer(data, dtype=np.float32)
+            rms = np.sqrt(np.mean(chunk ** 2))
+
+            if rms > SILENCE_THRESHOLD:
+                recording = True
+                silent_chunks = 0
+                frames.append(chunk)
+            elif recording:
+                frames.append(chunk)
+                silent_chunks += 1
+                if silent_chunks >= MAX_SILENCE_CHUNKS:
+                    break
+
+        stream.stop_stream()
+        stream.close()
+
+        if not frames:
+            return None
+
+        audio_np = np.concatenate(frames)
+
+        segments, _ = self.model_stt.transcribe(
+            audio_np,
+            language="pl",
+            beam_size=1,
+            vad_filter=True,
+            vad_parameters=dict(min_silence_duration_ms=400)
+        )
+
+        speech = " ".join(s.text for s in segments).strip()
+
+        return speech if speech else None
 
     def _tts_module(self, text):
         """
