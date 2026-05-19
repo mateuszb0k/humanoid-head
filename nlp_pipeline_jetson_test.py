@@ -65,7 +65,7 @@ class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         # The models may change in the future
         self.model_stt = WhisperModel(
-            "base",
+            "small",
             device="cpu",
             compute_type="int8",
             num_workers=6
