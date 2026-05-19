@@ -66,9 +66,9 @@ class NlpModel:
         # The models may change in the future
         self.model_stt = WhisperModel(
             "small",
-            device="cpu",
-            compute_type="int8",
-            num_workers=6
+            device="cuda",
+            compute_type="float16",
+            num_workers=2
         )
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
@@ -129,6 +129,7 @@ class NlpModel:
         while True:
             # STT phase
             if self.new_data:
+                self.reset_context()
                 random_phrase = np.random.choice([f'O, cześć {self.user_identity} tęskniłem za tobą',
                                                   f'My już chyba się znamy? Cześć {self.user_identity}',
                                                   f'Cześć {self.user_identity}'])
@@ -452,7 +453,7 @@ class NlpModel:
             config = SynthesisConfig(length_scale=1.3)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
-            chunk_size = 8192
+            chunk_size = 4096
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i:i + chunk_size]
@@ -493,13 +494,13 @@ class NlpModel:
         # special rooms
     def handle_specialrooms(self, question: str):
         # idk if we shoud that
-        q = question.lower().replace(".", "").replace(",", "") 
+        q = question.lower().replace(".", "").replace(",", "")
         # q = question.lower()
 
-        building = "NE" 
+        building = "NE"
         if "ea" in q or "star" in q:
             building = "EA"
-        
+
         if "bibliotek" in q or "czytelni" in q:
             target = "NE, BIBLIOTEKA"
         elif "stołów" in q or "jedzen" in q or "bar" in q or "jadalni" in q:
@@ -522,16 +523,16 @@ class NlpModel:
                 return "W Nowym ETI audytorium pierwsze dzieli się na lewe i prawe. Sprecyzuj proszę, o które ci chodzi."
         else:
             return "O które audytorium lub miejsce dokładnie pytasz?"
-        
+
         directions = get_aud_directions(target)
-        
+
         if "Błąd" in directions or "Error" in directions:
             return "Wybacz, nie potrafię odnaleźć drogi do tego miejsca."
-            
+
         # Speaking
         #place_name = target.split(',')[1].strip()
         #place_name = place_name.replace("AUD1", "Audytorium pierwsze").replace("AUD2", "Audytorium drugie")
-        
+
         return f"{directions}"
 
     def get_new_user_name(self):
@@ -588,6 +589,12 @@ class NlpModel:
         except Exception as e:
             print(e)
 
+    def reset_context(self):
+        self.llm_queue = deque()
+        self.result = ''
+        self.end_of_result = False
+        self.tts_queue = Queue()
+
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -602,6 +609,7 @@ def handle_data():
         print(data)
         nlp.user_identity = data['identity']
         nlp.new_data = True
+        nlp.reset_context()
     nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
     return jsonify({"status": "ok"}), 200
 
