@@ -65,7 +65,7 @@ class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         # The models may change in the future
         self.model_stt = WhisperModel(
-            "tiny",
+            "base",
             device="cpu",
             compute_type="int8",
             num_workers=6
@@ -431,6 +431,7 @@ class NlpModel:
 
         segments, _ = self.model_stt.transcribe(
             audio_np,
+            condition_on_previous_text=False,
             language="pl",
             beam_size=1,
             vad_filter=True,
