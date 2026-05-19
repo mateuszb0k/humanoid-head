@@ -6,6 +6,7 @@ import pyaudio
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import whisper
+from faster_whisper import WhisperModel
 import speech_recognition as sr
 from piper import SynthesisConfig
 from piper.voice import PiperVoice
@@ -63,7 +64,12 @@ class NlpModel:
 
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         # The models may change in the future
-        self.model_stt = whisper.load_model("small", device = 'cuda')
+        self.model_stt = WhisperModel(
+            "small",
+            device="cuda",
+            compute_type="int8_float16",  # kluczowe dla Jetsona
+            num_workers=2
+        )
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
         self.recognizer = sr.Recognizer()
@@ -394,8 +400,14 @@ class NlpModel:
                     raw_data = audio.get_raw_data(convert_rate=16000, convert_width=2)
                     raw_data = np.frombuffer(raw_data, dtype=np.int16)
                     audio_np = raw_data.astype(np.float32) / 32768.0
-                    result = self.model_stt.transcribe(audio_np, fp16=True, language="pl")
-                    speech = result["text"].strip()
+                    segments, info = self.model_stt.transcribe(
+                        audio_np,
+                        language="pl",
+                        beam_size=1,
+                        vad_filter=True,
+                        vad_parameters=dict(min_silence_duration_ms=500)
+                    )
+                    speech = " ".join(seg.text for seg in segments).strip()
                     if speech:
                         return speech
                 except sr.WaitTimeoutError:
