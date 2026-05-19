@@ -87,11 +87,11 @@
 - [X] base-main.stl
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
-- [ ] microphone-wall.stl
+- [X] microphone-wall.stl
 - [ ] microphone-sensor-wall.stl
-- [ ] normall-wall.stl
-- [ ] normall-wall.stl
-- [ ] normall-wall.stl
+- [X] normall-wall.stl
+- [X] normall-wall.stl
+- [X] normall-wall.stl
 ## To reprint in PETG: 
 - [X] cam_holder_V2.stl
 - [X] CentralServoHorn
