@@ -13,7 +13,7 @@ from piper.voice import PiperVoice
 from utils.new_weather import weather_prompt
 from utils.intent_module import IntentDetector
 from gliner import GLiNER
-from utils.find_teacher import get_teacher_room,search_teacher
+from utils.find_teacher import get_teacher_room, search_teacher
 from utils.find_room import get_room_directions
 from utils.find_aud import get_aud_directions
 from threading import Thread
@@ -43,9 +43,9 @@ EMOTION_PL_MAP = {
 def preprocess_stt(text: str) -> str:
     text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)', r'ne\1', text)
     text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)', r'ea\1', text)
-    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)  # e-a -> ea
-    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)  # ea-103 -> ea103
-    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)  # ea 103 -> ea103
+    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)
     text = re.sub(r'\b[nN](\d+)', r'ne\1', text)
     text = re.sub(r'\b[eE](\d+)', r'ea\1', text)
     return text
@@ -57,13 +57,7 @@ def split_building_numer(text: str) -> str:
 
 
 class NlpModel:
-    """
-    This class manages the voice assistant model. It integrates speech recognition (Whisper),
-    LLM and speech synthesis (pyttsx3)
-    """
-
     def __init__(self, template=None, using_mic=True, using_speaker=True):
-        # The models may change in the future
         self.model_stt = WhisperModel(
             "small",
             device="cuda",
@@ -86,10 +80,8 @@ class NlpModel:
         self.result = ''
         self.end_of_result = False
         self.new_data = False
+        self._greeted_identity = None
 
-        # Config for tts module
-        # You have to download the model from: https://huggingface.co/rhasspy/piper-voices/tree/main/pl/pl_PL/mc_speech/medium
-        # Create folder PiperTTS, and paste .onnx and .json files there
         self.audio_queue = queue.Queue()
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
         self.playback_thread.start()
@@ -99,16 +91,15 @@ class NlpModel:
             format=pyaudio.paInt16,
             channels=1,
             rate=self.voice.config.sample_rate,
-            output = True,
+            output=True,
         )
 
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
 
-        # Setting global flags
         self.using_mic = using_mic
         self.using_speaker = using_speaker
         self.tts_queue = Queue()
-        # Setting prompt for LLM
+
         if template is not None:
             self.prompt = ChatPromptTemplate.from_template(template)
         else:
@@ -117,35 +108,40 @@ class NlpModel:
         self.chain = self.prompt | self.model_llm
 
     def start(self):
-        """
-        STT -> LLM -> TTS
-        The process runs indefinetely unless it is interrupted.
-        """
         self._stt_init()
         status = self._llm_init()
         print(f"LLM status: {status}")
 
         if not status:
             return
+
         while True:
-            # STT phase
             if self.new_data:
-                self.reset_context()
-                random_phrase = np.random.choice([f'O, cześć {self.user_identity} tęskniłem za tobą',
-                                                  f'My już chyba się znamy? Cześć {self.user_identity}',
-                                                  f'Cześć {self.user_identity}'])
-                self._tts_module(random_phrase)
+                identity = self.user_identity
                 self.new_data = False
+                self.reset_context()
+
+                if identity not in ("Unknown", "None", None) and identity != self._greeted_identity:
+                    random_phrase = np.random.choice([
+                        f'O, cześć {identity}, tęskniłem za tobą',
+                        f'My już chyba się znamy? Cześć {identity}',
+                        f'Cześć {identity}'
+                    ])
+                    self._tts_module(random_phrase)
+                    self.audio_queue.join()
+                    self._greeted_identity = identity
+                continue
+
+            # STT
             if self.using_mic:
                 question = self._stt_module()
-                if question:
-                    print(question)
-                else:
+                if question is None:
                     continue
             else:
                 question = input("Text: ")
 
             self.get_new_user_name()
+
             self.end_of_result = False
             self.result = ''
             self.tts_queue = Queue()
@@ -154,28 +150,24 @@ class NlpModel:
 
             print("Analyzing...")
 
-            # Detecting intent
             intent = self.intent_detector.detect_intent(question)
 
-            # Creating thread for streaming TTS
             tts_thread = Thread(target=self._tts_stream)
             tts_thread.start()
 
             if intent == "POGODA":
-                '''
-                Randomly selects a voiceline to use
-                '''
-                self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()  # default gdansk
+                self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()
                 print(self.result)
                 self.end_of_result = True
-            elif intent == "AUD":   # audytorium and other rooms
-                print("Wykryto intencję: AUDYTORIUM")       # delete later
+
+            elif intent == "AUD":
+                print("Wykryto intencję: AUDYTORIUM")
                 self.result = self.handle_specialrooms(question)
                 print(self.result)
                 self.end_of_result = True
+
             elif intent == "PG":
-                # We will create here entity extraction module to get certain information
-                data = preprocess_stt(question)  # preprocess the stt if we got data that is corrupted
+                data = preprocess_stt(question)
                 entities = self.gliner_model.predict_entities(data, GLINER_LABELS, threshold=0.2)
                 label_text = {}
                 for entity in entities:
@@ -185,7 +177,6 @@ class NlpModel:
                         room = label_text['room code'].upper()
                         room_split = split_building_numer(room)
                         directions = get_room_directions(room_split)
-
                         if directions.find("Błąd ") != -1:
                             self.result = directions.replace("Błąd ", "")
                             self.result += '.'
@@ -193,7 +184,6 @@ class NlpModel:
                             self.result = f"Aby dojść do pokoju {room} {directions}."
                     elif 'person' in label_text:
                         person = label_text['person']
-                        # teacher_data = get_teacher_room(person)
                         top_3 = search_teacher(person)
                         max_val = max(top_3.values())
                         best_teacher = None
@@ -208,36 +198,29 @@ class NlpModel:
                                 self.result = self.handle_teachers(teacher_data)
                         elif max_val > THRESHOLD:
                             temp_result = f"Nie jestem pewny o kogo ci chodzi..."
-                            user_done = False
                             for n, k in enumerate(top_3.keys()):
                                 number = MAP_NUMBERS[str(n)]
                                 temp_result += f"Jeżeli chodzi ci o {k} powiedz {number}..."
-                            print(temp_result)  # debug only
+                            print(temp_result)
                             if self.using_speaker:
                                 self._tts_module(temp_result)
+                            user_done = False
                             while not user_done:
                                 if self.using_mic:
                                     user_input = self._stt_module()
                                 else:
-                                    user_input = input("podaj numer")  # debug only
+                                    user_input = input("podaj numer")
                                 if user_input is not None:
-                                    '''
-                                    Only top 3 needs to be modified to be more usable not just in this case
-                                    '''
-                                    '''
-                                    Think about fuzzy matching the text if simple or is not enough
-                                    '''
-                                    print(user_input)
                                     user_input = user_input.lower()
                                     if "zero" in user_input or user_input == "0":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[0]))
-                                        user_done = True
+                                        break
                                     elif "jeden" in user_input or user_input == "1":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[1]))
-                                        user_done = True
+                                        break
                                     elif "dwa" in user_input or user_input == "2":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[2]))
-                                        user_done = True
+                                        break
                                     else:
                                         if iter_counter < 2:
                                             if self.using_speaker:
@@ -252,23 +235,16 @@ class NlpModel:
                                                 print("Przepraszam nie jestem w stanie pomóc")
                                             break
                         else:
-                            self.result = f"Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
+                            self.result = "Niestety nie zrozumiałem o kogo dokładnie Ci chodzi. Czy możesz powtórzyć swoje pytanie?"
                 else:
                     self.result = "Jeśli chodzi o politechnikę Gdańską to jestem w stanie udzielać informacji tylko o lokalizacji sal oraz wykładowców."
 
                 self.end_of_result = True
+
             else:
-                # LLM phase
                 chunks = []
                 start_llm = time.time()
                 end_llm = 0
-                # for chunk in self.chain.stream({"question": question}):
-                #     if not end_llm:
-                #         end_llm = time.time()
-                #     text = chunk if isinstance(chunk, str) else str(chunk)
-                #     self.result += text
-                #     chunks.append(text)
-
                 for chunk in self.chain.stream({
                     "question": question,
                     "history": self._get_history_buffer(),
@@ -283,13 +259,6 @@ class NlpModel:
 
                 self.end_of_result = True
 
-            #  # Waiting for tts thread to end
-            # while True:
-            #     el = self.tts_queue.get()
-            #     if el is None:
-            #         break
-            #     else:
-            #         self._tts_module(el)
             tts_thread.join()
             self.audio_queue.join()
             time.sleep(0.3)
@@ -303,43 +272,25 @@ class NlpModel:
         print("STT warm-up done")
 
     def _handle_llm_queue(self, question, result):
-        """
-        Adds the latest exchange to the conversation buffer.
-        If full, the oldest exchange is removed first.
-        """
         q = f"Użytkownik: {question}"
         a = f"LLM: {result}"
-
         if len(self.llm_queue) == 2 * CONVERSATION_BUFFER_LEN:
             self.llm_queue.popleft()
             self.llm_queue.popleft()
-            self.llm_queue.append(q)
-            self.llm_queue.append(a)
-
-        else:
-            self.llm_queue.append(q)
-            self.llm_queue.append(a)
+        self.llm_queue.append(q)
+        self.llm_queue.append(a)
 
     def _get_history_buffer(self):
-        """
-        Returns the conversation history as a numbered string
-        """
         result = ''
         for i, sentence in enumerate(self.llm_queue):
             result += str(i + 1) + f'. {sentence} '
         return result
 
     def _tts_stream(self):
-        """
-        This function handles tts asynchronously.
-        """
-        # Waiting until something is pushed to self.result
         if self.result == '':
             while self.result == '':
                 time.sleep(0.1)
 
-        current_text = str(self.result)
-        text2say = ""
         text_said = ""
 
         while True:
@@ -347,40 +298,19 @@ class NlpModel:
             if current_text == text_said and self.end_of_result:
                 break
 
-            # Looking for stop sign, if detected tts module is applied on this section
             res = re.search(self.regex, current_text[len(text_said):])
-
             if res is not None:
                 res = res.start()
                 text2say = current_text[len(text_said): len(text_said) + res + 1]
-
-                # td = Thread(target=self._send_mouth_status_to_pi, args=(1,))
-                # td.start()
                 if self.using_speaker:
                     self._tts_module(text2say)
-                    # self.tts_queue.put(text2say)
-                    # print(f"QUEUE PUT {self.tts_queue} ")
                 else:
                     print(text2say, end="", flush=True)
-                # td = Thread(target=self._send_mouth_status_to_pi, args=(0,))
-                # td.start()
-
                 text_said += text2say
 
             time.sleep(0.05)
-        # self.tts_queue.put(None)
-        # print(f"QUEUE PUT NONE {self.tts_queue}")
 
     def _llm_init(self):
-        """
-        Initializes LLM module, because first response is always the longest.
-        """
-        # try:
-        #     _ = self.chain.invoke("Odpowiedz jednym słowem: OK")
-        #     return True
-        # except Exception as e:
-        #     print(e)
-        #     return False
         try:
             _ = self.chain.invoke({
                 "question": "Odpowiedz jednym słowem: OK",
@@ -414,7 +344,6 @@ class NlpModel:
                 return None
 
             data = stream.read(CHUNK, exception_on_overflow=False)
-
             chunk = np.frombuffer(data, dtype=np.float32)
             rms = np.sqrt(np.mean(chunk ** 2))
 
@@ -435,18 +364,14 @@ class NlpModel:
             return None
 
         audio_np = np.concatenate(frames)
-
         segments, _ = self.model_stt.transcribe(
             audio_np,
             condition_on_previous_text=False,
             language="pl",
             beam_size=1,
             vad_filter=False,
-            # vad_parameters=dict(min_silence_duration_ms=400)
         )
-
         speech = " ".join(s.text for s in segments).strip()
-
         return speech if speech else None
 
     def _tts_module(self, text):
@@ -459,32 +384,31 @@ class NlpModel:
             config = SynthesisConfig(length_scale=1.3)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
-            chunk_size = 4096
+            sample_rate = self.voice.config.sample_rate
+            chunk_size = max(512, int(sample_rate * 0.020))
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i:i + chunk_size]
-                if len(chunk) > 0:
-                    rms = np.sqrt(np.mean(chunk ** 2))
-                else:
-                    rms = 0.0
+                if len(chunk) == 0:
+                    continue
+                rms = float(np.sqrt(np.mean(chunk ** 2)))
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
                 self.audio_queue.put((chunk_bytes, rms))
 
     def playback_handle(self):
         while True:
             item = self.audio_queue.get()
-            #
-            # if item is None:
-            #     break
-
             audio_bytes, rms_volume = item
-            rms_volume /= 0.095
-
-            td = threading.Thread(target=self._send_mouth_status_to_pi, args=(rms_volume,), daemon=True)
-            td.start()
-            # print(rms_volume)
 
             self.stream.write(audio_bytes)
+
+            normalized_rms = rms_volume / 0.095
+            threading.Thread(
+                target=self._send_mouth_status_to_pi,
+                args=(normalized_rms,),
+                daemon=True
+            ).start()
+
             self.audio_queue.task_done()
 
     def handle_teachers(self, teacher_data):
@@ -497,25 +421,17 @@ class NlpModel:
             result = f"{teacher_data['teacher_name']} nie ma przypisanego pokoju."
         return result
 
-        # special rooms
     def handle_specialrooms(self, question: str):
-        # idk if we shoud that
         q = question.lower().replace(".", "").replace(",", "")
-        # q = question.lower()
-
         building = "NE"
         if "ea" in q or "star" in q:
             building = "EA"
-
         if "bibliotek" in q or "czytelni" in q:
             target = "NE, BIBLIOTEKA"
         elif "stołów" in q or "jedzen" in q or "bar" in q or "jadalni" in q:
             target = "NE, STOŁÓWKA"
         elif "szatni" in q:
-            if building == "EA":
-                target = "EA, SZATNIA"
-            else:
-                target = "NE, SZATNIA"
+            target = f"{building}, SZATNIA"
         elif "2" in q or "dwa" in q or "drug" in q:
             target = f"{building}, AUD2"
         elif "lew" in q:
@@ -529,54 +445,54 @@ class NlpModel:
                 return "W Nowym ETI audytorium pierwsze dzieli się na lewe i prawe. Sprecyzuj proszę, o które ci chodzi."
         else:
             return "O które audytorium lub miejsce dokładnie pytasz?"
-
         directions = get_aud_directions(target)
-
         if "Błąd" in directions or "Error" in directions:
             return "Wybacz, nie potrafię odnaleźć drogi do tego miejsca."
-
-        # Speaking
-        #place_name = target.split(',')[1].strip()
-        #place_name = place_name.replace("AUD1", "Audytorium pierwsze").replace("AUD2", "Audytorium drugie")
-
         return f"{directions}"
 
     def get_new_user_name(self):
-        if self.user_identity == "Unknown":
-            name_file = "imiona_polskie.txt"
-            names = []
-            with open(name_file, encoding="utf-8") as f:
-                f.readline()
-                for line in f:
-                    names.append(line.strip())
+        if self.user_identity != "Unknown":
+            return
 
-            self._tts_module("Hej, chyba się jeszcze nie znamy.")
-            self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
-            self.audio_queue.join()
-            time.sleep(0.3)
-            new_name_raw = self._stt_module()
+        self._tts_module("Hej, chyba się jeszcze nie znamy.")
+        self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
+        self.audio_queue.join()
+        time.sleep(0.3)
 
-            if self.using_mic:
-                new_name_raw = None
-                while not new_name_raw:
-                    if self.user_identity != "Unknown":
-                        return
-                    new_name_raw = self._stt_module()
-            else:
-                new_name_raw = input("Podaj imię: ")
+        name_file = "imiona_polskie.txt"
+        names = []
+        with open(name_file, encoding="utf-8") as f:
+            f.readline()
+            for line in f:
+                names.append(line.strip())
 
-            new_name_phrase = new_name_raw.replace('.', '').replace(',', '').strip()
-            new_name = None
-            new_name_score = 0
-            for w in new_name_phrase.split():
-                l = process.extractOne(w, names, scorer=fuzz.WRatio)
-                if l[1] > new_name_score:
-                    new_name_score = l[1]
-                    new_name = l[0]
-            self.user_identity = new_name
-            self._tts_module(f"Miło cię poznać {self.user_identity}")
-            td = Thread(target=self._save_name_to_pi, daemon=True)
-            td.start()
+        new_name_raw = None
+
+        if self.using_mic:
+            while not new_name_raw:
+                if self.user_identity != "Unknown":
+                    return
+                new_name_raw = self._stt_module()
+        else:
+            new_name_raw = input("Podaj imię: ")
+
+        if not new_name_raw:
+            return
+
+        new_name_phrase = new_name_raw.replace('.', '').replace(',', '').strip()
+        new_name = None
+        new_name_score = 0
+        for w in new_name_phrase.split():
+            l = process.extractOne(w, names, scorer=fuzz.WRatio)
+            if l[1] > new_name_score:
+                new_name_score = l[1]
+                new_name = l[0]
+
+        self.user_identity = new_name
+        self._greeted_identity = new_name
+        self._tts_module(f"Miło cię poznać {self.user_identity}")
+        td = Thread(target=self._save_name_to_pi, daemon=True)
+        td.start()
 
     def _save_name_to_pi(self):
         try:
@@ -586,12 +502,9 @@ class NlpModel:
             print(e)
 
     def _send_mouth_status_to_pi(self, status):
-        """
-        0 -> mouth closed, 1 -> mouth opened
-        """
         try:
             rpi_url = 'http://uncanny-head.local:5000/api/mouth_status'
-            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout = 0.2)
+            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
         except Exception as e:
             print(e)
 
@@ -610,40 +523,41 @@ app = Flask(__name__)
 @app.route('/api/data', methods=['POST'])
 def handle_data():
     data = request.json
+    incoming_identity = data.get('identity', 'None')
+    incoming_emotion = data.get('emotion', 'Neutral')
 
-    if nlp.user_identity != data['identity'] and data['identity'] != 'None' and data['identity'] != 'Unknown':
+    if (nlp.user_identity != incoming_identity
+            and incoming_identity not in ('None', 'Unknown')
+            and incoming_identity is not None):
         print(data)
-        nlp.user_identity = data['identity']
+        nlp.user_identity = incoming_identity
         nlp.new_data = True
-        nlp.reset_context()
-    nlp.user_emotion = EMOTION_PL_MAP.get(data['emotion'].capitalize(), "neutralność")
+
+    nlp.user_emotion = EMOTION_PL_MAP.get(incoming_emotion.capitalize(), "neutralność")
     return jsonify({"status": "ok"}), 200
 
 
 if __name__ == "__main__":
     template = f"""Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki w skrócie ETI. Mówisz krótko, konkretnie i w stylu studenckim.
-
-   Rozmawiasz z: {{name}}, jeżeli imie to unknown lub None to nie mow do uzytkownika po imieniu. Emocja rozmówcy: {{emotion}}. Dostosuj do niego swój komunikat (np. zwróć się do niego po imieniu, jeżeli jest smutny spytaj co go trapi etc.).
-
-    Masz wiedzę o lokalizacji sal i pokojach danych nauczycieli akademickich. Nie posiadasz informacji o aktualnym planie zajęć.
+Rozmawiasz z osobą o imieniu: {{name}}. Twój bezwzględny priorytet: jeśli zmienna name przyjmuje wartość inną niż unknown oraz None, musisz zwrócić się do użytkownika po imieniu w pierwszym zdaniu swojej wypowiedzi.
+Rozpoznana emocja rozmówcy to: {{emotion}}. Masz absolutny obowiązek zareagować na tę emocję od razu na początku. Zależnie od podanego stanu, pociesz studenta, zmotywuj go, zaoferuj pomoc lub podziel jego radość. Dopiero po reakcji na emocję i użyciu imienia przejdź do odpowiedzi na pytanie.
+Masz wiedzę o lokalizacji sal i pokojach danych nauczycieli akademickich. Nie posiadasz informacji o aktualnym planie zajęć.
 Twoje odpowiedzi będą przetwarzane przez system Text-To-Speech, dlatego bezwzględnie musisz trzymać się następujących reguł:
-
 ZASADY ODPOWIEDZI:
-1. Krótko i na temat, żaden zbędny tekst. Wyjątkiem są sytuacje gdy użytkownik pyta o informacje i ciekawostki o świecie wtedy możesz rozszerzyć wypowiedź do kilku zdań.
-2. Zero kodu, zero komend.
-3. Jak nie wiesz, mów wprost że nie wiesz.
-4. Zero znaków specjalnych, gwiazdek, haszy, nawiasów, cudzysłowów, symboli walut ani procenta. Tylko litery i podstawowa interpunkcja.
-5. Żadnych skrótów. Zawsze pełne słowa: na przykład, i tym podobne, doktor, profesor.
-6. Liczby, daty i godziny zawsze słownie: o wpół do ósmej, piętnastego października.
-7. Na pytania zawsze odpowiadaj zgodnie z faktualnym stanem rzeczy.
-
-    Oto twoja ostatnia wymiana zdań z użytkownikiem:
-    {{history}}
-
-    Pytanie od użytkownika:
-    {{question}}
+Użycie imienia i adekwatna reakcja na emocję muszą znaleźć się na samym początku odpowiedzi. Brak uwzględnienia tych zmiennych to błąd krytyczny.
+Krótko i na temat, żaden zbędny tekst. Wyjątkiem są sytuacje gdy użytkownik pyta o informacje i ciekawostki o świecie wtedy możesz rozszerzyć wypowiedź do kilku zdań.
+Zero kodu, zero komend.
+Jak nie wiesz, mów wprost że nie wiesz.
+Zero znaków specjalnych, gwiazdek, haszy, nawiasów, cudzysłowów, symboli walut ani procenta. Tylko litery i podstawowa interpunkcja.
+Żadnych skrótów. Zawsze pełne słowa: na przykład, i tym podobne, doktor, profesor.
+Liczby, daty i godziny zawsze słownie: o wpół do ósmej, piętnastego października.
+Na pytania zawsze odpowiadaj zgodnie z faktualnym stanem rzeczy.
+Oto twoja ostatnia wymiana zdań z użytkownikiem:
+{{history}}
+Pytanie od użytkownika:
+{{question}}
     """
     nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
-    # td = Thread(target=lambda: app.run('0.0.0.0', 5000,debug=False,use_reloader = False),daemon = True)
-    # td.start()
+    td = Thread(target=lambda: app.run('0.0.0.0', 5000, debug=False, use_reloader=False), daemon=True)
+    td.start()
     nlp.start()
