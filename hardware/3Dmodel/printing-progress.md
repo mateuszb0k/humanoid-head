@@ -88,7 +88,7 @@
 - [X] neck-bottom_V3.stl
 - [X] neck-upper_V4.stl
 - [X] microphone-wall.stl
-- [ ] microphone-sensor-wall.stl
+- [X] microphone-sensor-wall.stl
 - [X] normall-wall.stl
 - [X] normall-wall.stl
 - [X] normall-wall.stl
@@ -115,6 +115,7 @@
 * Encountered second failure printing "rearPlate" - part will be reprinted in different printer(bambulab).
 * Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
 * cam-holder needs to be thicker and printed in different orientation - screw broke it
+* encountered problem printing short-wall. gcode will be modified accordingly
 
 
 ---
