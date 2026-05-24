@@ -38,11 +38,11 @@ The scope of work for the described team covers the design and implementation of
 Another key element of the vision module is the implementation of a classifier that recognizes the user's affective states. The algorithm is intended to recognize seven emotion classes: anger, sadness, fear, surprise, disgust, happiness, and a neutral state. In the final phase of model design and optimization, a classification accuracy of approximately 75 percent is assumed.
 The output data from the vision module (identified identity and recognized emotion) will be passed to the speech synthesis subsystem. This will enable dynamic adjustment of both the content and acoustic parameters of the robot's speech to the interlocutor's current emotional state.
 \subsection{Technological Stack}
-The implementation of the vision module's tasks will be based on the following technologies and algorithmic methods:
+Initial project assumptions included the use of the BlazeFace \cite{blazeface} model for face localization and the MediaPipe \cite{mediapipe} framework for facial landmark extraction. These solutions are characterized by very high precision, however preliminary tests on the target hardware platform revealed excessive load on the computational resources, which prevented smooth real-time operation. For this reason, the final software implementation is based on more optimal and lightweight models:
+
 \begin{itemize}
-\item Face Detection - A pre-trained BlazeFace \cite{blazeface} model (developed by Google) will be used for fast and efficient face localization (determination of bounding boxes) in image frames. This model is characterized by high performance, which is critical in real-time operating systems.
-\item Face Alignment / Landmarking - The MediaPipe \cite{mediapipe}framework (Face Mesh / Face Landmarks module) will be applied. This solution was chosen due to its high precision, optimization for real-time operation, and significantly greater reliability compared to classical, custom-built vision algorithms.
-\item User Identification (Face Recognition) - The identity verification process will be implemented using deep neural networks. An aligned (cropped based on facial landmarks) face image will be processed by the model to generate a feature vector (embedding). Subsequently, user recognition will be performed by computing the cosine similarity between the generated vector and reference vectors stored in the system's database.
+	\item \textbf{Face Detection and Alignment:} The OpenCV YuNet model is used for fast and efficient face localization in image frames. This model provides the high performance required in real-time operating systems.
+	\item \textbf{User Identification (Face Recognition):} For face recognition and feature extraction, the system utilizes the SFace algorithm, which analyzes cropped face images to reliably verify user identities. The identity verification process generates a feature vector (embedding), and recognition is performed by computing the cosine similarity between the generated vector and reference vectors stored in the system's database.
 \end{itemize}
 \section{Dataset preprocessing}
 \subsection{Search for datasets}
@@ -729,11 +729,11 @@ The system continuously captures frames using Picamera2. YuNet efficiently isola
 To ensure smooth operation and steady tracking, the pipeline integrates a rolling buffer (majority voting) for identity confirmation and triggers the heavy emotion classification model strictly on an event-driven basis (only when a new identity is confirmed or a session starts). 
 
 \section{Inter-Module Communication}
-The vision system operates as a distributed component that communicates with the NLP module hosted on an NVIDIA Jetson through a REST API. This bidirectional interface ensures that visual telemetry and user identity management are perfectly synchronized across the robot's hardware.
+The vision system operates as an independent network component communicating with the natural language processing module using a client-server architecture based on the Flask framework. The Raspberry Pi runs a local web server that serves a dual role.
 
-The Raspberry Pi serves as a primary sensor, pushing real-time data to the Jetson's API endpoint. Every processed frame where a face is present triggers a POST request to the data route. The transmitted JSON payload includes face visibility status, confirmed identity, detected emotion, and the spatial coordinates of the bounding box. This allows the NLP subsystem to adjust its conversational tone based on the user's current affective state.
+On one hand, it continuously broadcasts a video stream and sends telemetry packets containing frame coordinates, user ID, and the recognized emotional state directly to the external master module. Data transmission is handled via network requests, ensuring full compatibility across different programming environments.
 
-To synchronize new user registrations, a dedicated endpoint was implemented on the Raspberry Pi. When the NLP module identifies a new user name through voice interaction, it sends a request back to the vision module's save name route. This command triggers the local database to map the current facial embedding to the provided name, enabling seamless recognition in future sessions.
+On the other hand, the server listens for incoming requests. When the master system recognizes a new name during voice interaction or issues a command to change facial expressions, it sends a corresponding return packet. The server on the microcomputer receives this information via endpoints for new users and for lip control, immediately passing it to the internal program layers responsible for database updates and robot behavior modification.
 
 \section{Technical Challenges and Optimization}
 Building a real-time vision system on embedded hardware introduced several constraints that required specific architectural solutions.
@@ -745,9 +745,10 @@ Initially, running the complex emotion classification model on every single fram
 A major challenge was the gap between synthetic training data and real-world performance. While Flux.1 generated visually perfect images, models trained exclusively on these samples failed to generalize to actual camera feeds. We resolved this by modifying the generation prompts to include realistic noise and varied lighting, which provided the necessary variance for practical deployment.
 
 \section{Data Privacy and Security}
-The vision module was designed with privacy-first principles. The system does not store raw images or video feeds. Instead, all facial data is converted into 128-dimensional numerical embeddings. These vectors are stored in a local SQLite database, making it impossible to reconstruct the original face from the saved data. 
+The vision module was designed with strict privacy protection principles in mind. The system architecture completely excludes storing raw image files or video recordings on the device's drive. Every detected face is immediately transformed into a digital feature vector, which is a 128-dimensional set of numbers describing facial geometry, from which it is impossible to reconstruct the original human image. This data is stored in a local SQLite database.
 
-To manage resources and comply with data retention best practices, the database includes an automated cleanup routine. Records are assigned a seven-day lifespan and the total user capacity is capped at 200 profiles. Once these limits are reached, the oldest entries are purged automatically to ensure the system remains efficient and secure.
+To optimize disk space and maintain data security, an automated profile lifecycle was introduced. Upon each startup, the system checks timestamps and irrevocably deletes entries older than seven days. Additionally, the database has a strict capacity limit set to 200 profiles. If this value is exceeded, the defense mechanism automatically purges the oldest records, making room for new users and preventing memory overflow.
+
 \section{Conception and tests new model}
 This part of the project focused on designing and evaluating a new approach for a Facial Emotion Recognition (FER) system. Rather than relying on a standard single network analyzing the entire frame, the new approach assumes the deployment of a multi-stage processing pipeline based on cascaded CNN networks.
 
