@@ -749,6 +749,11 @@ The vision module was designed with strict privacy protection principles in mind
 
 To optimize disk space and maintain data security, an automated profile lifecycle was introduced. Upon each startup, the system checks timestamps and irrevocably deletes entries older than seven days. Additionally, the database has a strict capacity limit set to 200 profiles. If this value is exceeded, the defense mechanism automatically purges the oldest records, making room for new users and preventing memory overflow.
 
+\section{Hardware Control and Concurrency}
+The program running on the microcomputer integrates image analysis with direct control over the mechanical movements of the head. A key element of the software is a dictionary containing predefined movement sequences associated with specific emotional states. Each emotion recognized by the neural network is automatically translated into an appropriate set of positions for the individual servo motors responsible for the artificial face's expressions. Additionally, the system implements smooth eye tracking, where the coordinates of the detected face center are mathematically scaled to corresponding angular values, allowing the robot to maintain eye contact with the human.
+
+To ensure full operational fluidity and avoid freezing the camera image during movements, the software utilizes a multithreaded architecture using the threading library. Frame processing, eye movement control, mouth animation during speech, and listening for terminal commands run in separate, independent background threads. Communication between the visual analysis layer and the movement algorithm takes place via a safe event queue, meaning that detecting a new emotion or a change in speech status immediately and without delay triggers the corresponding mechanical response.
+
 \section{Conception and tests new model}
 This part of the project focused on designing and evaluating a new approach for a Facial Emotion Recognition (FER) system. Rather than relying on a standard single network analyzing the entire frame, the new approach assumes the deployment of a multi-stage processing pipeline based on cascaded CNN networks.
 
