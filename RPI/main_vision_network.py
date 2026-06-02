@@ -29,7 +29,7 @@ CAM_WIDTH = 1024
 CAM_HEIGHT = 864
 
 
-# Dict emocji do nasladowania przez robota
+# Dictionary of emotions for the robot to mimic
 face_emo = {
     "happy": [
         [(11, 50), (12, 95), (15, 10), (16, 25)],
@@ -64,8 +64,8 @@ face_emo = {
     ]
 }
 
-# TODO sprawdzić zakresy czy są poprawne
-# narzucenie limitów na poszczególne serwa
+# TODO: check if the ranges are correct
+# Enforcing limits on individual servos
 servos_config = {
     1: {'driver': 0, 'pin': 1, 'min': 100, 'max': 135, 'wlaczone': True},
     2: {'driver': 0, 'pin': 2, 'min': 50, 'max': 65, 'wlaczone': True},
@@ -97,7 +97,7 @@ try:
     driverR.frequency = 50
 
 except Exception as e:
-    print(f"Błąd inicjalizacji I2C (czy testujesz bez sprzętu?): {e}")
+    print(f"I2C initialization error (are you testing without hardware?): {e}")
     driverR = None
     driverSO = None
 
@@ -109,20 +109,20 @@ if driverSO and driverR:
 
 app = Flask(__name__)
 
-#mapowanie pikseli na kąty na serwa
+# Mapping pixels to servo angles
 def map_servo_value(value, in_min, in_max, out_min, out_max):
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 _servo_lock = threading.Lock()
 
-# funkcja do ustawiania docelowych kątów na serwa
+# Function for setting target servo angles
 def set_servo_angle(servo_id, angle):
     cfg = servos_config.get(servo_id)
     if not cfg or not cfg['wlaczone']:
-        print("wylaczone")
+        print("disabled")
         return
     if servo_id not in servo_objects:
-        print("nie ma serwa")
+        print("servo missing")
         return
     limit_min = min(cfg['min'], cfg['max'])
     limit_max = max(cfg['min'], cfg['max'])
@@ -138,7 +138,7 @@ def set_servo_angle(servo_id, angle):
             mirror_angle = max(cfg2['min'], min(round(cfg2['max'] - ratio * (cfg2['max'] - cfg2['min'])), cfg2['max']))
             servo_objects[other_id].angle = mirror_angle
 
-# funkcja do podążania oczami za użytkownikiem 
+# Function for tracking the user with eyes
 def track_face(x, y):
     target_x = map_servo_value(x, 100, CAM_WIDTH, servos_config[14]['max'], servos_config[14]['min'])
     set_servo_angle(14, target_x)
@@ -178,11 +178,13 @@ class FaceSystem:
         self.is_blinking = False
         self.blink_start_time = 0
 
+        # maxlen=1 ensures that if the robot is busy animating, we discard older emotions
+        # It will always react to the most recent one, preventing reaction lag or desync
         self.emotion_queue = deque(maxlen=1)
 
         self.is_animating = False
 
-        # thready do poszczególnych funkcjonalności robota
+        # Threads for individual robot functionalities
         threading.Thread(target=self.move_eyes,     daemon=True).start()
         threading.Thread(target=self.move_mouth,    daemon=True).start()
         threading.Thread(target=self.emotion_worker, daemon=True).start()
@@ -220,7 +222,7 @@ class FaceSystem:
         vecs = [pickle.loads(r[1]) for r in rows]
         return names, vecs
 
-    # mruganie oczami robota
+    # Robot eye blinking
     def eye_blink(self):
         current_time = time.time()
         if not self.is_blinking and (current_time - self.last_blink_time) > self.blink_interval:
@@ -239,7 +241,7 @@ class FaceSystem:
             self.last_blink_time = current_time
             self.blink_interval = random.uniform(1.5, 5.0)
 
-    # funkcja wspópracująca z podążaniem oczami za użytkownikiem 
+    # Helper function for user eye tracking
     def move_eyes(self):
         while True:
             self.eye_blink()
@@ -254,7 +256,7 @@ class FaceSystem:
 
             time.sleep(0.07)  
 
-    # poruszanie ustami przy mowie
+    # Mouth movement during speech
     def move_mouth(self):
         last_angle = -1
         l10, u10 = 45.0, 80.0
@@ -269,13 +271,13 @@ class FaceSystem:
                     last_angle = angle
             time.sleep(0.05)
 
-    # worker do naśladowania emocji 
+    # Worker for mimicking emotions
     def emotion_worker(self):
         while True:
             if self.emotion_queue:
                 emotion = self.emotion_queue.popleft()
 
-                if self.locked_identity == "Unknown" and emotion not in (None, "None"):
+                if emotion not in (None, "None"):
                     self.is_animating = True
                     self.animate_emotion(emotion)
                     self.is_animating = False
@@ -357,13 +359,15 @@ class FaceSystem:
                         if score >= MATCH_THRESHOLD:
                             raw_identity = self.db_names[idx]
                             break
-
+                
+                # We use a 7-frame buffer and pick the most common identity
+                # This prevents UI flickering and jumping if the camera loses focus or misclassifies a face for a split second
                 self.id_buffer.append(raw_identity)
                 counts = Counter(self.id_buffer)
                 current_identity = counts.most_common(1)[0][0]
 
-                if not self.is_session_active or current_identity != self.locked_identity or (
-                        current_identity == "Unknown" and self.f_count % 15 == 0):
+                # We run the emotion prediction model only every 15 frames
+                if not self.is_session_active or current_identity != self.locked_identity or (self.f_count % 15 == 0):
                     self.last_feat = feat
 
                     crop = frame[max(0, coords[1]):coords[1] + coords[3],
@@ -379,7 +383,7 @@ class FaceSystem:
                     self.locked_emotion = curr_emo
                     self.is_session_active = True
 
-                    if current_identity == "Unknown" and curr_emo not in (None, "None"):
+                    if curr_emo not in (None, "None"):
                         self.emotion_queue.append(curr_emo)
 
                 self.face_lost_time = None
@@ -400,6 +404,7 @@ class FaceSystem:
                 if self.is_session_active:
                     if self.face_lost_time is None:
                         self.face_lost_time = time.time()
+                    # (3-second grace period) If the user briefly turns their head or the camera glitches, we don't immediately drop the session and force a re-identification.
                     elif time.time() - self.face_lost_time > 3.0:
                         self.is_session_active = False
                         self.locked_identity = "None"
