@@ -98,7 +98,7 @@
 - [X] CentralServoHorn
 - [x] 38.stl
 - [x] 3.stl
-- [ ] cam_holder_v3.stl
+- [x] cam_holder_v3.stl
 
 ## Problems
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
