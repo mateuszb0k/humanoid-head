@@ -183,6 +183,7 @@ class FaceSystem:
         self.is_blinking = False
         self.blink_start_time = 0
         self.just_did_double = False
+        self.just_did_double = False
 
         # maxlen=1 ensures that if the robot is busy animating, we discard older emotions
         # It will always react to the most recent one, preventing reaction lag or desync
@@ -255,14 +256,13 @@ class FaceSystem:
             set_servo_angle(16, 85)
             self.is_blinking = False
             self.last_blink_time = current_time
-
+            
             if not self.just_did_double and random.random() < 0.50:
                 self.blink_interval = 0.150
                 self.just_did_double = True
             else:
                 self.blink_interval = random.uniform(1.5, 5.0)
                 self.just_did_double = False
-
 
     # Helper function for user eye tracking
     def move_eyes(self):

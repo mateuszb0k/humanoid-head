@@ -1,9 +1,0 @@
-Hardware contributions:
-- Assistance with assembly and hardware development of the robot head
-
-Purchased parts:
-- 10x Neodymium magnet (1 cm diameter)
-- 20x Neodymium magnet (0.5 cm diameter)
-
-Purpose:
-The magnets will be used to attach the artificial skin to the robot head
