@@ -1,4 +1,5 @@
 import os
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # suppress TF logs before importing keras
 import cv2
 import numpy as np
@@ -27,7 +28,6 @@ EMOTIONS = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 EMOTION_SKIP_FRAMES = 2
 CAM_WIDTH = 1024
 CAM_HEIGHT = 864
-
 
 # Dictionary of emotions for the robot to mimic
 face_emo = {
@@ -77,16 +77,16 @@ servos_config = {
     8: {'driver': 0, 'pin': 8, 'min': 35, 'max': 85, 'wlaczone': True},
     9: {'driver': 0, 'pin': 9, 'min': 10, 'max': 40, 'wlaczone': True},
     10: {'driver': 0, 'pin': 10, 'min': 50, 'max': 70, 'wlaczone': True},
-    11: {'driver': 1, 'pin': 0, 'min': 0, 'max': 60, 'wlaczone': True},
-    12: {'driver': 1, 'pin': 1, 'min': 30, 'max': 100, 'wlaczone': True},
+    11: {'driver': 1, 'pin': 0, 'min': 0, 'max': 60, 'wlaczone': True}, # dolna prawa powieka
+    12: {'driver': 1, 'pin': 1, 'min': 30, 'max': 100, 'wlaczone': True}, #gorna prawa powieka
     13: {'driver': 1, 'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},
-    14: {'driver': 1, 'pin': 3, 'min': 50, 'max': 110, 'wlaczone': True, 'center': 100},
-    15: {'driver': 1, 'pin': 4, 'min': 10, 'max': 80, 'wlaczone': True},
-    16: {'driver': 1, 'pin': 5, 'min': 25, 'max': 70, 'wlaczone': True},
-    17: {'driver': 1, 'pin': 6, 'min': 75, 'max': 155, 'wlaczone': True},
-    18: {'driver': 1, 'pin': 7, 'min': 70, 'max': 160, 'wlaczone': True},
-    19: {'driver': 1, 'pin': 8, 'min': 80, 'max': 170, 'wlaczone': True},
-    20: {'driver': 1, 'pin': 9, 'min': 20, 'max': 80, 'wlaczone': True}
+    14: {'driver': 1, 'pin': 3, 'min': 50, 'max': 110, 'wlaczone': True, 'center': 100},#eyes left-right
+    15: {'driver': 1, 'pin': 4, 'min': 10, 'max': 80, 'wlaczone': True}, #lewa gorna powieka
+    16: {'driver': 1, 'pin': 5, 'min': 25, 'max': 70, 'wlaczone': True},  #lewa dolna powieka
+    17: {'driver': 1, 'pin': 6, 'min': 75, 'max': 155, 'wlaczone': True}, #prawa brew zewnetrzna
+    18: {'driver': 1, 'pin': 7, 'min': 70, 'max': 160, 'wlaczone': True}, #prawa brew wewnetrzna
+    19: {'driver': 1, 'pin': 8, 'min': 80, 'max': 170, 'wlaczone': True}, #lewa brew wew
+    20: {'driver': 1, 'pin': 9, 'min': 20, 'max': 80, 'wlaczone': True} # lewa brew zew
 }
 
 try:
@@ -109,11 +109,14 @@ if driverSO and driverR:
 
 app = Flask(__name__)
 
+
 # Mapping pixels to servo angles
 def map_servo_value(value, in_min, in_max, out_min, out_max):
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+
 _servo_lock = threading.Lock()
+
 
 # Function for setting target servo angles
 def set_servo_angle(servo_id, angle):
@@ -131,19 +134,20 @@ def set_servo_angle(servo_id, angle):
     with _servo_lock:
         servo_objects[servo_id].angle = safe_angle
     if servo_id in (1, 10):
-            other_id = 10 if servo_id == 1 else 1
-            cfg1 = servos_config[servo_id]
-            cfg2 = servos_config[other_id]
-            ratio = (safe_angle - cfg1['min']) / (cfg1['max'] - cfg1['min'])
-            mirror_angle = max(cfg2['min'], min(round(cfg2['max'] - ratio * (cfg2['max'] - cfg2['min'])), cfg2['max']))
-            servo_objects[other_id].angle = mirror_angle
+        other_id = 10 if servo_id == 1 else 1
+        cfg1 = servos_config[servo_id]
+        cfg2 = servos_config[other_id]
+        ratio = (safe_angle - cfg1['min']) / (cfg1['max'] - cfg1['min'])
+        mirror_angle = max(cfg2['min'], min(round(cfg2['max'] - ratio * (cfg2['max'] - cfg2['min'])), cfg2['max']))
+        servo_objects[other_id].angle = mirror_angle
+
 
 # Function for tracking the user with eyes
 def track_face(x, y):
     target_x = map_servo_value(x, 100, CAM_WIDTH, servos_config[14]['max'], servos_config[14]['min'])
     set_servo_angle(14, target_x)
-    target_y = map_servo_value(y,100, CAM_HEIGHT, servos_config[13]['max'], servos_config[13]['min'])
-    set_servo_angle(13, target_y-55)
+    target_y = map_servo_value(y, 100, CAM_HEIGHT, servos_config[13]['max'], servos_config[13]['min'])
+    set_servo_angle(13, target_y - 55)
 
 
 class FaceSystem:
@@ -170,6 +174,7 @@ class FaceSystem:
         self.face_lost_time = None
         self.id_buffer = deque(maxlen=7)
         self.face_visible = False
+        self.double_blink = False
         self.bbox_cent = None
         self.mouth_angle = 0
 
@@ -177,6 +182,7 @@ class FaceSystem:
         self.blink_interval = 5.0
         self.is_blinking = False
         self.blink_start_time = 0
+        self.just_did_double = False
 
         # maxlen=1 ensures that if the robot is busy animating, we discard older emotions
         # It will always react to the most recent one, preventing reaction lag or desync
@@ -185,21 +191,31 @@ class FaceSystem:
         self.is_animating = False
 
         # Threads for individual robot functionalities
-        threading.Thread(target=self.move_eyes,     daemon=True).start()
-        threading.Thread(target=self.move_mouth,    daemon=True).start()
+        threading.Thread(target=self.move_eyes, daemon=True).start()
+        threading.Thread(target=self.move_mouth, daemon=True).start()
         threading.Thread(target=self.emotion_worker, daemon=True).start()
-
+        # threading.Thread(target=self.move_eyes_left_right, daemon=True).start()
 
     def init_db(self):
         cur = self.db.cursor()
         cur.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                encoding BLOB,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
+                    CREATE TABLE IF NOT EXISTS users
+                    (
+                        id
+                        INTEGER
+                        PRIMARY
+                        KEY
+                        AUTOINCREMENT,
+                        name
+                        TEXT,
+                        encoding
+                        BLOB,
+                        created_at
+                        TIMESTAMP
+                        DEFAULT
+                        CURRENT_TIMESTAMP
+                    )
+                    """)
         self.db.commit()
 
     def cleanup_db(self):
@@ -239,24 +255,75 @@ class FaceSystem:
             set_servo_angle(16, 85)
             self.is_blinking = False
             self.last_blink_time = current_time
-            self.blink_interval = random.uniform(1.5, 5.0)
+
+            if not self.just_did_double and random.random() < 0.50:
+                self.blink_interval = 0.150
+                self.just_did_double = True
+            else:
+                self.blink_interval = random.uniform(1.5, 5.0)
+                self.just_did_double = False
+
 
     # Helper function for user eye tracking
     def move_eyes(self):
+        last_time = time.time()
+        state = 0
+        position = [80, 55, 80, 105]
+        side_eye_left = {14: 110, 16: 35, 15: 40, 20: 80, 19: 80, 18: 70, 17: 130, 12: 110, 11: 0}
+        side_eye_right = {14: 50, 12: 75, 11: 35, 17: 85, 18: 110, 20: 30, 19: 150, 15: 25, 16: 85}
+        base_pos = {14: 80, 16: 85, 15: 25, 20: 20, 19: 130, 18: 70, 12: 110, 11: 0}
+
+        sleep = [1.5, 0.5, 0.5, 1.5, 1.0, 2.0, 0.5, 2.0, 1.0]
+
         while True:
-            self.eye_blink()
-            # identity = self.locked_identity
+            is_side_eye = state in [5, 7]
+            if not is_side_eye:
+                self.eye_blink()
+
             if self.face_visible:
                 bbox = self.bbox_cent
                 if bbox is not None:
                     track_face(bbox[0], bbox[1])
             else:
-                set_servo_angle(14,80)
-                set_servo_angle(13, 60)
+                current_time = time.time()
+                set_servo_angle(13, 60) 
 
-            time.sleep(0.07)  
+                current_delay = 0 if state == -1 else sleep[state]
+
+                if current_time - last_time > current_delay:
+                    state = (state + 1) % len(sleep)
+
+                    if state < 4:
+                        set_servo_angle(14, position[state])
+
+                    elif state == 4:
+                        for servo_id, angle in base_pos.items():
+                            set_servo_angle(servo_id, angle)
+
+                    elif state == 5:
+                        for servo_id, angle in side_eye_left.items():
+                            set_servo_angle(servo_id, angle)
+
+                    elif state == 6:
+                        for servo_id, angle in base_pos.items():
+                            set_servo_angle(servo_id, angle)
+
+                    elif state == 7:
+                        for servo_id, angle in side_eye_right.items():
+                            set_servo_angle(servo_id, angle)
+
+                    elif state == 8:
+                        for servo_id, angle in base_pos.items():
+                            set_servo_angle(servo_id, angle)
+
+                    last_time = current_time
+
+            time.sleep(0.07)
+
+
 
     # Mouth movement during speech
+
     def move_mouth(self):
         last_angle = -1
         l10, u10 = 45.0, 80.0
@@ -272,6 +339,21 @@ class FaceSystem:
             time.sleep(0.05)
 
     # Worker for mimicking emotions
+
+    # def move_eyes_left_right(self):
+    #     while True:
+    #         if not self.face_visible:
+    #             set_servo_angle(14, 80)
+    #             time.sleep(1000)
+    #             set_servo_angle(14, 55)
+    #             time.sleep(1000)
+    #             set_servo_angle(14, 80)
+    #             time.sleep(1000)
+    #             set_servo_angle(14, 105)
+    #             time.sleep(1000)
+
+
+
     def emotion_worker(self):
         while True:
             if self.emotion_queue:
@@ -326,7 +408,7 @@ class FaceSystem:
         last_tick = time.time()
         while True:
             frame = self.picam2.capture_array()
-            frame = cv2.flip(frame, -1)	
+            frame = cv2.flip(frame, -1)
             now = time.time()
             fps = 1 / (now - last_tick) if (now - last_tick) > 0 else 0
             last_tick = now
@@ -359,7 +441,7 @@ class FaceSystem:
                         if score >= MATCH_THRESHOLD:
                             raw_identity = self.db_names[idx]
                             break
-                
+
                 # We use a 7-frame buffer and pick the most common identity
                 # This prevents UI flickering and jumping if the camera loses focus or misclassifies a face for a split second
                 self.id_buffer.append(raw_identity)
@@ -371,7 +453,7 @@ class FaceSystem:
                     self.last_feat = feat
 
                     crop = frame[max(0, coords[1]):coords[1] + coords[3],
-                                 max(0, coords[0]):coords[0] + coords[2]]
+                    max(0, coords[0]):coords[0] + coords[2]]
                     curr_emo = "neutral"
                     if crop.size > 0:
                         res = cv2.resize(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB), (224, 224))
