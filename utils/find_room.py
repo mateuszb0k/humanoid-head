@@ -1,7 +1,7 @@
 import json
 
 def get_room_directions(input_room_str, database_filepath='./room_directions.json'):
-    print(input_room_str)
+    #print(input_room_str)
     # reading database
     try:
         with open(database_filepath, 'r', encoding='utf-8') as db_file:

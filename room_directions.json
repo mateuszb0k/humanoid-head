@@ -62,7 +62,7 @@
     },
     "16": {
       "floor": "0",
-      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 16 będzie znajdowała się po lewej stronie holu"
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w lewo, sala 16 będzie znajdowała się po lewej stronie holu. W pomieszczeniu tym znajduje się Laboratorium Badawcze Hydroakustyki"
     },
     "17": {
       "floor": "0",
@@ -734,7 +734,7 @@
     },
     "349": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 349 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 349 będzie znajdowała się po lewej stronie holu. Jest to również pokój w którym działają koła naukowe: BioPhoton oraz Solition oraz Optica"
     },
     "350": {
       "floor": "3",
@@ -762,7 +762,7 @@
     },
     "404": {
       "floor": "4",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 404 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 404 będzie znajdowała się po lewej stronie holu. W pomieszczeniu tym znajduje się Środowiskowe Laboratorium Systemów Łączności Bezprzewodowej dla Potrzeb Specjalnych"
     },
     "405": {
       "floor": "4",
@@ -826,7 +826,7 @@
     },
     "420": {
       "floor": "4",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 420 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w prawo, sala 420 będzie znajdowała się po lewej stronie holu. W pomieszczeniu tym znajduje się Laboratorium Zanurzonej Wizualizacji Przestrzennej"
     },
     "421": {
       "floor": "4",
@@ -1470,7 +1470,7 @@
     },
     "733": {
       "floor": "7",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 733 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 733 będzie znajdowała się po prawej stronie holu. Pokój ten jest Laboratorium Akustyki Fonicznej. Jest to również siedziba koła naukowego Inżynierii dźwięku i obrazu"
     },
     "734": {
       "floor": "7",
@@ -1849,6 +1849,10 @@
     "346": {
       "floor": "3",
       "directions": "wejdź głównym wejściem przejdź przez drzwi po prawej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie sala 346 będzie znajdować się na wprost."
+    },
+    "367": {
+      "floor": "3",
+      "directions": "wejdź głównym wejściem przejdź przez drzwi po lewej stronie, następnie udaj się na poziom 3, wejdź do holu po prawej stronie i pójdz w prawo, sala 367 będzie znajdować się na wprost. Jest to pokój w któym działa Koło Naukowe Safe Idea"
     },
     "AUDYTORIUM 2": {
       "floor": "0",

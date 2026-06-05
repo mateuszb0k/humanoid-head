@@ -1,4 +1,16 @@
 {
+    "Jacek Stefański": {
+        "title": "prof. dr hab. inż.",
+        "building": "EA",
+        "room": "127",
+        "department": "Władze wydziału"
+    },
+    "Jerzy Buszke": {
+        "title": "mgr inż.",
+        "building": "EA",
+        "room": "127",
+        "department": "Władze wydziału"
+    },
     "Michał Kopczyński": {
         "title": "mgr inż.",
         "building": "EA",
@@ -2308,5 +2320,59 @@
         "building": "EA",
         "room": "Brak",
         "department": "Katedra Optoelektroniki"
+    },
+    "Katarzyna Jaśkiewicz": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "149",
+        "department": "pracownicy dziekanatu"
+    },
+    "Katarzyna Lentka": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "149",
+        "department": "pracownicy dziekanatu"
+    },
+    "Agnieszka Hryszko": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "149",
+        "department": "pracownicy dziekanatu"
+    },
+    "Dominika Skowrońska": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "145",
+        "department": "pracownicy dziekanatu"
+    },
+    "Magda Masloch": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "149",
+        "department": "pracownicy dziekanatu"
+    },
+    "Ewa Kwiatkowska": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "145",
+        "department": "pracownicy dziekanatu"
+    },
+    "Anetta Gorloff - Żukowska": {
+        "title": "mgr",
+        "building": "NE",
+        "room": "145",
+        "department": "pracownicy dziekanatu"
+    },
+    "Barbara Speina": {
+        "title": "Brak",
+        "building": "NE",
+        "room": "145",
+        "department": "pracownicy dziekanatu"
+    },
+    "Tomasz Pakszys": {
+        "title": "mgr inż.",
+        "building": "NE",
+        "room": "156",
+        "department": "pracownicy dziekanatu"
     }
 }

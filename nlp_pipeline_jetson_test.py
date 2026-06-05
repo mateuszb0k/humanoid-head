@@ -91,7 +91,7 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output = True,
-            output_device_index = 0, # only for jetson
+            #output_device_index = 0, # only for jetson
         )
 
         self.model_llm = OllamaLLM(model="gemma4:e4b", temperature=0.4, reasoning=False)
