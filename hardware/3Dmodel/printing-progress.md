@@ -98,6 +98,7 @@
 - [X] CentralServoHorn
 - [x] 38.stl
 - [x] 3.stl
+- [ ] cam_holder_v3.stl
 
 ## Problems
 * Encountered a failure printing "skullFrame" 3D part twice. The G-code has been modified to resolve the issue.
@@ -116,7 +117,8 @@
 * Encountered a move parsing failure printing "base-frame" 3D part -  printer will be recalibrated and the G-code will be modified to resolve the issue
 * cam-holder needs to be thicker and printed in different orientation - screw broke it
 * encountered problem printing short-wall. gcode will be modified accordingly
+* camholder hole to low. updated 3D model to version 3. updated g-code
 
 
 ---
-*Last Update: 18-05-2026
+*Last Update: 05-06-2026
