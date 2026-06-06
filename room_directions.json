@@ -158,7 +158,7 @@
     },
     "63": {
       "floor": "0",
-      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 63 będzie znajdowała się po lewej stronie holu"
+      "directions": "Wejdź do budynku głównym wejściem i pójdź holem w prawo, sala 63 będzie znajdowała się po lewej stronie holu. W tej sali znajduje się Laboratorium Współpracy Robotów"
     },
     "65": {
       "floor": "0",
@@ -1058,7 +1058,7 @@
     },
     "527": {
       "floor": "5",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 527 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 527 będzie znajdowała się po prawej stronie holu. W tej sali znjaduje się laboratorium Katedry Architektury Systemów Komputerowych"
     },
     "528": {
       "floor": "5",
@@ -1070,7 +1070,7 @@
     },
     "530": {
       "floor": "5",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 530 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 530 będzie znajdowała się po lewej stronie holu. W tej sali znajduje się Laboratorium Sterowania Analogowego"
     },
     "531": {
       "floor": "5",
