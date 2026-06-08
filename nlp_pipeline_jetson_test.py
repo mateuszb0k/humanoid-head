@@ -257,7 +257,7 @@ class NlpModel:
                                 for n, k in enumerate(top_3.keys()):
                                     number = MAP_NUMBERS[str(n)]
                                     prompt_lines.append(f"Jeżeli chodzi ci o {k}, powiedz {number}.")
-                                prompt_lines.append("Jeśli to nie jest żadna z tych osób, powiedz trzy.")
+                                prompt_lines.append("Jeśli to nie jest żadna z tych osób, powiedz pięć.")
 
                                 temp_result = " ".join(prompt_lines)
                                 print(temp_result)
@@ -302,7 +302,6 @@ class NlpModel:
                                                 self.say("Przepraszam nie jestem w stanie pomóc")
                                             else:
                                                 print("Przepraszam nie jestem w stanie pomóc")
-                                            self.result = "Przepraszam nie jestem w stanie pomóc."
                                             break
                             else:
                                 self.result = (
