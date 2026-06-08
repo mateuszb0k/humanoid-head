@@ -48,18 +48,22 @@ EMOTION_PL_MAP = {
 
 
 def preprocess_stt(text: str) -> str:
-    text = re.sub(r"\b[nN]\s+[eE]\s*(\d+)", r"ne\1", text)
-    text = re.sub(r"\b[eE]\s+[aA]\s*(\d+)", r"ea\1", text)
-    text = re.sub(r"([a-zA-Z])\s*-\s*([a-zA-Z])", r"\1\2", text)
-    text = re.sub(r"([a-zA-Z])\s*-\s*(\d)", r"\1\2", text)
-    text = re.sub(r"([a-zA-Z])\s+(\d)", r"\1\2", text)
-    text = re.sub(r"\b[nN](\d+)", r"ne\1", text)
-    text = re.sub(r"\b[eE](\d+)", r"ea\1", text)
+    text = re.sub(r'\b([nNeE])\.\s*([eEaA])\.\s*(\d+)\b', lambda m: (m.group(1) + m.group(2) + m.group(3)).lower(), text)
+    text = re.sub(r'\b([nNeE])\.\s*([eEaA])\s*(\d+)\b', lambda m: (m.group(1) + m.group(2) + m.group(3)).lower(), text)
+    text = re.sub(r'\b[nN]\s+[eE]\s*(\d+)', r'ne\1', text)
+    text = re.sub(r'\b[eE]\s+[aA]\s*(\d+)', r'ea\1', text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*([a-zA-Z])', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s*-\s*(\d)', r'\1\2', text)
+    text = re.sub(r'([a-zA-Z])\s+(\d)', r'\1\2', text)
+    text = re.sub(r'\b[nN](\d+)', r'ne\1', text)
+    text = re.sub(r'\b[eE](\d+)', r'ea\1', text)
     return text
 
 
 def split_building_numer(text: str) -> str:
-    text = re.sub(r"(?i)\b(ne|ea)(\d+)", r"\1,\2", text)
+    text = text.strip().upper()
+    text = re.sub(r'[\.\s]+', '', text)
+    text = re.sub(r'(?i)\b(NE|EA)(\d+)\b', r'\1,\2', text)
     return text
 
 
