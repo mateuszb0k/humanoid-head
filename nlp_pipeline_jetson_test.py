@@ -111,7 +111,7 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output=True,
-            # output_device_index=0,
+            frames_per_buffer=4096,
         )
 
         self.model_llm = OllamaLLM(
@@ -496,7 +496,7 @@ class NlpModel:
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
             sample_rate = self.voice.config.sample_rate
-            chunk_size = max(512, int(sample_rate * 0.020))
+            chunk_size = max(1024, int(sample_rate * 0.050))
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i : i + chunk_size]
@@ -636,11 +636,12 @@ class NlpModel:
             print(e)
 
     def _send_mouth_status_to_pi(self, status):
-        try:
-            rpi_url = "http://uncanny-head.local:5000/api/mouth_status"
-            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
-        except Exception as e:
-            print(e)
+        # try:
+        #     rpi_url = "http://uncanny-head.local:5000/api/mouth_status"
+        #     requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
+        # except Exception as e:
+        #     print(e)
+        return
 
     def reset_context(self):
         self.llm_queue = deque()
