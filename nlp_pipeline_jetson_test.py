@@ -590,6 +590,7 @@ class NlpModel:
         self.audio_queue.join()
         self._send_mouth_status_to_pi(0.0)
         self.last_mouth_status_sent = 0.0
+        self.is_speaking = False
         time.sleep(0.3)
 
         name_file = "imiona_polskie.txt"
