@@ -371,39 +371,57 @@ class NlpModel:
         return result
 
     def _tts_stream(self):
-        if self.result == "":
-            while self.result == "":
-                time.sleep(0.1)
+        while self.result == "" and not self.end_of_result:
+            time.sleep(0.03)
 
         text_said = ""
-        max_chunk_without_punctuation = 120
+        min_chunk_chars = 80
+        max_chunk_chars = 180
+        sentence_end_regex = re.compile(r"[.!?]")
 
         while True:
             current_text = str(self.result)
             remaining = current_text[len(text_said):]
 
-            if current_text == text_said and self.end_of_result:
+            if not remaining and self.end_of_result:
                 break
 
-            res = re.search(self.regex, remaining)
-            if res is not None:
-                cut = res.start() + 1
-                text2say = remaining[:cut]
-                if self.using_speaker:
-                    self._tts_module(text2say)
-                else:
-                    print(text2say, end="", flush=True)
-                text_said += text2say
+            if not remaining:
+                time.sleep(0.03)
+                continue
 
-            elif len(remaining) >= max_chunk_without_punctuation:
-                text2say = remaining[:max_chunk_without_punctuation]
-                if self.using_speaker:
-                    self._tts_module(text2say)
-                else:
-                    print(text2say, end="", flush=True)
-                text_said += text2say
+            chunk = None
 
-            time.sleep(0.05)
+            if len(remaining) >= min_chunk_chars:
+                matches = list(sentence_end_regex.finditer(remaining))
+                if matches:
+                    cut = None
+                    for match in matches:
+                        if match.end() >= min_chunk_chars:
+                            cut = match.end()
+                            break
+
+                    if cut is None:
+                        cut = matches[-1].end()
+
+                    chunk = remaining[:cut]
+
+            if chunk is None and len(remaining) >= max_chunk_chars:
+                cut = remaining.rfind(" ", 0, max_chunk_chars)
+                if cut == -1:
+                    cut = max_chunk_chars
+                chunk = remaining[:cut]
+            if chunk is None and self.end_of_result:
+                chunk = remaining
+
+            if chunk:
+                if self.using_speaker:
+                    self._tts_module(chunk)
+                else:
+                    print(chunk, end="", flush=True)
+                text_said += chunk
+
+            time.sleep(0.03)
 
     def _llm_init(self):
         try:
