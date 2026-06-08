@@ -140,7 +140,6 @@ class NlpModel:
         self._stt_init()
         status = self._llm_init()
         print(f"LLM status: {status}")
-
         if not status:
             return
 
@@ -181,20 +180,20 @@ class NlpModel:
             else:
                 question = input("Text: ")
 
-            self.get_new_user_name()
+            if self.user_identity == "Unknown":
+                self.get_new_user_name()
+                continue
 
             self.end_of_result = False
             self.result = ""
             self.tts_queue = Queue()
             start_llm = 0
             end_llm = 0
+            tts_thread = None
 
             print("Analyzing...")
 
             intent = self.intent_detector.detect_intent(question)
-            self.is_speaking = True
-            tts_thread = Thread(target=self._tts_stream)
-            tts_thread.start()
 
             if intent == "POGODA":
                 self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()
@@ -315,25 +314,38 @@ class NlpModel:
             else:
                 start_llm = time.time()
                 end_llm = 0
-
+                self.is_speaking = True
+                tts_thread = Thread(target=self._tts_stream)
+                tts_thread.start()
                 for chunk in self.chain.stream(
-                    {
-                        "question": question,
-                        "history": self._get_history_buffer(),
-                        "name": self.active_identity,
-                        "emotion": self.user_emotion,
-                    }
+                        {
+                            "question": question,
+
+                            "history": self._get_history_buffer(),
+
+                            "name": self.active_identity,
+
+                            "emotion": self.user_emotion,
+
+                        }
                 ):
                     if not end_llm:
                         end_llm = time.time()
 
                     text = chunk if isinstance(chunk, str) else str(chunk)
+
                     self.result += text
 
                 self.end_of_result = True
 
-            tts_thread.join()
-            self._finish_speaking()
+            if tts_thread is not None:
+                tts_thread.join()
+                self._finish_speaking()
+            elif self.result and self.using_speaker:
+                self.say(self.result)
+            elif self.result:
+                print(self.result)
+
             time.sleep(0.2)
 
             self._handle_llm_queue(question, self.result)
@@ -657,15 +669,14 @@ class NlpModel:
         self.tts_queue = Queue()
 
     def say(self, text: str, wait: bool = True):
-        def say(self, text: str, wait: bool = True):
-            if not text:
-                return
+        if not text:
+            return
 
-            self.is_speaking = True
-            self._tts_module(text)
+        self.is_speaking = True
+        self._tts_module(text)
 
-            if wait:
-                self._finish_speaking()
+        if wait:
+            self._finish_speaking()
 
     def _finish_speaking(self):
         self.audio_queue.join()
@@ -690,9 +701,11 @@ def handle_data():
     now = time.time()
     nlp.last_seen_at = now
 
-    normalized_identity = (
-        incoming_identity if incoming_identity not in (None, "", "None") else "Unknown"
-    )
+    raw_identity = str(incoming_identity).strip()
+    if raw_identity.lower() in ("", "none", "unknown", "null"):
+        normalized_identity = "Unknown"
+    else:
+        normalized_identity = raw_identity
 
     previous_identity = nlp.user_identity
 
@@ -733,7 +746,7 @@ Zasady:
 - Najpierw odpowiedz sensownie na pytanie użytkownika.
 - Możesz użyć imienia użytkownika, ale tylko jeśli brzmi to naturalnie. Nie musisz używać go w każdej odpowiedzi.
 - Możesz krótko odnieść się do emocji użytkownika, ale tylko wtedy, gdy to naprawdę pomaga w rozmowie. Nie zaczynaj każdej odpowiedzi od komentarza o emocji.
-- Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens.
+- Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens wtedy nie mów pełnej nazwy wydziału tylko skrótowiec ETI.
 - Jeśli emocja to neutralność, zwykle nie komentuj jej wprost.
 - Jeśli pytanie jest konkretne, odpowiedz konkretnie.
 - Jeśli nie wiesz, powiedz to wprost.
