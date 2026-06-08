@@ -1,5 +1,5 @@
 THRESHOLD = 60
-TOP_3_THRESHOLD = 90
+TOP_3_THRESHOLD = 80
 
 GLINER_LABELS  = [
     "room code",
@@ -25,13 +25,13 @@ REVERSE_MAP_NUMBERS = {
 }
 
 RANDOM_VOICE_LINES = [
-    "Poczekaj sprawdzam pogodę...",
-    "Poczekaj szukam termometru...",
-    "Chwileczkę właśnie dokonuję pomiaru temperatury...",
-    "Sprawdzam chmury. Te na niebie, nie moje serwery.",
-    "Moment...Przetwarzam najnowsze raporty ze stacji meteorologicznych.",
-    "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi.",
-    "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego."
+    "Poczekaj sprawdzam pogodę... ",
+    "Poczekaj szukam termometru... ",
+    "Chwileczkę właśnie dokonuję pomiaru temperatury... ",
+    "Sprawdzam chmury. Te na niebie, nie moje serwery. ",
+    "Moment...Przetwarzam najnowsze raporty ze stacji meteorologicznych. ",
+    "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi. ",
+    "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego. "
 ]
 CONVERSATION_BUFFER_LEN = 8
 USER_MISSING_TIMEOUT = 20

@@ -106,7 +106,7 @@ class NlpModel:
         self.mouth_update_interval = 0.1
         self.last_mouth_status_sent = 0.0
         self.is_speaking = False
-        self.post_tts_cooldown = 0.8
+        self.post_tts_cooldown = 0.6
         self.last_tts_finished_at = 0.0
 
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
@@ -253,18 +253,20 @@ class NlpModel:
                                     self.result = "Nie udało mi się znaleźć tej osoby w bazie."
 
                             elif max_val > THRESHOLD:
-                                temp_result = "Nie jestem pewny o kogo ci chodzi."
+                                prompt_lines = ["Nie jestem pewny o kogo ci chodzi."]
                                 for n, k in enumerate(top_3.keys()):
                                     number = MAP_NUMBERS[str(n)]
-                                    temp_result += f" Jeżeli chodzi ci o {k}, powiedz {number}."
-                                temp_result += " Jeśli to nie jest żadna z tych osób, powiedz trzy."
+                                    prompt_lines.append(f"Jeżeli chodzi ci o {k}, powiedz {number}.")
+                                prompt_lines.append("Jeśli to nie jest żadna z tych osób, powiedz trzy.")
+
+                                temp_result = " ".join(prompt_lines)
                                 print(temp_result)
 
                                 if self.using_speaker:
-                                    self.say(temp_result)
+                                    for line in prompt_lines:
+                                        self.say(line)
                                 else:
                                     print(temp_result)
-
                                 while True:
                                     if self.using_mic:
                                         user_input = self._stt_module()
@@ -285,7 +287,7 @@ class NlpModel:
                                     elif "dwa" in user_input or user_input == "2":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[2]))
                                         break
-                                    elif "trzy" in user_input or user_input == "3":
+                                    elif "pięć" in user_input or user_input == "5":
                                         self.result = "Przepraszam, tym razem nie byłem w stanie pomóc. Spróbuj proszę zapytać jeszcze raz."
                                         break
                                     else:
