@@ -25,12 +25,13 @@ REVERSE_MAP_NUMBERS = {
 }
 
 RANDOM_VOICE_LINES = [
-    "Poczekaj sprawdzam pogode...",
+    "Poczekaj sprawdzam pogodę...",
     "Poczekaj szukam termometru...",
-    "Chwileczke właśnie dokonuje pomiaru temperatury...",
+    "Chwileczkę właśnie dokonuję pomiaru temperatury...",
     "Sprawdzam chmury. Te na niebie, nie moje serwery.",
     "Moment...Przetwarzam najnowsze raporty ze stacji meteorologicznych.",
     "Poczekaj... Trwa synchronizacja z lokalnymi stacjami pomiarowymi.",
     "Oczekuję na odpowiedź z zewnętrznego systemu meteorologicznego."
 ]
-CONVERSATION_BUFFER_LEN = 3
+CONVERSATION_BUFFER_LEN = 8
+USER_MISSING_TIMEOUT = 20
