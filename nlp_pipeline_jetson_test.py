@@ -102,6 +102,8 @@ class NlpModel:
         self.mouth_update_interval = 0.1
         self.last_mouth_status_sent = 0.0
         self.is_speaking = False
+        self.post_tts_cooldown = 0.8
+        self.last_tts_finished_at = 0.0
 
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
         self.playback_thread.start()
@@ -331,11 +333,8 @@ class NlpModel:
                 self.end_of_result = True
 
             tts_thread.join()
-            self.audio_queue.join()
-            self._send_mouth_status_to_pi(0.0)
-            self.last_mouth_status_sent = 0.0
-            self.is_speaking = False
-            time.sleep(0.3)
+            self._finish_speaking()
+            time.sleep(0.2)
 
             self._handle_llm_queue(question, self.result)
             print(f"TTFT: {end_llm - start_llm}")
@@ -422,7 +421,7 @@ class NlpModel:
             return False
 
     def _stt_module(self):
-        while self.is_speaking:
+        while self.is_speaking or time.time() - self.last_tts_finished_at < self.post_tts_cooldown:
             time.sleep(0.05)
         chunk_size = 1024
         rate = 16000
@@ -640,14 +639,23 @@ class NlpModel:
         self.tts_queue = Queue()
 
     def say(self, text: str, wait: bool = True):
-        self.is_speaking = True
-        self._tts_module(text)
+        def say(self, text: str, wait: bool = True):
+            if not text:
+                return
 
-        if wait:
-            self.audio_queue.join()
-            self._send_mouth_status_to_pi(0.0)
-            self.last_mouth_status_sent = 0.0
-            self.is_speaking = False
+            self.is_speaking = True
+            self._tts_module(text)
+
+            if wait:
+                self._finish_speaking()
+
+    def _finish_speaking(self):
+        self.audio_queue.join()
+        self._send_mouth_status_to_pi(0.0)
+        self.last_mouth_status_sent = 0.0
+        self.last_tts_finished_at = time.time()
+        time.sleep(self.post_tts_cooldown)
+        self.is_speaking = False
 
 
 log = logging.getLogger("werkzeug")
