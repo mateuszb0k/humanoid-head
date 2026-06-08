@@ -53,7 +53,9 @@ if __name__ == "__main__":
         "Gdzie znajdę doktora Czubenko?",
         "Co tam u Ciebie?",
         "Ile jest stopni?",
-        "Jak ciepło dziś będzie?"
+        "Jak ciepło dziś będzie?",
+        "Gdzie jest sala ea108",
+        "Powiedz mi cos o Politechnice "
     ]
 
     for sentence in test_sentences:

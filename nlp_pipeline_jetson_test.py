@@ -59,10 +59,10 @@ def split_building_numer(text: str) -> str:
 class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         self.model_stt = WhisperModel(
-            "small",
+            "tiny",
             device="cuda",
             compute_type="float16",
-            num_workers=2
+            num_workers=1
         )
         MODEL_PATH = "PiperTTS/pl_PL-mc_speech-medium.onnx"
         self.voice = PiperVoice.load(MODEL_PATH)
@@ -268,9 +268,17 @@ class NlpModel:
             print(f"TTFT: {end_llm - start_llm}")
 
     def _stt_init(self):
-        zeros = np.zeros(16000, dtype=np.float32)
-        list(self.model_stt.transcribe(zeros, language="pl", beam_size=1))
-        print("STT warm-up done")
+        def _stt_init(self):
+            zeros = np.zeros(16000, dtype=np.float32)
+            t0 = time.time()
+            list(self.model_stt.transcribe(
+                zeros,
+                language="pl",
+                beam_size=1,
+                condition_on_previous_text=False,
+                vad_filter=False,
+            ))
+            print(f"STT warm-up done in {time.time() - t0:.3f}s")
 
     def _handle_llm_queue(self, question, result):
         q = f"Użytkownik: {question}"
@@ -324,57 +332,121 @@ class NlpModel:
             print(e)
             return False
 
+    # def _stt_module(self):
+    #     CHUNK = 1024
+    #     RATE = 16000
+    #     SILENCE_THRESHOLD = 0.01
+    #     MAX_SILENCE_CHUNKS = 8
+    #
+    #     stream = self.p.open(format=pyaudio.paFloat32, channels=1,
+    #                          rate=RATE, input=True, frames_per_buffer=CHUNK)
+    #     frames = []
+    #     silent_chunks = 0
+    #     recording = False
+    #
+    #     print("Listening...")
+    #
+    #     while True:
+    #         if self.new_data:
+    #             stream.stop_stream()
+    #             stream.close()
+    #             return None
+    #
+    #         data = stream.read(CHUNK, exception_on_overflow=False)
+    #         chunk = np.frombuffer(data, dtype=np.float32)
+    #         rms = np.sqrt(np.mean(chunk ** 2))
+    #
+    #         if rms > SILENCE_THRESHOLD:
+    #             recording = True
+    #             silent_chunks = 0
+    #             frames.append(chunk)
+    #         elif recording:
+    #             frames.append(chunk)
+    #             silent_chunks += 1
+    #             if silent_chunks >= MAX_SILENCE_CHUNKS:
+    #                 break
+    #
+    #     stream.stop_stream()
+    #     stream.close()
+    #
+    #     if not frames:
+    #         return None
+    #
+    #     audio_np = np.concatenate(frames)
+    #     segments, _ = self.model_stt.transcribe(
+    #         audio_np,
+    #         condition_on_previous_text=False,
+    #         language="pl",
+    #         beam_size=1,
+    #         vad_filter=False,
+    #     )
+    #     speech = " ".join(s.text for s in segments).strip()
+    #     return speech if speech else None
     def _stt_module(self):
         CHUNK = 1024
         RATE = 16000
         SILENCE_THRESHOLD = 0.01
         MAX_SILENCE_CHUNKS = 8
 
-        stream = self.p.open(format=pyaudio.paFloat32, channels=1,
-                             rate=RATE, input=True, frames_per_buffer=CHUNK)
+        stream = self.p.open(
+            format=pyaudio.paFloat32,
+            channels=1,
+            rate=RATE,
+            input=True,
+            frames_per_buffer=CHUNK
+        )
+
         frames = []
         silent_chunks = 0
         recording = False
 
         print("Listening...")
 
-        while True:
-            if self.new_data:
-                stream.stop_stream()
-                stream.close()
-                return None
+        try:
+            while True:
+                if self.new_data:
+                    stream.stop_stream()
+                    stream.close()
+                    return None
 
-            data = stream.read(CHUNK, exception_on_overflow=False)
-            chunk = np.frombuffer(data, dtype=np.float32)
-            rms = np.sqrt(np.mean(chunk ** 2))
+                data = stream.read(CHUNK, exception_on_overflow=False)
+                chunk = np.frombuffer(data, dtype=np.float32)
+                rms = np.sqrt(np.mean(chunk ** 2))
 
-            if rms > SILENCE_THRESHOLD:
-                recording = True
-                silent_chunks = 0
-                frames.append(chunk)
-            elif recording:
-                frames.append(chunk)
-                silent_chunks += 1
-                if silent_chunks >= MAX_SILENCE_CHUNKS:
-                    break
+                if rms > SILENCE_THRESHOLD:
+                    recording = True
+                    silent_chunks = 0
+                    frames.append(chunk)
+                elif recording:
+                    frames.append(chunk)
+                    silent_chunks += 1
+                    if silent_chunks >= MAX_SILENCE_CHUNKS:
+                        break
 
-        stream.stop_stream()
-        stream.close()
+        finally:
+            stream.stop_stream()
+            stream.close()
 
         if not frames:
             return None
 
         audio_np = np.concatenate(frames)
+
+        if len(audio_np) < 8000:
+            return None
+
+        start = time.time()
         segments, _ = self.model_stt.transcribe(
             audio_np,
-            condition_on_previous_text=False,
             language="pl",
             beam_size=1,
+            condition_on_previous_text=False,
             vad_filter=False,
         )
-        speech = " ".join(s.text for s in segments).strip()
-        return speech if speech else None
+        text = " ".join(s.text.strip() for s in segments).strip()
+        print(f"[STT] time={time.time() - start:.3f}s text={text!r}")
 
+        return text if text else None
     def _tts_module(self, text):
         """
         Converts generated text into synthesized speech.
