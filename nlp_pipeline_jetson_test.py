@@ -167,10 +167,7 @@ class NlpModel:
                             f"Miło znowu cię widzieć {self.active_identity}",
                         ]
                     )
-                    self._tts_module(random_phrase)
-                    self.audio_queue.join()
-                    self._send_mouth_status_to_pi(0.0)
-                    self.last_mouth_status_sent = 0.0
+                    self.say(random_phrase)
                     self._greeted_identity = self.active_identity
 
                 continue
@@ -193,7 +190,7 @@ class NlpModel:
             print("Analyzing...")
 
             intent = self.intent_detector.detect_intent(question)
-
+            self.is_speaking = True
             tts_thread = Thread(target=self._tts_stream)
             tts_thread.start()
 
@@ -251,17 +248,15 @@ class NlpModel:
                                     self.result = "Nie udało mi się znaleźć tej osoby w bazie."
 
                             elif max_val > THRESHOLD:
-                                temp_result = "Nie jestem pewny o kogo ci chodzi..."
+                                temp_result = "Nie jestem pewny o kogo ci chodzi."
                                 for n, k in enumerate(top_3.keys()):
                                     number = MAP_NUMBERS[str(n)]
-                                    temp_result += f" Jeżeli chodzi ci o {k} powiedz {number}..."
+                                    temp_result += f" Jeżeli chodzi ci o {k}, powiedz {number}."
+                                temp_result += " Jeśli to nie jest żadna z tych osób, powiedz trzy."
                                 print(temp_result)
 
                                 if self.using_speaker:
-                                    self._tts_module(temp_result)
-                                    self.audio_queue.join()
-                                    self._send_mouth_status_to_pi(0.0)
-                                    self.last_mouth_status_sent = 0.0
+                                    self.say(temp_result)
                                 else:
                                     print(temp_result)
 
@@ -285,22 +280,19 @@ class NlpModel:
                                     elif "dwa" in user_input or user_input == "2":
                                         self.result = self.handle_teachers(get_teacher_room(candidates[2]))
                                         break
+                                    elif "trzy" in user_input or user_input == "3":
+                                        self.result = "Przepraszam, tym razem nie byłem w stanie pomóc. Spróbuj proszę zapytać jeszcze raz."
+                                        break
                                     else:
                                         if iter_counter < 2:
                                             if self.using_speaker:
-                                                self._tts_module("Nie rozumiem powiedz jeszcze raz")
-                                                self.audio_queue.join()
-                                                self._send_mouth_status_to_pi(0.0)
-                                                self.last_mouth_status_sent = 0.0
+                                                self.say("Nie rozumiem powiedz jeszcze raz")
                                             else:
                                                 print("Nie rozumiem powiedz jeszcze raz")
                                             iter_counter += 1
                                         else:
                                             if self.using_speaker:
-                                                self._tts_module("Przepraszam nie jestem w stanie pomóc")
-                                                self.audio_queue.join()
-                                                self._send_mouth_status_to_pi(0.0)
-                                                self.last_mouth_status_sent = 0.0
+                                                self.say("Przepraszam nie jestem w stanie pomóc")
                                             else:
                                                 print("Przepraszam nie jestem w stanie pomóc")
                                             self.result = "Przepraszam nie jestem w stanie pomóc."
@@ -495,7 +487,6 @@ class NlpModel:
     def _tts_module(self, text):
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
-            self.is_speaking = True
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
             config = SynthesisConfig(length_scale=1.3)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
@@ -585,12 +576,8 @@ class NlpModel:
         if self.user_identity != "Unknown":
             return
 
-        self._tts_module("Hej, chyba się jeszcze nie znamy.")
-        self._tts_module("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
-        self.audio_queue.join()
-        self._send_mouth_status_to_pi(0.0)
-        self.last_mouth_status_sent = 0.0
-        self.is_speaking = False
+        self.say("Hej, chyba się jeszcze nie znamy.")
+        self.say("Powiedz mi swoje imię, abym mógł cię zapamiętać.")
         time.sleep(0.3)
 
         name_file = "imiona_polskie.txt"
@@ -626,11 +613,7 @@ class NlpModel:
         self.active_identity = self.user_identity
         self._greeted_identity = self.user_identity
 
-        self._tts_module(f"Miło cię poznać {self.user_identity}")
-        self.audio_queue.join()
-        self._send_mouth_status_to_pi(0.0)
-        self.last_mouth_status_sent = 0.0
-        self.is_speaking = False
+        self.say(f"Miło cię poznać {self.user_identity}")
 
         td = Thread(target=self._save_name_to_pi, daemon=True)
         td.start()
@@ -655,6 +638,16 @@ class NlpModel:
         self.result = ""
         self.end_of_result = False
         self.tts_queue = Queue()
+
+    def say(self, text: str, wait: bool = True):
+        self.is_speaking = True
+        self._tts_module(text)
+
+        if wait:
+            self.audio_queue.join()
+            self._send_mouth_status_to_pi(0.0)
+            self.last_mouth_status_sent = 0.0
+            self.is_speaking = False
 
 
 log = logging.getLogger("werkzeug")
@@ -714,7 +707,7 @@ Zasady:
 - Najpierw odpowiedz sensownie na pytanie użytkownika.
 - Możesz użyć imienia użytkownika, ale tylko jeśli brzmi to naturalnie. Nie musisz używać go w każdej odpowiedzi.
 - Możesz krótko odnieść się do emocji użytkownika, ale tylko wtedy, gdy to naprawdę pomaga w rozmowie. Nie zaczynaj każdej odpowiedzi od komentarza o emocji.
--Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens.
+- Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens.
 - Jeśli emocja to neutralność, zwykle nie komentuj jej wprost.
 - Jeśli pytanie jest konkretne, odpowiedz konkretnie.
 - Jeśli nie wiesz, powiedz to wprost.
