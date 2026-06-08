@@ -101,6 +101,7 @@ class NlpModel:
         self.last_mouth_update_at = 0.0
         self.mouth_update_interval = 0.1
         self.last_mouth_status_sent = 0.0
+        self.is_speaking = False
 
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
         self.playback_thread.start()
@@ -341,6 +342,7 @@ class NlpModel:
             self.audio_queue.join()
             self._send_mouth_status_to_pi(0.0)
             self.last_mouth_status_sent = 0.0
+            self.is_speaking = False
             time.sleep(0.3)
 
             self._handle_llm_queue(question, self.result)
@@ -428,6 +430,8 @@ class NlpModel:
             return False
 
     def _stt_module(self):
+        while self.is_speaking:
+            time.sleep(0.05)
         chunk_size = 1024
         rate = 16000
         silence_threshold = 0.01
@@ -491,12 +495,13 @@ class NlpModel:
     def _tts_module(self, text):
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
+            self.is_speaking = True
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
             config = SynthesisConfig(length_scale=1.3)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
             sample_rate = self.voice.config.sample_rate
-            chunk_size = max(1024, int(sample_rate * 0.050))
+            chunk_size = max(1024, int(sample_rate * 0.035))
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i : i + chunk_size]
@@ -707,6 +712,7 @@ Zasady:
 - Najpierw odpowiedz sensownie na pytanie użytkownika.
 - Możesz użyć imienia użytkownika, ale tylko jeśli brzmi to naturalnie. Nie musisz używać go w każdej odpowiedzi.
 - Możesz krótko odnieść się do emocji użytkownika, ale tylko wtedy, gdy to naprawdę pomaga w rozmowie. Nie zaczynaj każdej odpowiedzi od komentarza o emocji.
+-Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens.
 - Jeśli emocja to neutralność, zwykle nie komentuj jej wprost.
 - Jeśli pytanie jest konkretne, odpowiedz konkretnie.
 - Jeśli nie wiesz, powiedz to wprost.
