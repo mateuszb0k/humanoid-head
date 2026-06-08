@@ -1,5 +1,5 @@
 THRESHOLD = 60
-TOP_3_THRESHOLD = 80
+TOP_3_THRESHOLD = 90
 
 GLINER_LABELS  = [
     "room code",
