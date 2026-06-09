@@ -330,7 +330,7 @@
     },
     "142": {
       "floor": "1",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 142 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 142 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Sieciowe"
     },
     "143": {
       "floor": "1",
@@ -338,7 +338,7 @@
     },
     "144": {
       "floor": "1",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 144 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 1 i pójdź holem w lewo, sala 144 będzie znajdowała się po lewej stronie holu"
     },
     "145": {
       "floor": "1",
@@ -406,7 +406,7 @@
     },
     "212": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 212 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 212 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium przyrządków półprzewodnikowych"
     },
     "213": {
       "floor": "2",
@@ -430,7 +430,7 @@
     },
     "218": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 218 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 218 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to A I Living Lab."
     },
     "219": {
       "floor": "2",
@@ -438,7 +438,7 @@
     },
     "220": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 220 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 220 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Mikroprocesorów, Mikrokontrolerów i Mikrosystemów"
     },
     "221": {
       "floor": "2",
@@ -446,11 +446,11 @@
     },
     "222": {
       "floor": "2",
-      "directions": "Udaj się na piętro 2 środkową windą lub schodami. sala 222 będzie się znajdować na środku holu, na przeciwko okien."
+      "directions": "Udaj się na piętro 2 środkową windą lub schodami. sala 222 będzie się znajdować na środku holu, na przeciwko okien. Pomieszczenie te, to Labolatorium Metrologii."
     },
     "223": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 223 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w prawo, sala 223 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Międzykatedralne Labolatorium przestrzeni inteligentnych"
     },
     "224": {
       "floor": "2",
@@ -518,7 +518,7 @@
     },
     "240": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 240 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 240 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Komputerowych Systemów Elektronicznych"
     },
     "241": {
       "floor": "2",
@@ -526,7 +526,7 @@
     },
     "242": {
       "floor": "2",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 242 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 2 i pójdź holem w lewo, sala 242 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Komputerowych Systemów Elektronicznych"
     },
     "243": {
       "floor": "2",
@@ -602,7 +602,7 @@
     },
     "312": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 312 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 312 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Syntezy Innowacyjnych Materiałów i Elementów."
     },
     "313": {
       "floor": "3",
@@ -642,7 +642,7 @@
     },
     "322": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 322 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 322 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium układów elektronicznych."
     },
     "323": {
       "floor": "3",
@@ -650,15 +650,15 @@
     },
     "324": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 324 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 324 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium układów elektronicznych"
     },
     "325": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 325 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 325 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium studenckiego koła chip."
     },
     "326": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 326 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w prawo, sala 326 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium układów elektronicznych."
     },
     "327": {
       "floor": "3",
@@ -666,7 +666,7 @@
     },
     "328": {
       "floor": "3",
-      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 328 będzie się znajdować na środku holu, na przeciwko okien."
+      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 328 będzie się znajdować na środku holu, na przeciwko okien. Pomieszczenie te, to Labolatorium Inżynierii Materiałowej."
     },
     "329": {
       "floor": "3",
@@ -674,7 +674,7 @@
     },
     "330": {
       "floor": "3",
-      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 330 będzie się znajdować na środku holu, na przeciwko okien."
+      "directions": "Udaj się na piętro 3 środkową windą lub schodami. sala 330 będzie się znajdować na środku holu, na przeciwko okien. Pomieszczenie te, to Labolatorium Optoelektroniki"
     },
     "331": {
       "floor": "3",
@@ -690,7 +690,7 @@
     },
     "338": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 338 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 338 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium systemów wizyjnych i pomiarów."
     },
     "339": {
       "floor": "3",
@@ -730,7 +730,7 @@
     },
     "348": {
       "floor": "3",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 348 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 3 i pójdź holem w lewo, sala 348 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Fotonicznych Pomiarów Spektralnych oraz Pomiarów Innowacyjnych Materiałów i Displejów."
     },
     "349": {
       "floor": "3",
@@ -890,7 +890,7 @@
     },
     "438": {
       "floor": "4",
-      "directions": "Udaj się na piętro 4 środkową windą lub schodami. sala 438 będzie się znajdować na środku holu, na przeciwko okien."
+      "directions": "Udaj się na piętro 4 środkową windą lub schodami. sala 438 będzie się znajdować na środku holu, na przeciwko okien. Pomieszczenie te, to Labolatorium Aplikacji Systemów Wbudowanych Mikroprocesorów i Mikrokontrolerów."
     },
     "440": {
       "floor": "4",
@@ -902,11 +902,11 @@
     },
     "442": {
       "floor": "4",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 442 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 442 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Procesorów Sygnałowych i Komputerowych Wspomagania Projektowania. "
     },
     "443": {
       "floor": "4",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 443 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 443 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Konstrukcji Elektronicznych i Kompatybilości Elektromagnetycznej."
     },
     "444": {
       "floor": "4",
@@ -934,7 +934,7 @@
     },
     "450": {
       "floor": "4",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 450 będzie znajdowała się po prawej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 4 i pójdź holem w lewo, sala 450 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium Miernictwa Sygnałów Losowych i Aparatury Pomiarowej."
     },
     "451": {
       "floor": "4",
@@ -982,7 +982,7 @@
     },
     "508": {
       "floor": "5",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 508 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 508 będzie znajdowała się po lewej stronie holu."
     },
     "509": {
       "floor": "5",
@@ -1058,7 +1058,7 @@
     },
     "527": {
       "floor": "5",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 527 będzie znajdowała się po prawej stronie holu. W tej sali znjaduje się laboratorium Katedry Architektury Systemów Komputerowych"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w prawo, sala 527 będzie znajdowała się po prawej stronie holu. Pomieszczenie te, to Labolatorium intaligentne, usługi i dedykowane systemy internetowe"
     },
     "528": {
       "floor": "5",
@@ -1102,7 +1102,7 @@
     },
     "541": {
       "floor": "5",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 541 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 5 i pójdź holem w lewo, sala 541 będzie znajdowała się po lewej stronie holu. Pomieszczenie te jest Laboratorium Sterowników Programowalnych"
     },
     "542": {
       "floor": "5",
@@ -1214,7 +1214,7 @@
     },
     "616": {
       "floor": "6",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 616 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 616 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Projektów i Dyplomów."
     },
     "617": {
       "floor": "6",
@@ -1222,7 +1222,7 @@
     },
     "618": {
       "floor": "6",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 618 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w prawo, sala 618 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Sieci Transmisji Informacji."
     },
     "619": {
       "floor": "6",
@@ -1270,7 +1270,7 @@
     },
     "630": {
       "floor": "6",
-      "directions": "Udaj się na piętro 6 środkową windą lub schodami. sala 630 będzie się znajdować na środku holu, na przeciwko okien."
+      "directions": "Udaj się na piętro 6 środkową windą lub schodami. sala 630 będzie się znajdować na środku holu, na przeciwko okien. Pomieszczenie te, to Labolatorium komputerowe."
     },
     "631": {
       "floor": "6",
@@ -1310,7 +1310,7 @@
     },
     "643": {
       "floor": "6",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 643 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 6 i pójdź holem w lewo, sala 643 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium Technologii Geoinformatycznych i Mobilnych."
     },
     "644": {
       "floor": "6",
@@ -1450,7 +1450,7 @@
     },
     "728": {
       "floor": "7",
-      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 728 będzie znajdowała się po lewej stronie holu"
+      "directions": "Pojedź windą lub pójdź schodami na piętro 7 i pójdź holem w prawo, sala 728 będzie znajdowała się po lewej stronie holu. Pomieszczenie te, to Labolatorium wizyjno foniczne"
     },
     "729": {
       "floor": "7",
