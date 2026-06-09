@@ -590,10 +590,10 @@ class NlpModel:
                     or abs(normalized_rms - self.last_mouth_status_sent) >= 0.15
                 )
 
-                if should_send:
-                    self._send_mouth_status_to_pi(normalized_rms)
-                    self.last_mouth_update_at = now
-                    self.last_mouth_status_sent = normalized_rms
+                # if should_send:
+                self._send_mouth_status_to_pi(normalized_rms)
+                self.last_mouth_update_at = now
+                self.last_mouth_status_sent = normalized_rms
 
             finally:
                 self.audio_queue.task_done()
