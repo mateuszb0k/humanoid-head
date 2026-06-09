@@ -458,10 +458,15 @@ class NlpModel:
     def _stt_module(self):
         while self.is_speaking or time.time() - self.last_tts_finished_at < self.post_tts_cooldown:
             time.sleep(0.05)
+
         chunk_size = 1024
         rate = 16000
-        silence_threshold = 0.01
+
+        speech_start_threshold = 0.015
+        speech_end_threshold = 0.008
         max_silence_chunks = 8
+        max_record_seconds = 6
+        max_chunks = int(rate * max_record_seconds / chunk_size)
 
         stream = self.p.open(
             format=pyaudio.paFloat32,
@@ -474,6 +479,7 @@ class NlpModel:
         frames = []
         silent_chunks = 0
         recording = False
+        total_chunks = 0
 
         print("Listening...")
 
@@ -482,15 +488,25 @@ class NlpModel:
                 data = stream.read(chunk_size, exception_on_overflow=False)
                 chunk = np.frombuffer(data, dtype=np.float32)
                 rms = np.sqrt(np.mean(chunk ** 2))
+                total_chunks += 1
 
-                if rms > silence_threshold:
-                    recording = True
-                    silent_chunks = 0
+                if not recording:
+                    if rms > speech_start_threshold:
+                        recording = True
+                        frames.append(chunk)
+                else:
                     frames.append(chunk)
-                elif recording:
-                    frames.append(chunk)
-                    silent_chunks += 1
+
+                    if rms < speech_end_threshold:
+                        silent_chunks += 1
+                    else:
+                        silent_chunks = 0
+
                     if silent_chunks >= max_silence_chunks:
+                        break
+
+                    if total_chunks >= max_chunks:
+                        print("Max speech length reached")
                         break
 
         finally:
@@ -505,7 +521,6 @@ class NlpModel:
         if len(audio_np) < 8000:
             return None
 
-        start = time.time()
         segments, _ = self.model_stt.transcribe(
             audio_np,
             language="pl",
@@ -514,8 +529,6 @@ class NlpModel:
             vad_filter=False,
         )
         text = " ".join(s.text.strip() for s in segments).strip()
-        print(f"[STT] time={time.time() - start:.3f}s text={text!r}")
-
         return text if text else None
 
     def _tts_module(self, text):
