@@ -741,9 +741,12 @@ def handle_data():
         nlp.user_identity = normalized_identity
         nlp.pending_identity_change = True
 
+
     elif previous_identity in ("Unknown", None) and normalized_identity not in ("Unknown",):
+
         nlp.user_identity = normalized_identity
-        nlp.active_identity = normalized_identity
+
+        nlp.pending_identity_change = True
 
     elif normalized_identity == "Unknown":
         nlp.user_identity = "Unknown"
