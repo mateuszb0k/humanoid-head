@@ -328,15 +328,12 @@ class FaceSystem:
 
     def move_mouth(self):
         last_angle = -1
-        l10, u10 = 45.0, 80.0
-        cfg = servos_config.get(10)
-
         while True:
-            angle = float(self.mouth_angle)
-            angle = l10 + (u10 - l10) * angle
+            current_input = float(self.mouth_angle)
 
-            if cfg:
-                angle = max(cfg['min'], min(angle, cfg['max']))
+            angle = map_servo_value(current_input, 50.0, 55.0, 45.0, 70.0)
+
+            angle = max(45.0, min(angle, 80.0))
 
             if angle != last_angle:
                 print(angle)
@@ -344,7 +341,6 @@ class FaceSystem:
                 last_angle = angle
 
             time.sleep(0.01)
-
     # Worker for mimicking emotions
 
     # def move_eyes_left_right(self):
