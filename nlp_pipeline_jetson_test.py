@@ -660,11 +660,11 @@ class NlpModel:
             print(e)
 
     def _send_mouth_status_to_pi(self, status):
-        # try:
-        #     rpi_url = "http://uncanny-head.local:5000/api/mouth_status"
-        #     requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
-        # except Exception as e:
-        #     print(e)
+        try:
+            rpi_url = "http://uncanny-head.local:5000/api/mouth_status"
+            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
+        except Exception as e:
+            print(e)
         return
 
     def reset_context(self):
