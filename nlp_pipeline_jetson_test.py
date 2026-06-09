@@ -96,6 +96,8 @@ class NlpModel:
         self.last_seen_at = time.time()
         self.pending_identity_change = False
         self.user_missing_timeout = 20.0
+        self.face_visible = False
+        self.was_face_visible = False
 
         self.llm_queue = deque()
         self.regex = re.compile(f"[{string.punctuation}]")
@@ -151,11 +153,24 @@ class NlpModel:
         while True:
             now = time.time()
 
-            if self.user_identity in ("Unknown", None) and self.active_identity not in ("Unknown", None):
+            if self.active_identity not in ("Unknown", None):
                 if now - self.last_seen_at > self.user_missing_timeout:
                     self.active_identity = "Unknown"
+                    self.user_identity = "Unknown"
                     self._greeted_identity = None
                     self.reset_context()
+
+            if not self.face_visible:
+                if self.was_face_visible:
+                    self.stop_context()
+                    self.was_face_visible = False
+                time.sleep(0.1)
+                continue
+
+            if not self.was_face_visible:
+                self.was_face_visible = True
+                time.sleep(1.5)
+                self.pending_identity_change = True
 
             if self.pending_identity_change:
                 self.active_identity = self.user_identity
@@ -486,6 +501,10 @@ class NlpModel:
 
         try:
             while True:
+                if not self.face_visible:
+                    frames=[]
+                    break
+
                 data = stream.read(chunk_size, exception_on_overflow=False)
                 chunk = np.frombuffer(data, dtype=np.float32)
                 rms = np.sqrt(np.mean(chunk ** 2))
@@ -643,7 +662,7 @@ class NlpModel:
 
         if self.using_mic:
             while not new_name_raw:
-                if self.user_identity != "Unknown":
+                if self.user_identity != "Unknown" or not self.face_visible:
                     return
                 new_name_raw = self._stt_module()
         else:
@@ -692,6 +711,14 @@ class NlpModel:
         self.end_of_result = False
         self.tts_queue = Queue()
 
+    def stop_context(self):
+        self.end_of_result = True
+        self.result=""
+        with self.audio_queue.mutex:
+            self.audio_queue.queue.clear()
+        self.is_speaking = False
+
+
     def say(self, text: str, wait: bool = True):
         if not text:
             return
@@ -719,11 +746,14 @@ app = Flask(__name__)
 @app.route("/api/data", methods=["POST"])
 def handle_data():
     data = request.json or {}
+    face_visible = data.get("face_visible",False)
+    nlp.face_visible = face_visible
+
     incoming_identity = data.get("identity", "Unknown")
     incoming_emotion = data.get("emotion", "Neutral")
 
-    now = time.time()
-    nlp.last_seen_at = now
+    if face_visible:
+        nlp.last_seen_at = time.time()
 
     raw_identity = str(incoming_identity).strip()
     if raw_identity.lower() in ("", "none", "unknown", "null"):
