@@ -331,12 +331,12 @@ class FaceSystem:
         while True:
             current_input = float(self.mouth_angle)
 
-            angle = map_servo_value(current_input, 50.0, 55.0, 45.0, 70.0)
+            angle = map_servo_value(current_input, 0.0, 1.0, 45.0, 80.0)
 
             angle = max(45.0, min(angle, 80.0))
+            angle = round(angle, 1)
 
             if angle != last_angle:
-                print(angle)
                 set_servo_angle(10, angle)
                 last_angle = angle
 
@@ -573,6 +573,10 @@ def save_name():
 @app.route('/api/mouth_status', methods=['POST'])
 def change_mouth_status():
     data = request.json
+
+    print(f"[API INCOMING] Pełny pakiet: {data} -> Wartość 'mouth_status': {data.get('mouth_status')}")
+
+
     vision_sys.mouth_angle = data.get("mouth_status")
     vision_sys.last_mouth_signal = time.time()
     return jsonify({"status": "ok"}), 200
