@@ -195,7 +195,7 @@ class NlpModel:
             start_llm = 0
             end_llm = 0
             tts_thread = None
-
+            print(f"[GREETING] pending={self.pending_identity_change} active={self.active_identity} greeted={self._greeted_identity}")
             print("Analyzing...")
 
             intent = self.intent_detector.detect_intent(question)
@@ -755,7 +755,7 @@ def handle_data():
         str(incoming_emotion).capitalize(),
         "neutralność",
     )
-
+    print(f"[API] incoming_identity={incoming_identity} normalized_identity={normalized_identity} previous={previous_identity}")
     return jsonify({"status": "ok"}), 200
 
 
