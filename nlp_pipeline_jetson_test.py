@@ -154,13 +154,15 @@ class NlpModel:
             now = time.time()
 
             if self.active_identity not in ("Unknown", None):
+                print("1")
                 if now - self.last_seen_at > self.user_missing_timeout:
                     self.active_identity = "Unknown"
                     self.user_identity = "Unknown"
                     self._greeted_identity = None
                     self.reset_context()
 
-            if not self.face_visible:
+            if not self.face_visible or self.face_visible is None:
+                print("2")
                 if self.was_face_visible:
                     self.stop_context()
                     self.was_face_visible = False
@@ -168,11 +170,13 @@ class NlpModel:
                 continue
 
             if not self.was_face_visible:
+                print("3")
                 self.was_face_visible = True
                 time.sleep(1.5)
                 self.pending_identity_change = True
 
             if self.pending_identity_change:
+                print("4")
                 self.active_identity = self.user_identity
                 self.pending_identity_change = False
                 self.reset_context()
