@@ -333,11 +333,11 @@ class FaceSystem:
         while True:
             angle = float(self.mouth_angle)
             angle = l10 + (u10 - l10) * angle
-
+            angle = max(cfg['min'], min(angle, cfg['max']))
             if angle != last_angle:
                 set_servo_angle(10, angle)
                 last_angle = angle
-            time.sleep(0.05)
+            time.sleep(0.03)
 
     # Worker for mimicking emotions
 
@@ -388,6 +388,7 @@ class FaceSystem:
         for step in steps:
             for servo_id, angle in step:
                 set_servo_angle(servo_id, angle)
+                time.sleep(0.01)
         time.sleep(0.04)
 
     def run_console_listener(self):
