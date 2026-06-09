@@ -555,7 +555,7 @@ class NlpModel:
         return text if text else None
 
     def _tts_module(self, text):
-        chunk_size = 8192
+        chunk_size = 1024
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
