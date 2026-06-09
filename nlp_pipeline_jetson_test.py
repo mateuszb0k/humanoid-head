@@ -118,7 +118,7 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output=True,
-            frames_per_buffer=4096,
+            frames_per_buffer=8192,
         )
 
         self.model_llm = OllamaLLM(
@@ -519,6 +519,7 @@ class NlpModel:
         return text if text else None
 
     def _tts_module(self, text):
+        chunk_size = 8192
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
@@ -526,12 +527,16 @@ class NlpModel:
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
             sample_rate = self.voice.config.sample_rate
-            chunk_size = max(1024, int(sample_rate * 0.035))
+            # chunk_size = max(1024, int(sample_rate * 0.035))
+
 
             for i in range(0, len(audio), chunk_size):
                 chunk = audio[i : i + chunk_size]
                 if len(chunk) == 0:
                     continue
+
+                if len(chunk) < chunk_size:
+                    chunk = np.pad(chunk, (0, chunk_size - len(chunk)))
 
                 rms = float(np.sqrt(np.mean(chunk ** 2)))
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
