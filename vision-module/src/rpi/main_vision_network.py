@@ -335,6 +335,7 @@ class FaceSystem:
             angle = l10 + (u10 - l10) * angle
             angle = max(cfg['min'], min(angle, cfg['max']))
             if angle != last_angle:
+                print(angle)
                 set_servo_angle(10, angle)
                 last_angle = angle
             time.sleep(0.03)
