@@ -1,4 +1,5 @@
 import queue
+import sys
 import threading
 import re
 import string
@@ -756,6 +757,8 @@ def handle_data():
 
 
 if __name__ == "__main__":
+    arg_mic = sys.argv[1] == "True" if len(sys.argv) > 1 else True
+    arg_speaker = sys.argv[2] == "True" if len(sys.argv) > 2 else True
     template = """Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki.
 
 Mów krótko, naturalnie i konkretnie. Brzmij jak pomocny rozmówca, a nie jak system komunikatów.
@@ -785,7 +788,7 @@ Pytanie użytkownika:
 {question}
 """
 
-    nlp = NlpModel(template=template, using_mic=True, using_speaker=True)
+    nlp = NlpModel(template=template, using_mic=arg_mic, using_speaker=arg_speaker)
     td = Thread(
         target=lambda: app.run("0.0.0.0", 5000, debug=False, use_reloader=False),
         daemon=True,
