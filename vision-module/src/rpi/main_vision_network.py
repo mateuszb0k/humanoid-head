@@ -34,32 +34,33 @@ face_emo = {
     "happy": [
         [(11, 50), (12, 95), (15, 10), (16, 25)],
         [(10, 45)],
-        [(19, 130), (18, 70)],
-        [(20, 25), (17, 130)],
-        [(3, 80), (8, 35), (5, 50), (6, 50)],
+        [(19, 150), (18, 70)],
+        [(20, 60), (17, 130)],
+        [(3, 75), (8, 35), (5, 50), (6, 60)],
         [(2, 100), (4, 30), (7, 110), (9, 10)]],
     "sad": [
         [(11, 25), (12, 60), (15, 50), (16, 70)],
         [(10, 45)],
-        [(19, 140), (18, 70)],
-        [(20, 70), (17, 70)],
-        [(3, 20), (8, 85), (5, 15), (6, 100)],
+        [(19, 160), (18, 20)],
+        [(20, 30), (17, 70)],
+        [(3, 20), (8, 85), (5, 13), (6, 100)],
         [(2, 40), (4, 50), (7, 30), (9, 60)]
     ],
     "surprise": [
         [(11, 0), (12, 110), (15, 0), (16, 90)],
         [(10, 65)],
-        [(19, 130), (18, 70)],
-        [(20, 20), (17, 130)],
+        [(19, 150), (18, 10)],
+        [(20, 50), (17, 60)],
         [(3, 20), (8, 85), (5, 90), (6, 50)],
         [(2, 65), (4, 60), (7, 50), (9, 40)]
     ],
     "neutral": [
+
         [(11, 25), (12, 70), (15, 40), (16, 70)],
         [(10, 45)],
-        [(19, 110), (18, 90)],
+        [(19, 110), (18, 60)],
         [(20, 50), (17, 110)],
-        [(3, 20), (8, 67), (5, 90), (6, 47)],
+        [(3, 30), (8, 67), (5, 90), (6, 60)],
         [(2, 65), (4, 60), (7, 50), (9, 40)]
     ]
 }
@@ -71,7 +72,7 @@ servos_config = {
     2: {'driver': 0, 'pin': 2, 'min': 50, 'max': 65, 'wlaczone': True},
     3: {'driver': 0, 'pin': 3, 'min': 20, 'max': 80, 'wlaczone': True},
     4: {'driver': 0, 'pin': 4, 'min': 50, 'max': 70, 'wlaczone': True},
-    5: {'driver': 0, 'pin': 5, 'min': 15, 'max': 50, 'wlaczone': True},
+    5: {'driver': 0, 'pin': 5, 'min': 30, 'max': 70, 'wlaczone': True},
     6: {'driver': 0, 'pin': 6, 'min': 45, 'max': 110, 'wlaczone': True},
     7: {'driver': 0, 'pin': 7, 'min': 40, 'max': 60, 'wlaczone': True},
     8: {'driver': 0, 'pin': 8, 'min': 35, 'max': 85, 'wlaczone': True},
@@ -83,8 +84,8 @@ servos_config = {
     14: {'driver': 1, 'pin': 3, 'min': 50, 'max': 110, 'wlaczone': True, 'center': 100},#eyes left-right
     15: {'driver': 1, 'pin': 4, 'min': 10, 'max': 80, 'wlaczone': True}, #lewa gorna powieka
     16: {'driver': 1, 'pin': 5, 'min': 25, 'max': 70, 'wlaczone': True},  #lewa dolna powieka
-    17: {'driver': 1, 'pin': 6, 'min': 75, 'max': 155, 'wlaczone': True}, #prawa brew zewnetrzna
-    18: {'driver': 1, 'pin': 7, 'min': 70, 'max': 160, 'wlaczone': True}, #prawa brew wewnetrzna
+    17: {'driver': 1, 'pin': 6, 'min': 40, 'max': 100, 'wlaczone': False}, #prawa brew zewnetrzna
+    18: {'driver': 1, 'pin': 7, 'min': 0, 'max': 80, 'wlaczone': False}, #prawa brew wewnetrzna
     19: {'driver': 1, 'pin': 8, 'min': 80, 'max': 170, 'wlaczone': True}, #lewa brew wew
     20: {'driver': 1, 'pin': 9, 'min': 20, 'max': 80, 'wlaczone': True} # lewa brew zew
 }
@@ -168,8 +169,8 @@ class FaceSystem:
         self.hist = {}
         self.last_emo = {}
         self.f_count = 0
-        self.locked_identity = "None"
-        self.locked_emotion = "None"
+        self.locked_identity = "Unknown"
+        self.locked_emotion = "Neutral"
         self.is_session_active = False
         self.face_lost_time = None
         self.id_buffer = deque(maxlen=7)
@@ -425,8 +426,8 @@ class FaceSystem:
 
             payload = {
                 "face_visible": False,
-                "identity": "None",
-                "emotion": "None",
+                "identity": "Unknown",
+                "emotion": "Neutral",
                 "bbox_center": [0, 0]
             }
 
@@ -441,12 +442,20 @@ class FaceSystem:
                 feat = self.recognizer.feature(aligned)
 
                 raw_identity = "Unknown"
+                best_score = -1.0
+                best_name = None
+
                 if len(self.db_vecs) > 0:
                     for idx, db_vec in enumerate(self.db_vecs):
                         score = self.recognizer.match(feat, db_vec, cv2.FaceRecognizerSF_FR_COSINE)
-                        if score >= MATCH_THRESHOLD:
-                            raw_identity = self.db_names[idx]
-                            break
+                        if score > best_score:
+                            best_score = score
+                            best_name = self.db_names[idx]
+
+                if best_score >= MATCH_THRESHOLD and best_name is not None:
+                    raw_identity = best_name
+
+                print(f"[VISION] best_match={best_name} score={best_score:.3f} -> {raw_identity}")
 
                 # We use a 7-frame buffer and pick the most common identity
                 # This prevents UI flickering and jumping if the camera loses focus or misclassifies a face for a split second
