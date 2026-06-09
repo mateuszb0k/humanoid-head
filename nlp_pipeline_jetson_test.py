@@ -98,6 +98,8 @@ class NlpModel:
         self.user_missing_timeout = 20.0
         self.face_visible = False
         self.was_face_visible = False
+        self.last_face_seen_time = 0.0
+        self.face_grace_period = 3.0
 
         self.llm_queue = deque()
         self.regex = re.compile(f"[{string.punctuation}]")
@@ -152,6 +154,7 @@ class NlpModel:
 
         while True:
             now = time.time()
+            is_face_present = (now - self.last_face_seen_time) < self.face_grace_period
 
             if self.active_identity not in ("Unknown", None):
                 if now - self.last_seen_at > self.user_missing_timeout:
@@ -160,7 +163,7 @@ class NlpModel:
                     self._greeted_identity = None
                     self.reset_context()
 
-            if not self.face_visible:
+            if not is_face_present:
                 if self.was_face_visible:
                     self.stop_context()
                     self.was_face_visible = False
@@ -501,7 +504,7 @@ class NlpModel:
 
         try:
             while True:
-                if not self.face_visible:
+                if time.time() - self.last_face_seen_time > self.face_grace_period:
                     frames=[]
                     break
 
@@ -662,7 +665,7 @@ class NlpModel:
 
         if self.using_mic:
             while not new_name_raw:
-                if self.user_identity != "Unknown" or not self.face_visible:
+                if self.user_identity != "Unknown" or (time.time() - self.last_face_seen_time > self.face_grace_period):
                     return
                 new_name_raw = self._stt_module()
         else:
@@ -752,8 +755,10 @@ def handle_data():
     incoming_identity = data.get("identity", "Unknown")
     incoming_emotion = data.get("emotion", "Neutral")
 
+    now = time.time()
     if face_visible:
-        nlp.last_seen_at = time.time()
+        nlp.last_face_seen_time = now
+        nlp.last_seen_at = now
 
     raw_identity = str(incoming_identity).strip()
     if raw_identity.lower() in ("", "none", "unknown", "null"):
@@ -761,31 +766,18 @@ def handle_data():
     else:
         normalized_identity = raw_identity
 
-    previous_identity = nlp.user_identity
+    is_face_present = (now-nlp.last_face_seen_time)<nlp.face_grace_period
 
-    if (
-        normalized_identity not in ("Unknown",)
-        and previous_identity not in ("Unknown", None)
-        and normalized_identity != previous_identity
-    ):
-        nlp.user_identity = normalized_identity
-        nlp.pending_identity_change = True
-
-
-    elif previous_identity in ("Unknown", None) and normalized_identity not in ("Unknown",):
-
-        nlp.user_identity = normalized_identity
-
-        nlp.pending_identity_change = True
-
-    elif normalized_identity == "Unknown":
-        nlp.user_identity = "Unknown"
+    if normalized_identity != "Unknown":
+        if nlp.user_identity in ("Unknown", None) or not is_face_present:
+            if nlp.user_identity != normalized_identity:
+                nlp.user_identity = normalized_identity
+                nlp.pending_identity_change = True
 
     nlp.user_emotion = EMOTION_PL_MAP.get(
         str(incoming_emotion).capitalize(),
         "neutralność",
     )
-    print(f"[API] incoming_identity={incoming_identity} normalized_identity={normalized_identity} previous={previous_identity}")
     return jsonify({"status": "ok"}), 200
 
 
