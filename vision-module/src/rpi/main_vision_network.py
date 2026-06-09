@@ -515,7 +515,7 @@ class FaceSystem:
                 payload["emotion"] = self.locked_emotion
 
             try:
-                requests.post("http://192.168.0.143:5000/api/data", json=payload, timeout=0.02)
+                requests.post("http://10.144.211.178:5000/api/data", json=payload, timeout=0.02)
             except:
                 pass
 
