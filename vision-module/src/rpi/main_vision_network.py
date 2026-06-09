@@ -184,6 +184,7 @@ class FaceSystem:
         self.blink_start_time = 0
         self.just_did_double = False
         self.just_did_double = False
+        self.last_mouth_signal = 0.0
 
         # maxlen=1 ensures that if the robot is busy animating, we discard older emotions
         # It will always react to the most recent one, preventing reaction lag or desync
@@ -329,13 +330,12 @@ class FaceSystem:
         l10, u10 = 45.0, 80.0
         # l1,  u1  = 100.0, 135.0
         while True:
-            if not self.is_animating:
-                angle = float(self.mouth_angle)
-                angle = l10 + (u10 - l10) * angle
+            angle = float(self.mouth_angle)
+            angle = l10 + (u10 - l10) * angle
 
-                if angle != last_angle:
-                    set_servo_angle(10, angle)
-                    last_angle = angle
+            if angle != last_angle:
+                set_servo_angle(10, angle)
+                last_angle = angle
             time.sleep(0.05)
 
     # Worker for mimicking emotions
@@ -356,6 +356,12 @@ class FaceSystem:
 
     def emotion_worker(self):
         while True:
+
+            if time.time() - self.last_mouth_signal < 0.5:
+                self.emotion_queue.clear()
+                time.sleep(0.05)
+                continue
+
             if self.emotion_queue:
                 emotion = self.emotion_queue.popleft()
 
@@ -556,6 +562,7 @@ def save_name():
 def change_mouth_status():
     data = request.json
     vision_sys.mouth_angle = data.get("mouth_status")
+    vision_sys.last_mouth_signal = time.time()
     return jsonify({"status": "ok"}), 200
 
 
