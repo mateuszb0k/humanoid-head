@@ -751,6 +751,7 @@ app = Flask(__name__)
 def handle_data():
     data = request.json or {}
     face_visible = data.get("face_visible",False)
+    print(face_visible)
     nlp.face_visible = face_visible
 
     incoming_identity = data.get("identity", "Unknown")
