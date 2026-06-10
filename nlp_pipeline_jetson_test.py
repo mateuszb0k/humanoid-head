@@ -411,8 +411,8 @@ class NlpModel:
             time.sleep(0.03)
 
         text_said = ""
-        min_chunk_chars = 80
-        max_chunk_chars = 180
+        min_chunk_chars = 30
+        max_chunk_chars = 80
         sentence_end_regex = re.compile(r"[.!?]")
 
         while True:
@@ -484,7 +484,7 @@ class NlpModel:
         speech_start_threshold = 0.015
         speech_end_threshold = 0.008
         max_silence_chunks = 8
-        max_record_seconds = 6
+        max_record_seconds = 10
         max_chunks = int(rate * max_record_seconds / chunk_size)
 
         stream = self.p.open(
@@ -552,6 +552,7 @@ class NlpModel:
             vad_filter=False,
         )
         text = " ".join(s.text.strip() for s in segments).strip()
+        print(f"SST text: {text}")
         return text if text else None
 
     def _tts_module(self, text):
@@ -575,6 +576,12 @@ class NlpModel:
                     chunk = np.pad(chunk, (0, chunk_size - len(chunk)))
 
                 rms = float(np.sqrt(np.mean(chunk ** 2)))
+                chunk = np.tanh(1.5 * chunk) / np.tanh(1.5)
+                fade_len = min(128, len(chunk) // 2)
+                if fade_len > 0:
+                    chunk[:fade_len] *= np.linspace(0.0, 1.0, fade_len)
+                    chunk[-fade_len:] *= np.linspace(1.0, 0.0, fade_len)
+                chunk = np.clip(chunk, -1.0, 1.0)
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
                 self.audio_queue.put((chunk_bytes, rms))
 
