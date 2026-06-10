@@ -180,21 +180,21 @@ class NlpModel:
             #     self.pending_identity_change = False
             #     self.reset_context()
 
-                if (
-                    self.active_identity not in ("Unknown", "None", None)
-                    and self.active_identity != self._greeted_identity
-                ):
-                    random_phrase = np.random.choice(
-                        [
-                            f"Cześć {self.active_identity}",
-                            f"O cześć {self.active_identity}",
-                            f"Miło znowu cię widzieć {self.active_identity}",
-                        ]
-                    )
-                    self.say(random_phrase)
-                    self._greeted_identity = self.active_identity
-
-                continue
+                # if (
+                #     self.active_identity not in ("Unknown", "None", None)
+                #     and self.active_identity != self._greeted_identity
+                # ):
+                #     random_phrase = np.random.choice(
+                #         [
+                #             f"Cześć {self.active_identity}",
+                #             f"O cześć {self.active_identity}",
+                #             f"Miło znowu cię widzieć {self.active_identity}",
+                #         ]
+                #     )
+                #     self.say(random_phrase)
+                #     self._greeted_identity = self.active_identity
+                #
+                # continue
 
             if self.using_mic:
                 question = self._stt_module()
