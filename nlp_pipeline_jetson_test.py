@@ -850,7 +850,7 @@ Pytanie użytkownika:
 {question}
 """
 
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=arg_speaker)
+    nlp = NlpModel(template=template, using_mic=arg_mic, using_speaker=arg_speaker)
     td = Thread(
         target=lambda: app.run("0.0.0.0", 5000, debug=False, use_reloader=False),
         daemon=True,
