@@ -71,7 +71,7 @@ def split_building_numer(text: str) -> str:
 class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         self.model_stt = WhisperModel(
-            "bobix/whisper-small-polish",
+            "small",
             device="cuda",
             compute_type="float16",
             num_workers=1,
