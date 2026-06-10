@@ -65,7 +65,6 @@ face_emo = {
     ]
 }
 
-# TODO: check if the ranges are correct
 # Enforcing limits on individual servos
 servos_config = {
     1: {'driver': 0, 'pin': 1, 'min': 100, 'max': 135, 'wlaczone': True},
@@ -111,16 +110,23 @@ if driverSO and driverR:
 app = Flask(__name__)
 
 
-# Mapping pixels to servo angles
+
 def map_servo_value(value, in_min, in_max, out_min, out_max):
+    """ Maps value from an input range to an output range.
+        Commonly used for translating camera pixel coordinates to servo angles"""
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
 _servo_lock = threading.Lock()
 
 
-# Function for setting target servo angles
+
 def set_servo_angle(servo_id, angle):
+    """Function help with checking if the servos
+        are enabled and if it is
+        the angel will be set on target servo
+        and applies mirroring
+        logic for paired servos to ensure symmetric movements """
     cfg = servos_config.get(servo_id)
     if not cfg or not cfg['wlaczone']:
         print("disabled")
@@ -131,7 +137,6 @@ def set_servo_angle(servo_id, angle):
     limit_min = min(cfg['min'], cfg['max'])
     limit_max = max(cfg['min'], cfg['max'])
     safe_angle = max(limit_min, min(angle, limit_max))
-    # print(safe_angle,angle) if servo_id == 10 else 0
     with _servo_lock:
         servo_objects[servo_id].angle = safe_angle
     if servo_id in (1, 10):
@@ -144,7 +149,11 @@ def set_servo_angle(servo_id, angle):
 
 
 # Function for tracking the user with eyes
+""" The camWidth is mapping for servo angels and it 
+helps to track the user face with robot eyes """
 def track_face(x, y):
+    """The robot's eye servos to track the user's face based on
+    the given (x,y) pixel cordinates of the deteced face's bounding box center"""
     target_x = map_servo_value(x, 100, CAM_WIDTH, servos_config[14]['max'], servos_config[14]['min'])
     set_servo_angle(14, target_x)
     target_y = map_servo_value(y, 100, CAM_HEIGHT, servos_config[13]['max'], servos_config[13]['min'])
@@ -152,7 +161,14 @@ def track_face(x, y):
 
 
 class FaceSystem:
+    """ Main class for managing face detection, recognition, emotion classification,
+        and controlling the robot's responses like (eyes, mouth, and facial expressions"""
     def __init__(self):
+        """
+        Initializes the FaceSystem, including CNN models for face
+        detection and recognition, emotion analysis, database connections,
+        camera configuration, background threads, and internal states.
+        """
         self.detector = cv2.FaceDetectorYN.create(DETECTOR_MODEL, "", (CAM_WIDTH, CAM_HEIGHT), 0.6, 0.3, 5000)
         self.recognizer = cv2.FaceRecognizerSF.create(RECOGNIZER_MODEL, "")
         self.emotion_net = load_model(EMOTION_MODEL)
@@ -197,9 +213,12 @@ class FaceSystem:
         threading.Thread(target=self.move_eyes, daemon=True).start()
         threading.Thread(target=self.move_mouth, daemon=True).start()
         threading.Thread(target=self.emotion_worker, daemon=True).start()
-        # threading.Thread(target=self.move_eyes_left_right, daemon=True).start()
 
     def init_db(self):
+        """
+        Initilizes the SQLite database.Creates the 'users' table for storing
+        saved faces and their encodings if it doesn't already exist.
+        """
         cur = self.db.cursor()
         cur.execute("""
                     CREATE TABLE IF NOT EXISTS users
@@ -222,6 +241,8 @@ class FaceSystem:
         self.db.commit()
 
     def cleanup_db(self):
+        """ Cleans up the user database by deleting entries older than 7 days or
+        trimming the oldest entries if the tottal record count exceeds 200"""
         cur = self.db.cursor()
         cur.execute("DELETE FROM users WHERE created_at <= datetime('now', '-7 days')")
         cur.execute("SELECT COUNT(*) FROM users")
@@ -232,6 +253,10 @@ class FaceSystem:
         self.db.commit()
 
     def load_users(self):
+        """
+        Retrieves all saved user names and their face encodings
+        from the SQLite database into memory.
+        """
         cur = self.db.cursor()
         cur.execute("SELECT name, encoding FROM users")
         rows = cur.fetchall()
@@ -243,6 +268,10 @@ class FaceSystem:
 
     # Robot eye blinking
     def eye_blink(self):
+        """
+        This function describe robot's blinking mechanism. Implements variable timing intervals
+        and occasional double blinks to make the eye movements appear more natural.
+        """
         current_time = time.time()
         if not self.is_blinking and (current_time - self.last_blink_time) > self.blink_interval:
             self.is_blinking = True
@@ -268,6 +297,11 @@ class FaceSystem:
 
     # Helper function for user eye tracking
     def move_eyes(self):
+        """
+        Background thread routine governing global eye movements.
+        Tracks the user's face if visible, otherwise executes sequence
+        side-eye, looking around, and coming back to base position.
+        """
         last_time = time.time()
         state = 0
         position = [80, 55, 80, 105]
@@ -327,9 +361,12 @@ class FaceSystem:
     # Mouth movement during speech
 
     def move_mouth(self):
+        """
+        The mouth servo angle is seted
+        based on the latest speech audio signal.
+        """
         last_angle = -1
         l10, u10 = 45.0, 80.0
-        # l1,  u1  = 100.0, 135.0
         while True:
             angle = float(self.mouth_angle)
             angle = l10 + (u10 - l10) * angle
@@ -339,23 +376,12 @@ class FaceSystem:
                 last_angle = angle
             time.sleep(0.05)
 
-    # Worker for mimicking emotions
-
-    # def move_eyes_left_right(self):
-    #     while True:
-    #         if not self.face_visible:
-    #             set_servo_angle(14, 80)
-    #             time.sleep(1000)
-    #             set_servo_angle(14, 55)
-    #             time.sleep(1000)
-    #             set_servo_angle(14, 80)
-    #             time.sleep(1000)
-    #             set_servo_angle(14, 105)
-    #             time.sleep(1000)
-
-
-
     def emotion_worker(self):
+        """
+        The emotion queue and triggers
+        corresponding facial animations.
+        Pauses animation execution if the robot is currently speaking.
+        """
         while True:
 
             if time.time() - self.last_mouth_signal < 0.5:
@@ -374,6 +400,11 @@ class FaceSystem:
             time.sleep(0.05)
 
     def map_emotion(self, raw_emotion):
+        """
+        Maps detected emotions to a simpler emotions.
+        The robot can imitate only 4 emotions that's why
+        they are maped.
+        """
         if raw_emotion == 'fear':
             return 'surprise'
         if raw_emotion in ('angry', 'disgust'):
@@ -381,6 +412,10 @@ class FaceSystem:
         return raw_emotion
 
     def animate_emotion(self, raw_emotion):
+        """
+        Executes a sequence of synchronized servo movements to physically mimic
+        the specified emotion on the robot's face.
+        """
         emotion = self.map_emotion(raw_emotion)
         steps = face_emo.get(emotion)
         if not steps:
@@ -391,6 +426,10 @@ class FaceSystem:
         time.sleep(0.04)
 
     def run_console_listener(self):
+        """
+        Listens for commands from the system console-. Typing 's'
+        triggers the face-saving workflow to record a new user's identity.
+        """
         print("Save face: Type 's' + Enter here")
         while True:
             cmd = sys.stdin.readline().strip().lower()
@@ -412,6 +451,11 @@ class FaceSystem:
                     print("No face detected in frame\n")
 
     def generate_frames(self):
+        """
+        The main vision loop. Captures camera frames, runs face detection,
+        alignment, recognition, and emotion prediction. Broadcasts state to external
+        APIs and yields a JPEG-encoded frame stream for web rendering.
+        """
         last_tick = time.time()
         while True:
             frame = self.picam2.capture_array()
@@ -533,6 +577,9 @@ threading.Thread(target=vision_sys.run_console_listener, daemon=True).start()
 
 @app.route('/')
 def index():
+    """
+    Serves the main HTML interface for the Uncanny Head vision module web feed.
+    """
     return render_template_string('''
         <html>
           <head><title>Uncanny Head AI</title></head>
@@ -550,11 +597,19 @@ def index():
 
 @app.route('/video_feed')
 def video_feed():
+    """
+    Provides a continuous multipart stream of annotated JPEG frames captured
+    by the vision system for browser rendering.
+    """
     return Response(vision_sys.generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route('/api/save_name', methods=['POST'])
 def save_name():
+    """
+    API endpoint that accepts a JSON payload to save the most recently processed
+    face encoding into the database under a given identity.
+    """
     data = request.json
     new_name = data.get('identity', "Unknown")
     if vision_sys.last_feat is not None:
@@ -569,6 +624,10 @@ def save_name():
 
 @app.route('/api/mouth_status', methods=['POST'])
 def change_mouth_status():
+    """
+    API endpoint that accepts a JSON payload containing the current external speech
+    flag status to update the robot's mouth servo angle.
+    """
     data = request.json
     vision_sys.mouth_angle = data.get("mouth_status")
     vision_sys.last_mouth_signal = time.time()
