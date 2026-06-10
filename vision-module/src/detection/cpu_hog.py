@@ -14,28 +14,56 @@ SCALE_FACTOR = 0.25
 INVERSE_SCALE = int(1 / SCALE_FACTOR)
 
 class VideoStream:
+    """
+    A class to read video frames from a camera using a separate background thread.
+    This prevents the camera from slowing down the main face recognition process.
+    """
     def __init__(self, src=0):
+        """
+        Sets up the camera connection and reads the very first frame.
+        """
         self.stream = cv2.VideoCapture(src)
         (self.grabbed, self.frame) = self.stream.read()
         self.stopped = False
 
     def start(self):
+        """
+        Starts the background thread that will continuously update the frames.
+        """
         threading.Thread(target=self.update, args=(), daemon=True).start()
         return self
 
     def update(self):
+        """
+        An endless loop that keeps grabbing the newest frame from the camera
+        until the stream is stopped.
+        """
         while not self.stopped:
             (self.grabbed, self.frame) = self.stream.read()
 
     def read(self):
+        """
+        Returns the most recently captured video frame.
+        """
         return self.frame
 
     def stop(self):
+        """
+        Stops the camera thread and safely releases the camera hardware.
+        """
         self.stopped = True
         self.stream.release()
 
 class HogSystem:
+    """
+    The main system for detecting and recognizing faces.
+    It uses the HOG (Histogram of Oriented Gradients) method, which is good for running on a CPU.
+    """
     def __init__(self):
+        """
+        Prepares the system by setting up the database, loading saved users,
+        and preparing timers for FPS calculation.
+        """
         self.db = self._init_db()
         self.db_names, self.db_vecs = self._get_saved_peeps()
         
@@ -43,6 +71,10 @@ class HogSystem:
         self.is_saving = False
 
     def _init_db(self):
+        """
+        Connects to the local database file. Creates a new table for saving
+        users and their face data if it does not exist yet.
+        """
         db = sqlite3.connect(DB_FILE, check_same_thread=False)
         cur = db.cursor()
         cur.execute('''CREATE TABLE IF NOT EXISTS users 
@@ -51,6 +83,10 @@ class HogSystem:
         return db
 
     def _get_saved_peeps(self):
+        """
+        Loads all the saved user names and their face encodings from the database
+        so the system can recognize them in the video.
+        """
         cur = self.db.cursor()
         cur.execute("SELECT name, encoding FROM users ORDER BY id ASC")
         rows = cur.fetchall()
@@ -60,6 +96,10 @@ class HogSystem:
         return names, vecs
 
     def _async_save_worker(self, encoding):
+        """
+        Runs in the background when saving a new face. It asks the user to type
+        a name in the console, then saves that name and face data to the database.
+        """
         print("\n[SAVE] Enter name in console and press Enter: ")
         name = sys.stdin.readline().strip()
         
@@ -76,6 +116,10 @@ class HogSystem:
         self.is_saving = False
 
     def run(self):
+        """
+        The main loop of the program. It captures video, shrinks it for faster processing,
+        finds faces, tries to recognize who they are, and draws boxes with names on the screen.
+        """
         print(">>> HOG SYSTEM (CPU) STARTED")
         print(">>> Controls: [S] - Save person | [Q] - Exit")
         
