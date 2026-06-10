@@ -77,16 +77,16 @@ servos_config = {
     8: {'driver': 0, 'pin': 8, 'min': 35, 'max': 85, 'wlaczone': True},
     9: {'driver': 0, 'pin': 9, 'min': 10, 'max': 40, 'wlaczone': True},
     10: {'driver': 0, 'pin': 10, 'min': 50, 'max': 70, 'wlaczone': True},
-    11: {'driver': 1, 'pin': 0, 'min': 0, 'max': 60, 'wlaczone': True}, # dolna prawa powieka
-    12: {'driver': 1, 'pin': 1, 'min': 30, 'max': 100, 'wlaczone': True}, #gorna prawa powieka
+    11: {'driver': 1, 'pin': 0, 'min': 0, 'max': 60, 'wlaczone': True},  # dolna prawa powieka
+    12: {'driver': 1, 'pin': 1, 'min': 30, 'max': 100, 'wlaczone': True},  # gorna prawa powieka
     13: {'driver': 1, 'pin': 2, 'min': 40, 'max': 120, 'wlaczone': True, 'center': 60},
-    14: {'driver': 1, 'pin': 3, 'min': 50, 'max': 110, 'wlaczone': True, 'center': 100},#eyes left-right
-    15: {'driver': 1, 'pin': 4, 'min': 10, 'max': 80, 'wlaczone': True}, #lewa gorna powieka
-    16: {'driver': 1, 'pin': 5, 'min': 25, 'max': 70, 'wlaczone': True},  #lewa dolna powieka
-    17: {'driver': 1, 'pin': 6, 'min': 40, 'max': 100, 'wlaczone': False}, #prawa brew zewnetrzna
-    18: {'driver': 1, 'pin': 7, 'min': 0, 'max': 80, 'wlaczone': False}, #prawa brew wewnetrzna
-    19: {'driver': 1, 'pin': 8, 'min': 80, 'max': 170, 'wlaczone': True}, #lewa brew wew
-    20: {'driver': 1, 'pin': 9, 'min': 20, 'max': 80, 'wlaczone': True} # lewa brew zew
+    14: {'driver': 1, 'pin': 3, 'min': 50, 'max': 110, 'wlaczone': True, 'center': 100},  # eyes left-right
+    15: {'driver': 1, 'pin': 4, 'min': 10, 'max': 80, 'wlaczone': True},  # lewa gorna powieka
+    16: {'driver': 1, 'pin': 5, 'min': 25, 'max': 70, 'wlaczone': True},  # lewa dolna powieka
+    17: {'driver': 1, 'pin': 6, 'min': 40, 'max': 100, 'wlaczone': False},  # prawa brew zewnetrzna
+    18: {'driver': 1, 'pin': 7, 'min': 0, 'max': 80, 'wlaczone': False},  # prawa brew wewnetrzna
+    19: {'driver': 1, 'pin': 8, 'min': 80, 'max': 170, 'wlaczone': True},  # lewa brew wew
+    20: {'driver': 1, 'pin': 9, 'min': 20, 'max': 80, 'wlaczone': True}  # lewa brew zew
 }
 
 try:
@@ -110,7 +110,6 @@ if driverSO and driverR:
 app = Flask(__name__)
 
 
-
 def map_servo_value(value, in_min, in_max, out_min, out_max):
     """ Maps value from an input range to an output range.
         Commonly used for translating camera pixel coordinates to servo angles"""
@@ -118,7 +117,6 @@ def map_servo_value(value, in_min, in_max, out_min, out_max):
 
 
 _servo_lock = threading.Lock()
-
 
 
 def set_servo_angle(servo_id, angle):
@@ -151,6 +149,8 @@ def set_servo_angle(servo_id, angle):
 # Function for tracking the user with eyes
 """ The camWidth is mapping for servo angels and it 
 helps to track the user face with robot eyes """
+
+
 def track_face(x, y):
     """The robot's eye servos to track the user's face based on
     the given (x,y) pixel cordinates of the deteced face's bounding box center"""
@@ -163,6 +163,7 @@ def track_face(x, y):
 class FaceSystem:
     """ Main class for managing face detection, recognition, emotion classification,
         and controlling the robot's responses like (eyes, mouth, and facial expressions"""
+
     def __init__(self):
         """
         Initializes the FaceSystem, including CNN models for face
@@ -287,7 +288,7 @@ class FaceSystem:
             set_servo_angle(16, 85)
             self.is_blinking = False
             self.last_blink_time = current_time
-            
+
             if not self.just_did_double and random.random() < 0.50:
                 self.blink_interval = 0.150
                 self.just_did_double = True
@@ -322,7 +323,7 @@ class FaceSystem:
                     track_face(bbox[0], bbox[1])
             else:
                 current_time = time.time()
-                set_servo_angle(13, 60) 
+                set_servo_angle(13, 60)
 
                 current_delay = 0 if state == -1 else sleep[state]
 
@@ -355,8 +356,6 @@ class FaceSystem:
                     last_time = current_time
 
             time.sleep(0.07)
-
-
 
     # Mouth movement during speech
 
