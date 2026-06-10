@@ -56,6 +56,10 @@ train_data = trainVal_data.skip(val_batches)
 
 # Normalize pixels values from [0, 255] to [0, 1] for faster convergance
 def normalize(x, y):
+    """
+    Scales the pixel values of the image so they are between 0 and 1.
+    This helps the neural network learn faster.
+    """
     return x / 255.0, y
 
 # Apply normalization and prefetch (pipeline fetch the next batch while GPU trains on the current one
@@ -71,6 +75,10 @@ augumentation = tf.keras.Sequential([
 
 
 def aug_train_data(x,y):
+    """
+    Normalizes the image and applies random visual changes like flipping or rotating.
+    This creates more variety in the training data to prevent overfitting.
+    """
     x,y = normalize(x,y)
     x = augumentation(x,training=True)
     return x,y
@@ -477,98 +485,3 @@ for name, build_func in models.items():
     # Free memory before next model to avoid GPU OOm
     del model
     tf.keras.backend.clear_session()
-
-
-    # for name,num in models.items():
-    # model = num()
-    # model_params[name] = model.count_params()
-    # optimizer = Adam(LR)
-    # log_dir = f"tb_callback_dir/{name}/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    # train_writer = tf.summary.create_file_writer(log_dir+'/train')
-    # val_writer = tf.summary.create_file_writer(log_dir + '/val')
-    # cm_writer = tf.summary.create_file_writer(log_dir + '/cm')
-
-    # best_val_loss = float('inf')
-    # patience_count = 0
-    # reduce_count = 0
-    # v_acc = 0.0
-
-    # for epoch in range(Epochs):
-
-    #     confusion = np.zeros((len(class_names), len(class_names)))
-    #     for batch_idx, (x, y) in enumerate(train_data):
-    #         with tf.GradientTape() as tape:
-    #             y_pred = model(x, training=True)
-    #             weights = tf.gather(class_weight_tensor, y)
-    #             loss = tf.reduce_mean(loss_fn(y,y_pred,sample_weight=weights))
-
-    #         gradients = tape.gradient(loss, model.trainable_weights)
-    #         optimizer.apply_gradients(zip(gradients, model.trainable_weights))
-    #         acc_metric.update_state(y, y_pred)
-    #         loss_metric.update_state(loss)
-    #         confusion+= get_confusion_matrix(y,y_pred,class_names)
-
-    #     with train_writer.as_default():
-    #         tf.summary.scalar('loss', loss_metric.result(), step=epoch)
-    #         tf.summary.scalar("accuracy", acc_metric.result(), step=epoch)
-    #         tf.summary.scalar('learning_rate', float(optimizer.learning_rate), step=epoch)
-    #         tf.summary.image("Confusion Matrix",plot_confusion_matrix(confusion/batch_idx,class_names),step=epoch)
-
-    #         for weight in model.trainable_variables:
-    #             tf.summary.histogram(weight.name, weight, step=epoch)
-
-    #     t_loss = float(loss_metric.result())
-    #     t_acc = float(acc_metric.result())
-    #     acc_metric.reset_states()
-    #     loss_metric.reset_states()
-
-    #     for batch_idx, (x, y) in enumerate(valid_data):
-    #         y_pred = model(x, training=False)
-    #         loss = loss_fn(y, y_pred)
-    #         acc_metric.update_state(y, y_pred)
-    #         loss_metric.update_state(loss)
-    #     with val_writer.as_default():
-    #         tf.summary.scalar('loss', loss_metric.result(), step=epoch)
-    #         tf.summary.scalar("accuracy", acc_metric.result(), step=epoch)
-
-    #     v_loss = float(loss_metric.result())
-    #     v_acc = float(acc_metric.result())
-    #     acc_metric.reset_states()
-    #     loss_metric.reset_states()
-
-    #     if v_loss < best_val_loss:
-    #         best_val_loss = v_loss
-    #         patience_count = 0
-    #         reduce_count = 0
-    #         model.save(f'best_{name}.keras')
-    #     else:
-    #         patience_count += 1
-    #         reduce_count += 1
-    #         if reduce_count >=3:
-    #             new_lr = max(float(optimizer.learning_rate)*0.2,1e-4)
-    #             optimizer.learning_rate.assign(new_lr)
-    #             reduce_count = 0
-
-    #     if patience_count >=7:
-    #         break
-
-
-    # history[name] = {'val_acc':v_acc,'best_val_loss':best_val_loss}
-
-    # hparams = {HP_LR:LR,HP_DROPOUT:0.4,HP_MODEL:name}
-
-    # with tf.summary.create_file_writer(f'tb_logs/hparam_tuning/{name}').as_default():
-    #     hp.hparams(hparams)
-    #     tf.summary.scalar(METRIC_ACCURACY,v_acc,step=1)
-
-    # best_model = tf.keras.models.load_model(f'best_{name}.keras')
-    # for x,y in test_data:
-    #     y_pred = best_model(x, training=False)
-    #     acc_metric.update_state(y, y_pred)
-
-    # test_acc = float(acc_metric.result())
-    # print(f"\n acc for test data ({name}): {test_acc*100:.2f}%")
-    # acc_metric.reset_states()
-
-    # del model,best_model
-    # tf.keras.backend.clear_session()

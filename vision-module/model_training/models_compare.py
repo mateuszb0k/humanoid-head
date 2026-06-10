@@ -5,7 +5,12 @@ import tensorflow as tf
 import json
 from sklearn.utils.class_weight import compute_class_weight
 from pathlib import Path
-
+"""
+This script trains and compares several pre-trained deep learning models 
+(InceptionV3, ResNet50, ResNet101, VGG16, VGG19) to recognize facial emotions. 
+It uses transfer learning, trains the models, plots their accuracy and loss, 
+and then fine-tunes them for better performance.
+"""
 batch_size = 128
 Epochs = 15
 Input_shape = (224, 224, 3)
