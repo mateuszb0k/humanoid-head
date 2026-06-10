@@ -203,9 +203,9 @@ class NlpModel:
             else:
                 question = input("Text: ")
 
-            if self.user_identity == "Unknown":
-                self.get_new_user_name()
-                continue
+            # if self.user_identity == "Unknown":
+            #     self.get_new_user_name()
+            #     continue
 
             self.end_of_result = False
             self.result = ""
