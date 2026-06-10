@@ -126,7 +126,7 @@ class NlpModel:
 
         self.audio_queue = queue.Queue()
         self.last_mouth_update_at = 0.0
-        self.mouth_update_interval = 0.05
+        self.mouth_update_interval = 0.03
         self.last_mouth_status_sent = 0.0
         self.is_speaking = False
         self.latest_mouth_status = 0.0
@@ -169,6 +169,7 @@ class NlpModel:
             )
 
         self.chain = self.prompt | self.model_llm
+        print(f"Mic - {self.using_mic} | Speaker - {self.using_speaker}")
 
     def start(self):
         self._stt_init()
@@ -619,8 +620,15 @@ class NlpModel:
                 self.stream.write(audio_bytes)
 
                 normalized_rms = max(0.0, min(rms_volume / 0.095, 1.0))
+
                 with self.mouth_status_lock:
-                    self.latest_mouth_status = 0.7 * self.latest_mouth_status + 0.3 * normalized_rms
+                    current = self.latest_mouth_status
+                    if normalized_rms > current:
+                        alpha = 0.55
+                    else:
+                        alpha = 0.18
+
+                    self.latest_mouth_status = (1 - alpha) * current + alpha * normalized_rms
 
             finally:
                 self.audio_queue.task_done()
@@ -872,7 +880,6 @@ Kontekst rozmowy:
 Pytanie użytkownika:
 {question}
 """
-
     nlp = NlpModel(template=template, using_mic=arg_mic, using_speaker=arg_speaker)
     td = Thread(
         target=lambda: app.run("0.0.0.0", 5000, debug=False, use_reloader=False),
