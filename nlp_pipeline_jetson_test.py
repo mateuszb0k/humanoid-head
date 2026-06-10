@@ -71,7 +71,7 @@ def split_building_numer(text: str) -> str:
 class NlpModel:
     def __init__(self, template=None, using_mic=True, using_speaker=True):
         self.model_stt = WhisperModel(
-            "small",
+            "bobix/whisper-small-polish",
             device="cuda",
             compute_type="float16",
             num_workers=1,
@@ -568,7 +568,7 @@ class NlpModel:
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
-            config = SynthesisConfig(length_scale=1.5)
+            config = SynthesisConfig(length_scale=1.2)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
             sample_rate = self.voice.config.sample_rate
