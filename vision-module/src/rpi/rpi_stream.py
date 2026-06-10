@@ -13,10 +13,10 @@ from picamera2 import Picamera2
 
 app = Flask(__name__)
 
-#initializing Picamera2 module - Sensor IMX219 <=> RPi Camera v2
+# initializing Picamera2 module - Sensor IMX219 <=> RPi Camera v2
 try:
     picam2 = Picamera2()
-    #640x480
+    # 640x480
     config = picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)})
     picam2.configure(config)
     picam2.start()
@@ -24,24 +24,34 @@ try:
 except Exception as error:
     print(f"failed to start camera: {error}")
 
+
 def generate_frames():
+    """
+    Continuously captures video frames from the camera.
+    It changes the color format to display correctly and packages
+    the images one by one to create a live video stream.
+    """
     while True:
         frame = picam2.capture_array()
-        
-        #RGB -> BGR
+
+        # RGB -> BGR
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        
-        #to jpg format
+
+        # to jpg format
         ret, buffer = cv2.imencode('.jpg', frame)
         if not ret:
             continue
-            
+
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
 
+
 @app.route('/')
 def index():
-    #simple interface to check if it's working
+    """
+    Sends a simple HTML webpage to the user, displaying the live video.
+    """
+    # simple interface to check if it's working
     return render_template_string('''
         <html>
           <head>
@@ -64,9 +74,14 @@ def index():
         </html>
     ''')
 
+
 @app.route('/video_feed')
 def video_feed():
+    """
+    Provides the continuous stream of video frames to the webpage.
+    """
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)

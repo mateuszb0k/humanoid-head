@@ -23,7 +23,15 @@ EMOTION_SKIP_FRAMES = 2
 app = Flask(__name__)
 
 class FaceSystem:
+    """
+    This class handles everything related to the camera, AI models,
+    and the database for saving and recognizing faces.
+    """
     def __init__(self):
+        """
+        Sets up the face detection, recognition, and emotion models.
+        It also connects to the database, loads known users, and starts the camera.
+        """
         self.detector = cv2.FaceDetectorYN.create(DETECTOR_MODEL, "", (640, 480), 0.6, 0.3, 5000)
         self.recognizer = cv2.FaceRecognizerSF.create(RECOGNIZER_MODEL, "")
         self.emotion_net = load_model(EMOTION_MODEL)
@@ -41,21 +49,34 @@ class FaceSystem:
         self.f_count = 0
 
     def _init_db(self):
+        """
+        Creates a database table named 'users' to store names and face data,
+        if it doesn't already exist.
+        """
         cur = self.db.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, encoding BLOB)")
         self.db.commit()
 
     def _load_users(self):
+        """
+        Reads all the saved users from the database and returns
+        their names and face encodings as lists.
+        """
         cur = self.db.cursor()
         cur.execute("SELECT name, encoding FROM users")
         rows = cur.fetchall()
-        if not rows: 
+        if not rows:
             return [], []
         names = [r[0] for r in rows]
         vecs = [pickle.loads(r[1]) for r in rows]
         return names, vecs
 
     def run_console_listener(self):
+        """
+        Runs in the background waiting for you to type 's' in the terminal.
+        When you do, it pauses and asks for a name, then saves the current
+        face into the database.
+        """
         print("Save face: Type 's' + Enter here")
         while True:
             cmd = sys.stdin.readline().strip().lower()
@@ -75,7 +96,12 @@ class FaceSystem:
                     print("No face detected in frame\n")
 
     def generate_frames(self):
-        last_tick = time.time() 
+        """
+        Takes pictures from the camera continuously. It finds faces, tries
+        to match them with saved users, guesses their emotions, and draws
+        boxes and text on the image. Finally, it sends the image to the video stream.
+        """
+        last_tick = time.time()
         while True:
             frame = self.picam2.capture_array()
             # FPS calculation
@@ -93,7 +119,7 @@ class FaceSystem:
                     feat = self.recognizer.feature(aligned)
                     if np.array_equal(face, main_face):
                         self.last_feat = feat
-                    # selecting highest score 
+                    # selecting highest score
                     identity = "Unknown"
                     if len(self.db_vecs) > 0:
                         for idx, db_vec in enumerate(self.db_vecs):
@@ -108,7 +134,7 @@ class FaceSystem:
                     curr_emo = self.last_emo[identity]
                     # processsing emotion recognition periodically to save CPU
                     if self.f_count % EMOTION_SKIP_FRAMES == 0:
-                        crop = frame[max(0, coords[1]):coords[1]+coords[3], 
+                        crop = frame[max(0, coords[1]):coords[1]+coords[3],
                                      max(0, coords[0]):coords[0]+coords[2]]
                         if crop.size > 0:
                             res = cv2.resize(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB), (224, 224))
@@ -120,7 +146,7 @@ class FaceSystem:
                     color = (0, 255, 0) if identity != "Unknown" else (0, 165, 255)
                     cv2.rectangle(frame, (coords[0], coords[1]), (coords[0]+coords[2], coords[1]+coords[3]), color, 2)
                     label = f"{identity} - {curr_emo}"
-                    cv2.putText(frame, label, (coords[0], coords[1]-10), 
+                    cv2.putText(frame, label, (coords[0], coords[1]-10),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
             self.f_count += 1
             cv2.putText(frame, f"FPS: {int(fps)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
@@ -136,6 +162,9 @@ threading.Thread(target=vision_sys.run_console_listener, daemon=True).start()
 
 @app.route('/')
 def index():
+    """
+    Sends back a simple HTML page that displays the video feed.
+    """
     #simple interface to check if it's working
     return render_template_string('''
         <html>
@@ -153,6 +182,9 @@ def index():
 
 @app.route('/video_feed')
 def video_feed():
+    """
+    Provides the actual live video stream to the webpage.
+    """
     return Response(vision_sys.generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
