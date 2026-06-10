@@ -1,0 +1,61 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+Adafruit_PWMServoDriver driver0 = Adafruit_PWMServoDriver(0x40); 
+Adafruit_PWMServoDriver driver1 = Adafruit_PWMServoDriver(0x41);
+
+#define PWM_MIN 150 
+#define PWM_MAX 600 
+
+struct ServoConfig {
+  uint8_t driverID;
+  uint8_t pin;          
+  int minAngle;         
+  int maxAngle;         
+};
+
+ServoConfig servos[21] = {
+  {0, 0, 0, 180}, {0, 1, 0, 180}, {0, 2, 0, 180}, {0, 3, 0, 180}, {0, 4, 0, 180},
+  {0, 5, 0, 180}, {0, 6, 0, 180}, {0, 7, 0, 180}, {0, 8, 0, 180}, {0, 9, 0, 180},
+  {0, 10, 0, 180},
+  {1, 0, 0, 180}, {1, 1, 0, 180}, {1, 2, 0, 180}, {1, 3, 0, 180}, {1, 4, 0, 180},
+  {1, 5, 0, 180}, {1, 6, 0, 180}, {1, 7, 0, 180}, {1, 8, 0, 180}, {1, 9, 0, 180} 
+};
+
+int getPWM(int angle) {
+  return map(angle, 0, 180, PWM_MIN, PWM_MAX);
+}
+
+void setup() {
+  Serial.begin(9600);
+  
+  driver0.begin();
+  driver0.setPWMFreq(50);
+
+  driver1.begin();
+  driver1.setPWMFreq(50);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int id = Serial.parseInt();
+    int targetAngle = Serial.parseInt();
+
+    while (Serial.available() > 0) Serial.read();
+
+    if (id >= 0 && id < 21) {
+      targetAngle = constrain(targetAngle, servos[id].minAngle, servos[id].maxAngle);
+      int pulse = getPWM(targetAngle);
+      
+      if (servos[id].driverID == 0) {
+        driver0.setPWM(servos[id].pin, 0, pulse);
+      } else {
+        driver1.setPWM(servos[id].pin, 0, pulse);
+      }
+      
+      Serial.print("ID: "); Serial.print(id);
+      Serial.print(" -> "); Serial.println(targetAngle);
+    }
+  }
+}

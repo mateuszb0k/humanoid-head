@@ -1,0 +1,196 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+Adafruit_PWMServoDriver driverSO = Adafruit_PWMServoDriver(0x40); 
+Adafruit_PWMServoDriver driverR  = Adafruit_PWMServoDriver(0x41);
+
+#define SERVOMIN  150 
+#define SERVOMAX  600 
+
+unsigned long lastBlinkTime = 0;
+unsigned long blinkInterval = 2000; 
+bool isBlinking = false;
+unsigned long blinkStartTime = 0;
+
+struct SerwoIndywidualne {
+  uint8_t idSterownika; 
+  uint8_t pin;          
+  int minAngle;         
+  int maxAngle;         
+};
+
+
+SerwoIndywidualne myServos[21] = {
+  {0, 0, 0, 180}, {0, 1, 0, 180}, {0, 2, 0, 180}, {0, 3, 0, 180}, {0, 4, 0, 180},
+  {0, 5, 0, 180}, {0, 6, 0, 180}, {0, 7, 0, 180}, {0, 8, 0, 180}, {0, 9, 0, 180},
+  {0, 10, 0, 180}, // Koniec sterownika 0 
+  {1, 0, 0, 180}, {1, 1, 0, 180}, {1, 2, 0, 180}, {1, 3, 0, 180}, {1, 4, 0, 180},
+  {1, 5, 0, 180}, {1, 6, 0, 180}, {1, 7, 0, 180}, {1, 8, 0, 180}, {1, 9, 0, 180} 
+};
+
+// bezpieczne wartosci z servos_limit_angles
+
+int angleToPWM(int angle) {
+  return map(angle, 0, 180, SERVOMIN, SERVOMAX);
+}
+
+void setup() {
+  Serial.begin(9600);
+  
+  driverSO.begin();
+  driverSO.setPWMFreq(50);
+
+  driverR.begin();
+  driverR.setPWMFreq(50);
+
+  Serial.println("System gotowy. Wpisz: [nr_serwa] [kat]");
+  Serial.println("Przyklad: '5 90' ustawia serwo nr 5 na 90 stopni.");
+}
+void moveEyeServo(int num, int angle) {
+  // Funkcja pomocnicza do wysyłania sygnału
+  angle = constrain(angle, myServos[num].minAngle + 5, myServos[num].maxAngle - 5);
+  int pwm = angleToPWM(angle);
+  if (myServos[num].idSterownika == 0) {
+    driverSO.setPWM(myServos[num].pin, 0, pwm);
+  } else {
+    driverR.setPWM(myServos[num].pin, 0, pwm);
+  }
+}
+void handleRandomBlink() {
+  unsigned long currentMillis = millis();
+
+  if (!isBlinking && currentMillis - lastBlinkTime > blinkInterval) {
+    isBlinking = true;
+    blinkStartTime = currentMillis;
+    
+    // z marginesem 5 stopni
+    moveEyeServo(12, 35);  moveEyeServo(11, 106); // Prawe
+    moveEyeServo(15, 85);  moveEyeServo(16, 30);  // Lewe
+  }
+
+  // otwórz oczy
+  if (isBlinking && currentMillis - blinkStartTime > 150) {
+    
+    moveEyeServo(12, 110); moveEyeServo(11, 15);
+    moveEyeServo(15, 25);  moveEyeServo(16, 85);
+    
+    isBlinking = false;
+    lastBlinkTime = currentMillis;
+    blinkInterval = random(1500, 5000); 
+  }
+}
+void animateEyesComplex() {
+  while(1){
+    handleRandomBlink();
+  Serial.println("Start animacji: Skosy i mruganie...");
+  
+  // 1. Lewo - Prawo
+  moveEyeServo(14, 145); delay(400); 
+  moveEyeServo(14, 55);  delay(400);
+  
+  // 2. Skos: Prawo-Góra (S14: 55, S13: 115)
+  moveEyeServo(14, 55); moveEyeServo(13, 115); delay(600);
+  
+  // 3. Skos: Lewo-Dół (S14: 145, S13: 45)
+  moveEyeServo(14, 145); moveEyeServo(13, 45); delay(600);
+  
+  // 4. Skos: Lewo-Góra (S14: 145, S13: 115)
+  moveEyeServo(14, 145); moveEyeServo(13, 115); delay(600);
+  
+  // 5. Skos: Prawo-Dół (S14: 55, S13: 45)
+  moveEyeServo(14, 55); moveEyeServo(13, 45); delay(600);
+
+  //do środka
+  moveEyeServo(14, 100); moveEyeServo(13, 60);
+  }
+}
+void animateEyes() {
+  Serial.println("Start animacji oczu...");
+  while(1){
+    handleRandomBlink();
+  // lewo -> prawo -> środek
+  moveEyeServo(14, 145); delay(500); // Lewo
+  moveEyeServo(14, 55);  delay(500); // Prawo
+  moveEyeServo(14, 100); delay(300); // Środek
+
+  // góra -> dół
+  moveEyeServo(13, 115); delay(500); // Góra
+  moveEyeServo(13, 45);  delay(500); // Dół
+  moveEyeServo(13, 60);  delay(300); // Środek
+  // Zamknięcie
+  moveEyeServo(12, 35);  moveEyeServo(11, 106); // Prawe
+  moveEyeServo(15, 85);  moveEyeServo(16, 30);  // Lewe
+  delay(200);
+
+  // Otwarcie
+  moveEyeServo(12, 110); moveEyeServo(11, 15);  // Prawe
+  moveEyeServo(15, 25);  moveEyeServo(16, 85);  // Lewe
+  delay(300);
+
+  // Oczy szeroko otwarte, lekko w górę
+  moveEyeServo(13, 80);
+  moveEyeServo(12, 115); // Max otwarte górne
+  moveEyeServo(15, 20); 
+  delay(1000);
+
+  // Powrót do neutralnego
+  moveEyeServo(13, 60);
+  moveEyeServo(14, 100);
+  Serial.println("Animacja zakończona.");
+  }
+}
+
+void loop() {
+  
+  if (Serial.available() > 0) {
+    int servoNum = Serial.parseInt(); // Odczytaj numer serwa (0-20)
+    int angle = Serial.parseInt();    // Odczytaj kąt (0-180)
+
+    while (Serial.available() > 0) Serial.read();
+
+    if (servoNum == 99) {
+      
+      animateEyesComplex();}
+    else if(servoNum == 98){
+      animateEyes();
+    } else if (servoNum >= 0 && servoNum < 21) {
+      
+      angle = constrain(angle, myServos[servoNum].minAngle, myServos[servoNum].maxAngle);
+      
+      int pwmVal = angleToPWM(angle);
+      uint8_t pin = myServos[servoNum].pin;
+
+      if (myServos[servoNum].idSterownika == 0) {
+        driverSO.setPWM(pin, 0, pwmVal);
+      } else {
+        driverR.setPWM(pin, 0, pwmVal);
+      }
+
+      Serial.print("Serwo "); Serial.print(servoNum);
+      Serial.print(" ustawione na: "); Serial.println(angle);
+    } else {
+      Serial.println("Bledny numer serwa! (Zakres 0-20)");
+    }
+    if (servoNum == 1 || servoNum == 10) {
+      int otherServo = (servoNum == 1) ? 10 : 1;
+      
+      // Obliczamy kąt lustrzany
+      int mirrorAngle = myServos[otherServo].minAngle + myServos[otherServo].maxAngle - angle;
+      
+      mirrorAngle = constrain(mirrorAngle, myServos[otherServo].minAngle, myServos[otherServo].maxAngle);
+      
+      int pwmValMirror = angleToPWM(mirrorAngle);
+      uint8_t pinMirror = myServos[otherServo].pin;
+
+      if (myServos[otherServo].idSterownika == 0) {
+        driverSO.setPWM(pinMirror, 0, pwmValMirror);
+      } else {
+        driverR.setPWM(pinMirror, 0, pwmValMirror);
+      }
+
+      Serial.print("Lustrzane serwo "); Serial.print(otherServo);
+      Serial.print(" ustawione na: "); Serial.println(mirrorAngle);
+    }
+  }
+}

@@ -1,0 +1,29 @@
+#include <Arduino.h>  
+#include <Servo.h>
+
+Servo mojeSerwo;  
+const int pinSerwa = 9; 
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Rozpoczynam skokowy test serwa...");
+  mojeSerwo.attach(pinSerwa); 
+}
+
+void loop() {
+  Serial.println("Ruch: 90");
+  mojeSerwo.write(90);        
+  delay(1500);
+
+  Serial.println("Ruch: 0");
+  mojeSerwo.write(0); 
+  delay(1500);
+
+  Serial.println("Ruch: 180");
+  mojeSerwo.write(180);   
+  delay(1500);
+
+  Serial.println("Ruch: 90 (Środek). Teraz 5 sekund pauzy...");
+  mojeSerwo.write(90);  
+  delay(5000); // Oczekiwanie 5 sekund przed powtórzeniem pętli
+}
