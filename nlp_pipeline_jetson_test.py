@@ -156,29 +156,29 @@ class NlpModel:
             now = time.time()
             is_face_present = (now - self.last_face_seen_time) < self.face_grace_period
 
-            if self.active_identity not in ("Unknown", None):
-                if now - self.last_seen_at > self.user_missing_timeout:
-                    self.active_identity = "Unknown"
-                    self.user_identity = "Unknown"
-                    self._greeted_identity = None
-                    self.reset_context()
+            # if self.active_identity not in ("Unknown", None):
+            #     if now - self.last_seen_at > self.user_missing_timeout:
+            #         self.active_identity = "Unknown"
+            #         self.user_identity = "Unknown"
+            #         self._greeted_identity = None
+            #         self.reset_context()
 
-            if not is_face_present:
-                if self.was_face_visible:
-                    self.stop_context()
-                    self.was_face_visible = False
-                time.sleep(0.1)
-                continue
+            # if not is_face_present:
+            #     if self.was_face_visible:
+            #         self.stop_context()
+            #         self.was_face_visible = False
+            #     time.sleep(0.1)
+            #     continue
 
-            if not self.was_face_visible:
-                self.was_face_visible = True
-                time.sleep(1.5)
-                self.pending_identity_change = True
+            # if not self.was_face_visible:
+            #     self.was_face_visible = True
+            #     time.sleep(1.5)
+            #     self.pending_identity_change = True
 
-            if self.pending_identity_change:
-                self.active_identity = self.user_identity
-                self.pending_identity_change = False
-                self.reset_context()
+            # if self.pending_identity_change:
+            #     self.active_identity = self.user_identity
+            #     self.pending_identity_change = False
+            #     self.reset_context()
 
                 if (
                     self.active_identity not in ("Unknown", "None", None)
