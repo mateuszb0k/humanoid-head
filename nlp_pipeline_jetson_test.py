@@ -123,12 +123,12 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output=True,
-            frames_per_buffer=8192,
+            frames_per_buffer=2048,
         )
 
         self.model_llm = OllamaLLM(
             model="gemma4:e4b",
-            temperature=0.4,
+            temperature=0.6,
             reasoning=False,
         )
 
@@ -555,11 +555,11 @@ class NlpModel:
         return text if text else None
 
     def _tts_module(self, text):
-        chunk_size = 1024
+        chunk_size = 2048
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
-            config = SynthesisConfig(length_scale=1.3)
+            config = SynthesisConfig(length_scale=1.5)
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
             sample_rate = self.voice.config.sample_rate
