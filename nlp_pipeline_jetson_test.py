@@ -152,6 +152,7 @@ class NlpModel:
             )
 
         self.chain = self.prompt | self.model_llm
+        print(f"Mic - {self.using_mic} | Speaker - {self.using_speaker}")
 
     def start(self):
         self._stt_init()
@@ -856,8 +857,7 @@ Kontekst rozmowy:
 Pytanie użytkownika:
 {question}
 """
-    print(f"Mic - {arg_mic} | Speaker - {arg_speaker}")
-    nlp = NlpModel(template=template, using_mic=False, using_speaker=arg_speaker)
+    nlp = NlpModel(template=template, using_mic=arg_mic, using_speaker=arg_speaker)
     td = Thread(
         target=lambda: app.run("0.0.0.0", 5000, debug=False, use_reloader=False),
         daemon=True,
