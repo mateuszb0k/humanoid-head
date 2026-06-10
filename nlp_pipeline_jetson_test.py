@@ -109,7 +109,7 @@ class NlpModel:
 
         self.audio_queue = queue.Queue()
         self.last_mouth_update_at = 0.0
-        self.mouth_update_interval = 0.05
+        self.mouth_update_interval = 0.03
         self.last_mouth_status_sent = 0.0
         self.is_speaking = False
         self.latest_mouth_status = 0.0
@@ -602,8 +602,15 @@ class NlpModel:
                 self.stream.write(audio_bytes)
 
                 normalized_rms = max(0.0, min(rms_volume / 0.095, 1.0))
+
                 with self.mouth_status_lock:
-                    self.latest_mouth_status = 0.7 * self.latest_mouth_status + 0.3 * normalized_rms
+                    current = self.latest_mouth_status
+                    if normalized_rms > current:
+                        alpha = 0.55
+                    else:
+                        alpha = 0.18
+
+                    self.latest_mouth_status = (1 - alpha) * current + alpha * normalized_rms
 
             finally:
                 self.audio_queue.task_done()
