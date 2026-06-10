@@ -17,6 +17,10 @@ processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 valid_extensions = ('.png', '.jpg', '.jpeg')
 
 def main():
+    """
+    Analyzes each image to calculate how much it looks like a drawing.
+    If the score is too high, the image is moved to the rejected folder.
+    """
     files_to_process = []
     for root, dirs, files in os.walk(INPUT_DIR):
         for file in files:

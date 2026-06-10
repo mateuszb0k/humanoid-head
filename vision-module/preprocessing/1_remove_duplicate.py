@@ -10,11 +10,19 @@ TARGET_DIR = "./No_duplicates"
 TARGET_EMOTIONS = ['neutral', 'happy', 'sad', 'angry', 'fear', 'disgust', 'surprise']
 
 def setup_target_directories():
+    """
+    Creates the main target folder and subfolders for each emotion
+    if they do not exist already.
+    """
     os.makedirs(TARGET_DIR, exist_ok=True)
     for emotion in TARGET_EMOTIONS:
         os.makedirs(os.path.join(TARGET_DIR, emotion), exist_ok=True)
 
 def compute_hash(image_path, emotion):
+    """
+    Calculates a unique visual fingerprint (hash) for a single image.
+    This helps in identifying images that look exactly the same.
+    """
     # perceptual hash (pHash) to find visual duplicates
     try:
         with Image.open(image_path) as img:
@@ -24,6 +32,10 @@ def compute_hash(image_path, emotion):
         return image_path, emotion, None, str(e)
 
 def process_and_deduplicate():
+    """
+    Finds all images in the source folders, calculates their hashes using
+    multiple threads for speed, and copies only the unique images to the target folder.
+    """
     print("Starting deduplication")
     setup_target_directories()
     # collection of all valid image paths from the source directories

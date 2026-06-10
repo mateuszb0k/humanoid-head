@@ -9,6 +9,10 @@ TARGET_EMOTIONS = ['neutral', 'happy', 'sad', 'angry', 'fear', 'disgust', 'surpr
 TARGET_SIZE = (96, 96)
 
 def setup_target_directories():
+    """
+    Creates the main target folder and subfolders for each emotion
+    where the final resized images will be saved.
+    """
     if not os.path.exists(TARGET_DIR):
         os.makedirs(TARGET_DIR)
     for emotion in TARGET_EMOTIONS:
@@ -17,6 +21,10 @@ def setup_target_directories():
             os.makedirs(emotion_path)
 
 def process_single_image(src_path, dst_path):
+    """
+    Reads a single image, converts it to grayscale, resizes it to the target size,
+    and saves it to the new destination.
+    """
     try:
         img = cv2.imread(src_path, cv2.IMREAD_GRAYSCALE)
         if img is None:
@@ -28,6 +36,10 @@ def process_single_image(src_path, dst_path):
         return False, str(e)
 
 def main():
+    """
+    Finds all valid images and processes them in parallel using multiple threads
+    to quickly format the entire dataset.
+    """
     print(f"Target format: {TARGET_SIZE[0]}x{TARGET_SIZE[1]} px, Grayscale\n")
     setup_target_directories()
     # map source and target paths for all valid images

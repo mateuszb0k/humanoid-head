@@ -15,6 +15,10 @@ age_classifier = pipeline("image-classification", model="nateraw/vit-age-classif
 valid_extensions = ('.png', '.jpg', '.jpeg')
 
 def main():
+    """
+    Loads all images, uses the AI model to guess the age group,
+    and separates photos of children from photos of adults.
+    """
     files_to_process = []
     for root, dirs, files in os.walk(INPUT_DIR):
         for file in files:

@@ -11,6 +11,9 @@ TARGET_EMOTIONS = ['neutral', 'happy', 'sad', 'angry', 'fear', 'disgust', 'surpr
 reader = easyocr.Reader(['en'], gpu=True)
 
 def setup_reject_directories():
+    """
+    Creates the necessary folders where images with watermarks will be moved.
+    """
     if not os.path.exists(REJECT_DIR):
         os.makedirs(REJECT_DIR)
     for emotion in TARGET_EMOTIONS:
@@ -19,6 +22,10 @@ def setup_reject_directories():
             os.makedirs(path)
 
 def main():
+    """
+    Scans all images for text. If text is found and it is longer than
+    the allowed limit, the image is moved out of the clean dataset.
+    """
     setup_reject_directories()
     images_to_check = []
     for emotion in TARGET_EMOTIONS:

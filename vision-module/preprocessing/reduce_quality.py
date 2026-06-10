@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
 import os
-
+"""
+This script reads images, applies a blur mask to the edges, adds random 
+noise (static), and makes the image smaller and then bigger again to lower 
+its quality. It displays the modified images on the screen for preview.
+"""
 path =""
 mean = 0
 sigma = 10**0.5
