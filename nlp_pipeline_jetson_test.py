@@ -109,14 +109,21 @@ class NlpModel:
 
         self.audio_queue = queue.Queue()
         self.last_mouth_update_at = 0.0
-        self.mouth_update_interval = 0.1
+        self.mouth_update_interval = 0.05
         self.last_mouth_status_sent = 0.0
         self.is_speaking = False
+        self.latest_mouth_status = 0.0
+        self.last_sent_mouth_status = 0.0
+        self.mouth_status_lock = threading.Lock()
+        self.http_session = requests.Session()
         self.post_tts_cooldown = 0.6
         self.last_tts_finished_at = 0.0
 
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
         self.playback_thread.start()
+
+        self.mouth_sender_thread = threading.Thread(target=self._mouth_sender_loop, daemon=True)
+        self.mouth_sender_thread.start()
 
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(
@@ -157,45 +164,45 @@ class NlpModel:
             now = time.time()
             is_face_present = (now - self.last_face_seen_time) < self.face_grace_period
 
-            # if self.active_identity not in ("Unknown", None):
-            #     if now - self.last_seen_at > self.user_missing_timeout:
-            #         self.active_identity = "Unknown"
-            #         self.user_identity = "Unknown"
-            #         self._greeted_identity = None
-            #         self.reset_context()
+            if self.active_identity not in ("Unknown", None):
+                if now - self.last_seen_at > self.user_missing_timeout:
+                    self.active_identity = "Unknown"
+                    self.user_identity = "Unknown"
+                    self._greeted_identity = None
+                    self.reset_context()
 
-            # if not is_face_present:
-            #     if self.was_face_visible:
-            #         self.stop_context()
-            #         self.was_face_visible = False
-            #     time.sleep(0.1)
-            #     continue
+            if not is_face_present:
+                if self.was_face_visible:
+                    self.stop_context()
+                    self.was_face_visible = False
+                time.sleep(0.1)
+                continue
 
-            # if not self.was_face_visible:
-            #     self.was_face_visible = True
-            #     time.sleep(1.5)
-            #     self.pending_identity_change = True
+            if not self.was_face_visible:
+                self.was_face_visible = True
+                time.sleep(1.5)
+                self.pending_identity_change = True
 
-            # if self.pending_identity_change:
-            #     self.active_identity = self.user_identity
-            #     self.pending_identity_change = False
-            #     self.reset_context()
+            if self.pending_identity_change:
+                self.active_identity = self.user_identity
+                self.pending_identity_change = False
+                self.reset_context()
 
-                # if (
-                #     self.active_identity not in ("Unknown", "None", None)
-                #     and self.active_identity != self._greeted_identity
-                # ):
-                #     random_phrase = np.random.choice(
-                #         [
-                #             f"Cześć {self.active_identity}",
-                #             f"O cześć {self.active_identity}",
-                #             f"Miło znowu cię widzieć {self.active_identity}",
-                #         ]
-                #     )
-                #     self.say(random_phrase)
-                #     self._greeted_identity = self.active_identity
-                #
-                # continue
+                if (
+                    self.active_identity not in ("Unknown", "None", None)
+                    and self.active_identity != self._greeted_identity
+                ):
+                    random_phrase = np.random.choice(
+                        [
+                            f"Cześć {self.active_identity}",
+                            f"O cześć {self.active_identity}",
+                            f"Miło znowu cię widzieć {self.active_identity}",
+                        ]
+                    )
+                    self.say(random_phrase)
+                    self._greeted_identity = self.active_identity
+
+                continue
 
             if self.using_mic:
                 question = self._stt_module()
@@ -204,9 +211,9 @@ class NlpModel:
             else:
                 question = input("Text: ")
 
-            # if self.user_identity == "Unknown":
-            #     self.get_new_user_name()
-            #     continue
+            if self.user_identity == "Unknown":
+                self.get_new_user_name()
+                continue
 
             self.end_of_result = False
             self.result = ""
@@ -576,12 +583,13 @@ class NlpModel:
                 if len(chunk) < chunk_size:
                     chunk = np.pad(chunk, (0, chunk_size - len(chunk)))
 
-                rms = float(np.sqrt(np.mean(chunk ** 2)))
                 chunk = np.tanh(1.5 * chunk) / np.tanh(1.5)
                 fade_len = min(128, len(chunk) // 2)
                 if fade_len > 0:
                     chunk[:fade_len] *= np.linspace(0.0, 1.0, fade_len)
                     chunk[-fade_len:] *= np.linspace(1.0, 0.0, fade_len)
+
+                rms = float(np.sqrt(np.mean(chunk ** 2)))
                 chunk = np.clip(chunk, -1.0, 1.0)
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
                 self.audio_queue.put((chunk_bytes, rms))
@@ -594,21 +602,33 @@ class NlpModel:
                 self.stream.write(audio_bytes)
 
                 normalized_rms = max(0.0, min(rms_volume / 0.095, 1.0))
-                now = time.time()
-
-                should_send = (
-                    now - self.last_mouth_update_at >= self.mouth_update_interval
-                    or abs(normalized_rms - self.last_mouth_status_sent) >= 0.15
-                )
-
-                # if should_send:
-                self._send_mouth_status_to_pi(normalized_rms)
-                self.last_mouth_update_at = now
-                self.last_mouth_status_sent = normalized_rms
+                with self.mouth_status_lock:
+                    self.latest_mouth_status = 0.7 * self.latest_mouth_status + 0.3 * normalized_rms
 
             finally:
                 self.audio_queue.task_done()
 
+    def _mouth_sender_loop(self):
+        while True:
+            try:
+                with self.mouth_status_lock:
+                    status = self.latest_mouth_status
+
+                now = time.time()
+                should_send = (
+                        now - self.last_mouth_update_at >= self.mouth_update_interval
+                        or abs(status - self.last_sent_mouth_status) >= 0.15
+                )
+
+                if should_send:
+                    self._send_mouth_status_to_pi(status)
+                    self.last_mouth_update_at = now
+                    self.last_sent_mouth_status = status
+
+                time.sleep(0.03)
+            except Exception as e:
+                print(e)
+                time.sleep(0.1)
     def handle_teachers(self, teacher_data):
         if teacher_data["room"] is not None and teacher_data["building"] is not None:
             room = teacher_data["room"]
@@ -711,9 +731,13 @@ class NlpModel:
     def _send_mouth_status_to_pi(self, status):
         try:
             rpi_url = "http://uncanny-head.local:5000/api/mouth_status"
-            requests.post(rpi_url, json={"mouth_status": str(status)}, timeout=0.2)
-        except Exception as e:
-            print(e)
+            self.http_session.post(
+                rpi_url,
+                json={"mouth_status": str(status)},
+                timeout=0.03,
+            )
+        except Exception:
+            pass
         return
 
     def reset_context(self):
@@ -742,6 +766,10 @@ class NlpModel:
 
     def _finish_speaking(self):
         self.audio_queue.join()
+
+        with self.mouth_status_lock:
+            self.latest_mouth_status = 0.0
+
         self._send_mouth_status_to_pi(0.0)
         self.last_mouth_status_sent = 0.0
         self.last_tts_finished_at = time.time()
