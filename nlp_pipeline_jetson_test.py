@@ -133,7 +133,7 @@ class NlpModel:
         self.last_sent_mouth_status = 0.0
         self.mouth_status_lock = threading.Lock()
         self.http_session = requests.Session()
-        self.post_tts_cooldown = 0.6
+        self.post_tts_cooldown = 0.3
         self.last_tts_finished_at = 0.0
 
         self.playback_thread = threading.Thread(target=self.playback_handle, daemon=True)
@@ -440,12 +440,12 @@ class NlpModel:
 
     def _tts_stream(self):
         while self.result == "" and not self.end_of_result:
-            time.sleep(0.03)
+            time.sleep(0.01)
 
         text_said = ""
-        min_chunk_chars = 30
-        max_chunk_chars = 80
-        sentence_end_regex = re.compile(r"[.!?]")
+        min_chunk_chars = 18
+        max_chunk_chars = 55
+        sentence_end_regex = re.compile(r"[.!?;:]")
 
         while True:
             current_text = str(self.result)
@@ -489,7 +489,7 @@ class NlpModel:
                     print(chunk, end="", flush=True)
                 text_said += chunk
 
-            time.sleep(0.03)
+            time.sleep(0.01)
 
     def _llm_init(self):
         try:
@@ -588,7 +588,7 @@ class NlpModel:
         return text if text else None
 
     def _tts_module(self, text):
-        chunk_size = 2048
+        chunk_size = 1024
 
         if not text or not text.strip():
             return
@@ -597,8 +597,7 @@ class NlpModel:
         if not phoneme_sentences:
             return
 
-        config = SynthesisConfig(length_scale=1.2)
-        sample_rate = self.voice.config.sample_rate
+        config = SynthesisConfig(length_scale=1.05)
 
         for phonemes in phoneme_sentences:
             ids = list(self.voice.phonemes_to_ids(phonemes))
@@ -607,27 +606,22 @@ class NlpModel:
 
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
+            if audio is None or len(audio) == 0:
+                continue
+
+            audio = np.asarray(audio, dtype=np.float32)
+            audio = np.tanh(1.4 * audio) / np.tanh(1.4)
+            audio = np.clip(audio, -1.0, 1.0)
+
             for i in range(0, len(audio), chunk_size):
-                chunk = audio[i: i + chunk_size]
+                chunk = audio[i:i + chunk_size]
+
                 if len(chunk) == 0:
                     continue
 
-                if len(chunk) < chunk_size:
-                    chunk = np.pad(chunk, (0, chunk_size - len(chunk)))
-
-                chunk = np.tanh(1.5 * chunk) / np.tanh(1.5)
-
-                fade_len = min(128, len(chunk) // 2)
-                if fade_len > 0:
-                    chunk[:fade_len] *= np.linspace(0.0, 1.0, fade_len)
-                    chunk[-fade_len:] *= np.linspace(1.0, 0.0, fade_len)
-
                 rms = float(np.sqrt(np.mean(chunk ** 2)))
-                chunk = np.clip(chunk, -1.0, 1.0)
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
-
                 self.audio_queue.put((chunk_bytes, rms))
-
     def playback_handle(self):
         while True:
             audio_bytes, rms_volume = self.audio_queue.get()
@@ -868,7 +862,30 @@ def handle_data():
 if __name__ == "__main__":
     arg_mic = sys.argv[1] == "True" if len(sys.argv) > 1 else True
     arg_speaker = sys.argv[2] == "True" if len(sys.argv) > 2 else True
-    template = """Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki.
+    template = """JJesteś fizyczną głową robota i głosowym asystentem dla studentów Politechniki Gdańskiej na wydziale ETI.
+
+Nie jesteś chatbotem tekstowym ani aplikacją do pisania wiadomości. Użytkownik rozmawia z tobą na żywo, głosem, stojąc przed tobą. Ty również odpowiadasz głosem przez syntezator mowy.
+
+Mów tak, jak mówiłaby fizyczna głowa robota-asystenta w rozmowie twarzą w twarz. Nie używaj sformułowań sugerujących pisanie, czat albo ekran.
+
+Zakazane sformułowania:
+- napisz do mnie
+- wpisz
+- wyślij mi wiadomość
+- przeczytaj na ekranie
+- kliknij
+- w tym czacie
+- jako model językowy
+- jako AI
+
+Zamiast tego używaj sformułowań głosowych:
+- powiedz mi
+- zapytaj mnie
+- możesz powiedzieć
+- powtórz proszę
+- opowiedz mi
+- mogę ci odpowiedzieć
+- mogę ci pomóc
 
 Mów naturalnie, konkretnie i dbaj o optymalną długość wypowiedzi – nie odpowiadaj zbyt zdawkowo lub lakonicznie, ale też nie rozgaduj się niepotrzebnie. Brzmij jak pomocny rozmówca, a nie jak system komunikatów.
 
@@ -889,6 +906,11 @@ Zasady:
 - Odpowiedzi mają być dobre do wypowiedzenia przez TTS, więc używaj naturalnie brzmiących zdań i odpowiedniej interpunkcji.
 - Nie używaj markdownu, emoji, list punktowanych ani kodu.
 - Unikaj zbędnych wstępów i powitań.
+- Pamiętaj, że rozmawiasz z użytkownikiem głosowo i na żywo, jako fizyczna głowa robota.
+- Nigdy nie mów „napisz”, „wpisz”, „wyślij” ani niczego, co sugeruje rozmowę tekstową.
+- Jeśli chcesz poprosić użytkownika o doprecyzowanie, powiedz „powiedz mi”, „powtórz proszę” albo „doprecyzuj proszę”.
+- Nie wspominaj, że jesteś modelem językowym, chatbotem ani sztuczną inteligencją.
+- Jeśli mówisz o sobie, możesz powiedzieć, że jesteś robotyczną głową-asystentem albo głosowym asystentem ETI.
 
 Kontekst rozmowy:
 {history}
