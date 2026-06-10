@@ -1,9 +1,20 @@
 import json
-
-import json
 import re
 
 def get_room_directions(input_room_str, database_filepath='./room_directions.json'):
+    """
+    Retrieves navigation directions for standard classrooms and laboratories.
+
+    Parses and normalizes the input string, then queries the JSON database 
+    to find explicit routing instructions for the requested room.
+
+    Args:
+        String containing the building prefix and room number.
+        Path to the room database file. 
+
+    Returns:
+        The explicit navigation instructions as text.
+    """
     try:
         with open(database_filepath, 'r', encoding='utf-8') as db_file:
             database = json.load(db_file)

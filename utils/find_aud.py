@@ -1,6 +1,20 @@
 import json
 
 def get_aud_directions(input_room_str, database_filepath='./db_specialrooms.json'):
+    """
+    Retrieves navigation directions for specialized rooms (e.g., auditoriums, libraries).
+
+    Parses the normalized input string and queries the JSON database
+    to find the corresponding routing instructions.
+
+    Args:
+        A normalized string containing the building prefix and 
+            the room name separated by a comma (e.g., "NE, AUD1 LEWE").
+        Path to the database file.
+
+    Returns:
+        str: The explicit navigation instructions as text.
+    """
     #print(input_room_str)
     # reading database
     try:

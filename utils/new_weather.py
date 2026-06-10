@@ -33,6 +33,9 @@ WMO_CODES = {
     99: "Burza z silnym gradem",
 }
 def get_weather() -> dict:
+    """
+    Fetches current weather data for Gdańsk using the external Open-Meteo API.
+    """
     weather = {}
     try:
         data = requests.get('https://api.open-meteo.com/v1/forecast?latitude=54.3523&longitude=18.6491&hourly=uv_index&models=best_match&current=temperature_2m,apparent_temperature,weather_code&past_days=0&forecast_days=1')
@@ -49,6 +52,9 @@ def get_weather() -> dict:
         print(f"failed to get weather{e}")
         return weather
 def weather_prompt() -> str:
+    """
+    Generates a natural-sounding voice prompt regarding the current weather conditions.
+    """
     weather = get_weather()
     if weather:
         return f"W Gdańsku aktualnie jest {weather['weather']} i {str(weather['temperature'])} stopni Celsjusza."
