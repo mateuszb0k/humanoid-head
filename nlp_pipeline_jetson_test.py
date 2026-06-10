@@ -678,6 +678,11 @@ class NlpModel:
         return result
 
     def handle_specialrooms(self, question: str):
+        """
+        Processes queries regarding specialized locations (auditoriums, cloakrooms, libraries).
+
+        Analyzes the raw user query for specific keywords.
+        """
         q = question.lower().replace(".", "").replace(",", "")
         building = "NE"
 
