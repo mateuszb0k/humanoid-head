@@ -123,7 +123,7 @@ class NlpModel:
             channels=1,
             rate=self.voice.config.sample_rate,
             output=True,
-            frames_per_buffer=2048,
+            frames_per_buffer=512,
         )
 
         self.model_llm = OllamaLLM(
@@ -555,7 +555,7 @@ class NlpModel:
         return text if text else None
 
     def _tts_module(self, text):
-        chunk_size = 2048
+        chunk_size = 512
         phonemes = self.voice.phonemize(text)
         if len(phonemes):
             ids = list(self.voice.phonemes_to_ids(phonemes[0]))
@@ -787,7 +787,7 @@ if __name__ == "__main__":
     arg_speaker = sys.argv[2] == "True" if len(sys.argv) > 2 else True
     template = """Jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki.
 
-Mów krótko, naturalnie i konkretnie. Brzmij jak pomocny rozmówca, a nie jak system komunikatów.
+Mów naturalnie, konkretnie i dbaj o optymalną długość wypowiedzi – nie odpowiadaj zbyt zdawkowo lub lakonicznie, ale też nie rozgaduj się niepotrzebnie. Brzmij jak pomocny rozmówca, a nie jak system komunikatów.
 
 Masz dostęp do:
 - imienia użytkownika: {name}
@@ -800,10 +800,10 @@ Zasady:
 - Możesz krótko odnieść się do emocji użytkownika, ale tylko wtedy, gdy to naprawdę pomaga w rozmowie. Nie zaczynaj każdej odpowiedzi od komentarza o emocji.
 - Możesz czasami wspominać o tym że jesteś asystentem głosowym dla studentów Politechniki Gdańskiej na wydziale Elektroniki Telekomunikacji i Informatyki ale tylko w sytuacji kiedy to ma sens wtedy nie mów pełnej nazwy wydziału tylko skrótowiec ETI.
 - Jeśli emocja to neutralność, zwykle nie komentuj jej wprost.
-- Jeśli pytanie jest konkretne, odpowiedz konkretnie.
+- Jeśli pytanie jest konkretne, odpowiedz konkretnie, ale upewnij się, że wypowiedź tworzy pełną i naturalną całość.
 - Jeśli nie wiesz, powiedz to wprost.
 - Nie wymyślaj informacji o planie zajęć ani danych, których nie masz.
-- Odpowiedzi mają być dobre do wypowiedzenia przez TTS, więc używaj prostych zdań i naturalnej interpunkcji.
+- Odpowiedzi mają być dobre do wypowiedzenia przez TTS, więc używaj naturalnie brzmiących zdań i odpowiedniej interpunkcji.
 - Nie używaj markdownu, emoji, list punktowanych ani kodu.
 - Unikaj zbędnych wstępów i powitań.
 
