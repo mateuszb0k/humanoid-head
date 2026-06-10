@@ -4,6 +4,8 @@ Humanoid Head is a modular robotics project focused on building an interactive h
 
 The system is designed to recognize people, detect visible emotions, understand spoken questions, generate natural voice responses, and express emotions through physical facial movement.
 
+<img src="images\robot.jpg" alt="Uncanny head" width="300">
+
 ## Project Overview
 
 The robot head is built as a distributed system using two main computing devices:
