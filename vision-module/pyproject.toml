@@ -1,0 +1,18 @@
+[project]
+name = "pycharmmiscproject"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "imagehash>=4.3.2",
+    "matplotlib>=3.10.8",
+    "mediapipe>=0.10.33",
+    "numpy>=2.4.3",
+    "opencv-python>=4.13.0.92",
+    "pillow>=12.1.1",
+    "scikit-learn>=1.8.0",
+    "tensorboard>=2.20.0",
+    "tensorflow>=2.21.0",
+    "tqdm>=4.67.3",
+]
