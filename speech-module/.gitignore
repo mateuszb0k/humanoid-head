@@ -1,0 +1,16 @@
+../.venv/
+__pycache__/
+*.pyc
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+# *.pdf
+
+room_directions.json
+teachers_info.json
+teachers_details.json

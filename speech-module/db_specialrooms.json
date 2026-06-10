@@ -1,0 +1,42 @@
+{
+  "EA":{
+    "AUD1": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem, pójdź na wprost, wejdź po schodkach, audytorium będzie znajdowało się po lewej stronie"
+    },
+    "AUD2": {
+      "floor": "0",
+      "directions": "Wejdź do budynku głównym wejściem, pójdź na wprost, wejdź po schodkach, audytorium będzie znajdowało się po prawej stronie"
+    },
+    "SZATNIA": {
+      "floor": "-1",
+      "directions": "Szatnia znajduje się na -1, wystarczy, że zejdziesz schodami lub zjedziesz windą i na środku znajdziesz szatnię, gdzie możesz zostawić swoją kurtkę"
+    }
+  },
+  "NE":{
+    "AUD2": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem przejdź przez dwoje drzwi po lewej, następnie okrąż szatnię z lewej lub z prawej strony."
+    },
+    "AUD1 LEWE": {
+      "floor": "1",
+      "directions": "Wejdź do budynku głównym wejściem skieruj się na schody na wprost od prawej strony, wejdź na pierwsze piętro i sala wykładowa będzie znajdować się po prawej stronie."
+    },
+    "AUD1 PRAWE": {
+      "floor": "1",
+      "directions": "Wejdź do budynku głównym wejściem skieruj się na schody na wprost od lewej strony, wejdź na pierwsze piętro i sala wykładowa będzie znajdować się po lewej stronie."
+    },
+    "BIBLIOTEKA": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem przejdź przez dwoje drzwi po lewej, następnie omiń szatnię i po prawej stronie znajdziesz bibliotekę."
+    },
+    "STOŁÓWKA": {
+      "floor": "0",
+      "directions": "Wejdź głównym wejściem, pójdź na wprost lekko w lewo, tam będziesz mógł coś zjeść i się napić."
+    },
+    "SZATNIA": {
+      "floor": "0",
+      "directions": "W budynku Nowego Eti znajdują się dwie szatnie, wejdź głównym wejściem przejdź przez dwoje drzwi po prawej i zobaczysz szatnię lub wejdź głównym wejściem przejdź przez dwoje drzwi po lewej i tam zobaczysz szatnię."
+    }
+  }
+}

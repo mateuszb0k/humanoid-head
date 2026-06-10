@@ -1,0 +1,24 @@
+[project]
+name = "humanoid-head"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "langchain-core>=1.2.17",
+    "langchain-ollama>=1.0.1",
+    "openai-whisper>=20250625",
+    "pyaudio>=0.2.14",
+    "python-weather>=2.1.2",
+    "requests>=2.32.5",
+    "spacy>=3.8.0",
+    "speechrecognition>=3.14.5",
+    "pl_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl",
+    "gliner>=0.2.25",
+    "rapidfuzz>=3.14.3",
+    "airllm>=2.11.0",
+    "piper-tts>=1.4.2",
+    "flask>=3.1.3",
+    "faster-whisper>=1.2.1",
+]
