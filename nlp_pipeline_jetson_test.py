@@ -245,7 +245,13 @@ class NlpModel:
             intent = self.intent_detector.detect_intent(question)
 
             if intent == "POGODA":
-                self.result = np.random.choice(RANDOM_VOICE_LINES) + weather_prompt()
+                intro = str(np.random.choice(RANDOM_VOICE_LINES)).strip()
+                weather = str(weather_prompt()).strip()
+
+                if intro and intro[-1] not in ".!?":
+                    intro += "."
+
+                self.result = f"{intro} {weather}"
                 print(self.result)
                 self.end_of_result = True
 
@@ -583,18 +589,26 @@ class NlpModel:
 
     def _tts_module(self, text):
         chunk_size = 2048
-        phonemes = self.voice.phonemize(text)
-        if len(phonemes):
-            ids = list(self.voice.phonemes_to_ids(phonemes[0]))
-            config = SynthesisConfig(length_scale=1.2)
+
+        if not text or not text.strip():
+            return
+
+        phoneme_sentences = self.voice.phonemize(text)
+        if not phoneme_sentences:
+            return
+
+        config = SynthesisConfig(length_scale=1.2)
+        sample_rate = self.voice.config.sample_rate
+
+        for phonemes in phoneme_sentences:
+            ids = list(self.voice.phonemes_to_ids(phonemes))
+            if not ids:
+                continue
+
             audio = self.voice.phoneme_ids_to_audio(ids, syn_config=config)
 
-            sample_rate = self.voice.config.sample_rate
-            # chunk_size = max(1024, int(sample_rate * 0.035))
-
-
             for i in range(0, len(audio), chunk_size):
-                chunk = audio[i : i + chunk_size]
+                chunk = audio[i: i + chunk_size]
                 if len(chunk) == 0:
                     continue
 
@@ -602,6 +616,7 @@ class NlpModel:
                     chunk = np.pad(chunk, (0, chunk_size - len(chunk)))
 
                 chunk = np.tanh(1.5 * chunk) / np.tanh(1.5)
+
                 fade_len = min(128, len(chunk) // 2)
                 if fade_len > 0:
                     chunk[:fade_len] *= np.linspace(0.0, 1.0, fade_len)
@@ -610,6 +625,7 @@ class NlpModel:
                 rms = float(np.sqrt(np.mean(chunk ** 2)))
                 chunk = np.clip(chunk, -1.0, 1.0)
                 chunk_bytes = (chunk * 32767).astype(np.int16).tobytes()
+
                 self.audio_queue.put((chunk_bytes, rms))
 
     def playback_handle(self):
