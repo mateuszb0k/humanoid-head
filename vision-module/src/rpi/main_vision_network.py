@@ -125,25 +125,31 @@ def set_servo_angle(servo_id, angle):
         the angel will be set on target servo
         and applies mirroring
         logic for paired servos to ensure symmetric movements """
-    cfg = servos_config.get(servo_id)
-    if not cfg or not cfg['wlaczone']:
-        print("disabled")
-        return
-    if servo_id not in servo_objects:
-        print("servo missing")
-        return
-    limit_min = min(cfg['min'], cfg['max'])
-    limit_max = max(cfg['min'], cfg['max'])
-    safe_angle = max(limit_min, min(angle, limit_max))
-    with _servo_lock:
-        servo_objects[servo_id].angle = safe_angle
-    if servo_id in (1, 10):
-        other_id = 10 if servo_id == 1 else 1
-        cfg1 = servos_config[servo_id]
-        cfg2 = servos_config[other_id]
-        ratio = (safe_angle - cfg1['min']) / (cfg1['max'] - cfg1['min'])
-        mirror_angle = max(cfg2['min'], min(round(cfg2['max'] - ratio * (cfg2['max'] - cfg2['min'])), cfg2['max']))
-        servo_objects[other_id].angle = mirror_angle
+    try:
+        cfg = servos_config.get(servo_id)
+        if not cfg or not cfg['wlaczone']:
+            return
+        if servo_id not in servo_objects:
+            return
+
+        limit_min = min(cfg['min'], cfg['max'])
+        limit_max = max(cfg['min'], cfg['max'])
+        safe_angle = max(limit_min, min(angle, limit_max))
+
+        with _servo_lock:
+            servo_objects[servo_id].angle = safe_angle
+
+            if servo_id in (1, 10):
+                other_id = 10 if servo_id == 1 else 1
+                cfg1 = servos_config[servo_id]
+                cfg2 = servos_config[other_id]
+                ratio = (safe_angle - cfg1['min']) / (cfg1['max'] - cfg1['min'])
+                mirror_angle = max(cfg2['min'],
+                                   min(round(cfg2['max'] - ratio * (cfg2['max'] - cfg2['min'])), cfg2['max']))
+                if other_id in servo_objects:
+                    servo_objects[other_id].angle = mirror_angle
+    except Exception as e:
+        print(f"[set_servo_angle] servo={servo_id} angle={angle} error={e}", flush=True)
 
 
 # Function for tracking the user with eyes
@@ -308,7 +314,7 @@ class FaceSystem:
         position = [80, 55, 80, 105]
         side_eye_left = {14: 110, 16: 35, 15: 40, 20: 80, 19: 80, 18: 70, 17: 130, 12: 110, 11: 0}
         side_eye_right = {14: 50, 12: 75, 11: 35, 17: 85, 18: 110, 20: 30, 19: 150, 15: 25, 16: 85}
-        base_pos = {14: 80, 16: 85, 15: 25, 20: 20, 19: 130, 18: 70, 12: 110, 11: 0}
+        base_pos = {14: 80, 16: 85, 15: 10, 20: 50, 19: 160, 18: 70, 12: 110, 11: 0}
 
         sleep = [1.5, 0.5, 0.5, 1.5, 1.0, 2.0, 0.5, 2.0, 1.0]
 
@@ -382,21 +388,24 @@ class FaceSystem:
         Pauses animation execution if the robot is currently speaking.
         """
         while True:
+            try:
+                if time.time() - self.last_mouth_signal < 0.5:
+                    time.sleep(0.05)
+                    continue
 
-            if time.time() - self.last_mouth_signal < 0.5:
-                self.emotion_queue.clear()
+                if self.emotion_queue:
+                    emotion = self.emotion_queue.popleft()
+
+                    if emotion not in (None, "None"):
+                        self.is_animating = True
+                        self.animate_emotion(emotion)
+                        self.is_animating = False
+
                 time.sleep(0.05)
-                continue
-
-            if self.emotion_queue:
-                emotion = self.emotion_queue.popleft()
-
-                if emotion not in (None, "None"):
-                    self.is_animating = True
-                    self.animate_emotion(emotion)
-                    self.is_animating = False
-
-            time.sleep(0.05)
+            except Exception as e:
+                print(f"[emotion_worker] error: {e}", flush=True)
+                self.is_animating = False
+                time.sleep(0.1)
 
     def map_emotion(self, raw_emotion):
         """
@@ -556,7 +565,7 @@ class FaceSystem:
                 payload["emotion"] = self.locked_emotion
 
             try:
-                requests.post("http://192.168.0.143:5000/api/data", json=payload, timeout=0.02)
+                requests.post("http://10.144.211.178:5000/api/data", json=payload, timeout=0.02)
             except:
                 pass
 
@@ -627,8 +636,11 @@ def change_mouth_status():
     API endpoint that accepts a JSON payload containing the current external speech
     flag status to update the robot's mouth servo angle.
     """
-    data = request.json
-    vision_sys.mouth_angle = data.get("mouth_status")
+    data = request.json or {}
+    try:
+        vision_sys.mouth_angle = float(data.get("mouth_status", 0.0))
+    except (TypeError, ValueError):
+        vision_sys.mouth_angle = 0.0
     vision_sys.last_mouth_signal = time.time()
     return jsonify({"status": "ok"}), 200
 
