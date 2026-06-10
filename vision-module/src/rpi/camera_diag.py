@@ -3,6 +3,13 @@ import sys
 
 def check_camera():
     #0 is our default camera
+    """
+    Checks if the camera is working correctly.
+
+    It opens the default camera and tries to capture one frame.
+    If it works, it saves the picture as 'test_capture.jpg' and returns True.
+    If it fails to open or capture a frame, it prints an error and returns False.
+    """
     cap = cv2.VideoCapture(0)
     
     if not cap.isOpened():

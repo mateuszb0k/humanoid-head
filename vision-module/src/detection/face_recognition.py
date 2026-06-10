@@ -20,6 +20,16 @@ emotions_model = tf.keras.models.load_model(emotions_model_path, compile=False)
 
 # Create a face detector instance with the live stream mode:
 def result(result: FaceDetectorResult, output_image: mp.Image, timestamp_ms: int):
+    """
+    This function is called automatically whenever a face is detected in the video stream.
+    It takes the results from the face detector and saves them to a global variable
+    so the main loop can access them and draw boxes around the faces.
+
+    Args:
+        result (FaceDetectorResult): Contains the data of the detected faces (like where the face is).
+        output_image (mp.Image): The current video frame that was analyzed.
+        timestamp_ms (int): The exact time when the frame was processed.
+    """
     global detection_results
     detection_results = result.detections
 
